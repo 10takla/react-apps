@@ -1,0 +1,32 @@
+.MonitorItem {
+  background: rgba(255, 239, 229, 0.8);
+  border-radius: 0.5em;
+  outline: 0.4em solid;
+  width: 100%;
+  padding: 0.5em;
+
+  >div {
+    width: 100%;
+    > .hideSvg {
+      // flex: 1;
+    }
+    >.title {
+      width: 100%;
+      >a {
+        >img {
+          width: 4em;
+          // height: 5em;
+        }
+      }
+    }
+
+    
+  }
+  > .info {
+    justify-content: space-between;
+    background: white;
+    padding: 0.4em;
+    border-radius: 0 0 0.5em 0.5em;
+  }
+
+}

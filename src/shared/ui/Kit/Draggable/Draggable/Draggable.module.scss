@@ -1,0 +1,21 @@
+.Draggable {
+  >.drag {
+    font-size: 1em;
+    position: relative;
+    padding:  0.2em;
+    padding-left: 0.1em;
+    border: 0.1em solid black;
+    // transition: 400ms;
+    &.moving {
+      transition: 0ms;
+      z-index: 1000;
+      outline: 0.2em solid green;
+    }
+
+    > .dragSvg {
+      font-size: 2em;
+      width: 1em;
+      height: 1em;
+    }
+  }
+}

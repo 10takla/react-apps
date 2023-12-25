@@ -1,0 +1,12 @@
+.ControlPanel {
+    >.sortOrder {
+        padding: 1em;
+        background: rgb(255, 161, 161);
+
+        >.sort {
+            border: none;
+            background: none;
+            padding: 0;
+        }
+    }
+}
