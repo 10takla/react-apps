@@ -1,8 +1,7 @@
-import {Name} from "../args";
-import {TemplatePack} from "./packs";
-import {TemplateCombine} from "./combines";
-import {FullFormat} from "./files";
-
+import { Name } from '../args';
+import { TemplatePack } from './packs';
+import { TemplateCombine } from './combines';
+import { FullFormat } from './files';
 
 export type Template = TemplatePack & TemplateCombine
 

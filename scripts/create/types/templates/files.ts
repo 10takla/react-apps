@@ -1,6 +1,5 @@
 export type TemplateFormat = `${'t' | 'j'}s${'x' | ''}` | 'scss' | 'css'
 
-
 export type TemplatePreFormat = 'tsx' | 'module' | 'stories' |
     'slice' | 'selector' | 'service' | 'types' |
     'api'

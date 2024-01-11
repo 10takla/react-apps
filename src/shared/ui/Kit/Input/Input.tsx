@@ -1,91 +1,127 @@
 import React, {
-    InputHTMLAttributes, memo, useEffect, useRef, useState,
+    ForwardedRef,
+    forwardRef,
+    InputHTMLAttributes,
+    memo,
+    useCallback,
+    useEffect,
+    useImperativeHandle, useMemo,
+    useRef,
+    useState,
 } from 'react';
-import { classNames, Mods } from '@/shared/lib/classNames/classNames';
+import { classNames } from '@/shared/lib/classNames/classNames';
 import cls from './Input.module.scss';
 
-type HTMLInputProps = Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'readOnly'>
-
-interface InputProps extends HTMLInputProps {
-    className?: string;
-    value?: string | number;
-    onChange?: (value: string) => void;
-    autofocus?: boolean;
-    readonly?: boolean;
+export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+    className?: string
+    isKeepingFocus?: boolean
 }
 
-export const Input = memo((props: InputProps) => {
+export type InputRef = HTMLInputElement
+const Input = (props: InputProps, ref: ForwardedRef<InputRef>) => {
     const {
         className,
         value,
+        type,
+        min, max,
         onChange,
-        type = 'text',
-        placeholder,
-        autofocus,
-        readonly,
+        maxLength,
+        isKeepingFocus = false,
+        onBlur,
         ...otherProps
     } = props;
-    const ref = useRef<HTMLInputElement>(null);
-    const [isFocused, setIsFocused] = useState(false);
-    const [caretPosition, setCaretPosition] = useState(0);
+    const inputRef = useRef<InputRef>(null);
 
-    const isCaretVisible = isFocused && !readonly;
+    useImperativeHandle<InputRef | null, InputRef | null>(
+        ref,
+        () => inputRef.current,
+    );
+
+    const checkMaxMin = useCallback((v: InputProps['value']) => {
+        if (typeof v === 'number') {
+            if (Number(v) < Number(min)) {
+                return String(min);
+            }
+            if (Number(v) > Number(max)) {
+                return String(max);
+            }
+        }
+        return v as InputProps['value'];
+    }, [max, min]);
+
+    // const [postValue, setPostValue] = useUpdateState(() => checkMaxMin(value), [value]);
+
+    const [postValue, setPostValue] = useState(value);
 
     useEffect(() => {
-        if (autofocus) {
-            setIsFocused(true);
-            ref.current?.focus();
+        setPostValue(value);
+    }, [value]);
+
+    const onPostChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        const chValue = event.target.value;
+        setPostValue(chValue);
+        onChange?.(event);
+    }, [onChange, setPostValue]);
+
+    const onPostBlur = useCallback((event: React.FocusEvent<HTMLInputElement>) => {
+        const chValue = event.target.value;
+        const t = checkMaxMin(chValue);
+        setPostValue(t);
+        event.target.value = t;
+        onBlur?.(event);
+    }, [checkMaxMin, setPostValue, onBlur]);
+
+    const onInputKeyDown = useCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
+        if (event.key === 'Enter' && ref) {
+            // @ts-ignore
+            onPostBlur?.(event);
         }
-    }, [autofocus]);
+    }, [onPostBlur, ref]);
 
-    const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-        onChange?.(e.target.value);
-        setCaretPosition(e.target.value.length);
-    };
+    const postPostValue = useMemo(() => {
+        if (type === 'number') {
+            if (!Number.isNaN(Number(postValue))) {
+                return Number(postValue).toFixed(maxLength);
+            }
+        } else {
+            return postValue;
+        }
+    }, [maxLength, postValue, type]);
 
-    const onBlur = () => {
-        setIsFocused(false);
-    };
+    const [widthInput, setWidthInput] = useState<number | null>(null);
 
-    const onFocus = () => {
-        setIsFocused(true);
-    };
-
-    const onSelect = (e: any) => {
-        setCaretPosition(e?.target?.selectionStart || 0);
-    };
-
-    const mods: Mods = {
-        [cls.readonly]: readonly,
-    };
+    useEffect(() => {
+        if (inputRef.current) {
+            const inputElement = inputRef.current;
+            const tempSpan = document.createElement('span');
+            tempSpan.style.visibility = 'hidden';
+            tempSpan.style.position = 'absolute';
+            tempSpan.style.padding = window.getComputedStyle(inputElement).getPropertyValue('padding');
+            tempSpan.style.font = window.getComputedStyle(inputElement).getPropertyValue('font');
+            tempSpan.style.fontSize = window.getComputedStyle(inputElement).getPropertyValue('font-size');
+            tempSpan.style.fontFamily = window.getComputedStyle(inputElement).getPropertyValue('font-family');
+            tempSpan.textContent = String(postPostValue);
+            document.body.appendChild(tempSpan);
+            setWidthInput(tempSpan.offsetWidth);
+            return () => {
+                tempSpan.remove();
+            };
+        }
+    }, [postPostValue]);
 
     return (
-        <div className={classNames(cls.InputWrapper, {}, [className])}>
-            {placeholder && (
-                <div className={cls.placeholder}>
-                    {`${placeholder}>`}
-                </div>
-            )}
-            <div className={cls.caretWrapper}>
-                <input
-                    ref={ref}
-                    type={type}
-                    value={value}
-                    onChange={onChangeHandler}
-                    className={cls.input}
-                    onFocus={onFocus}
-                    onBlur={onBlur}
-                    onSelect={onSelect}
-                    readOnly={readonly}
-                    {...otherProps}
-                />
-                {isCaretVisible && (
-                    <span
-                        className={cls.caret}
-                        style={{ left: `${caretPosition * 9}px` }}
-                    />
-                )}
-            </div>
-        </div>
+        <input
+            {...{ ...otherProps, type, onBlur }}
+            onKeyUp={onInputKeyDown}
+            ref={inputRef}
+            onChange={onPostChange}
+            onBlur={onPostBlur}
+            className={classNames(cls.Input, {}, [className])}
+            value={postPostValue}
+            data-keepingfocus={isKeepingFocus || undefined}
+            // @ts-ignore
+            style={{ '--length': `${widthInput}px` }}
+        />
     );
-});
+};
+export default memo(forwardRef(Input));

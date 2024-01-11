@@ -1,5 +1,5 @@
-import {DeepPartial} from "./shared";
-import {CombineThree, CombineThreeRules} from "./combines";
+import { DeepPartial } from './shared';
+import { CombineThree, CombineThreeRules } from './combines';
 
 export type TemplatePack = 'pc' | 'pa'
 

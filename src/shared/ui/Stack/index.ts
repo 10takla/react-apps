@@ -1,5 +1,7 @@
-import HStack from '@/shared/ui/Stack/HStack/HStack';
-import VStack from '@/shared/ui/Stack/VStack/VStack';
+import HStack from './HStack/HStack';
+import VStack from './VStack/VStack';
+import Flex from './Flex/Flex';
 
+export { Flex };
 export { HStack };
 export { VStack };

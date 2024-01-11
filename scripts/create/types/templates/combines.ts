@@ -1,6 +1,6 @@
-import {Name} from "../args";
-import {FilesThree, TemplateFormat, TemplatePreFormat} from "./files";
-import {DeepPartial} from "./shared";
+import { Name } from '../args';
+import { FilesThree, TemplateFormat, TemplatePreFormat } from './files';
+import { DeepPartial } from './shared';
 
 export type TemplateCombine = 'rc' | 'ml' | 'api'
 
@@ -12,18 +12,18 @@ export type CombineThreeRules = {
 
 export interface CombineThree extends DeepPartial<CombineThreeRules> {
     rc: {
-        tsx: FilesThree["tsx"]
-        module: FilesThree["module"]
-        stories: FilesThree["stories"]
+        tsx: FilesThree['tsx']
+        module: FilesThree['module']
+        stories: FilesThree['stories']
     },
     ml: {
-        slice: FilesThree["slice"]
-        selector: FilesThree["selector"]
-        service: FilesThree["service"]
-        types: FilesThree["types"]
+        slice: FilesThree['slice']
+        selector: FilesThree['selector']
+        service: FilesThree['service']
+        types: FilesThree['types']
     }
     api: {
-        api: FilesThree["api"]
+        api: FilesThree['api']
     }
 }
 
@@ -37,5 +37,3 @@ export type TemplateCombines = {
         >
     ]>
 }
-
-

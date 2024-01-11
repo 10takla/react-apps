@@ -33,7 +33,7 @@ const gapClasses: Record<FlexGap, string> = {
     16: cls.gap16,
     32: cls.gap32,
 };
-type FlexProps<T extends ElementType = 'div'> = {
+export type FlexProps<T extends ElementType = 'div'> = {
     className?: string;
     children?: React.ReactNode;
     justify?: FlexJustify;
@@ -45,7 +45,7 @@ type FlexProps<T extends ElementType = 'div'> = {
 } & ComponentPropsWithoutRef<T>;
 const Flex = <T extends ElementType = 'div'>(
     props: FlexProps<T>,
-    ref: ForwardedRef<Element | undefined>,
+    ref: ForwardedRef<HTMLElement | undefined>,
 ) => {
     const {
         className,

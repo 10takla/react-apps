@@ -1,53 +1,36 @@
-.InputWrapper {
-    display: flex;
-}
+.Input {
+  outline: 0.1em solid black;
+  border: 0;
+  padding: 0.4em;
+  border-radius: 0.3em;
+  width: calc(var(--length));
+  font-size: inherit;
+  text-align: center;
 
-.placeholder {
-    margin-right: 5px;
-}
+  &[type="number"]::-webkit-inner-spin-button,
+  &[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
 
-.input {
-    background: transparent;
-    border: none;
-    outline: none;
-    width: 100%;
-    color: transparent;
-    text-shadow: 0 0 0 var(--primary-color);
+  &[type="number"] {
+    -moz-appearance: textfield;
+  }
 
-    &:focus {
-        outline: none;
-    }
-}
+  &:disabled {
+    outline: 0;
+  }
 
-.caretWrapper {
-    flex-grow: 1;
-    position: relative;
-}
+  &:hover:not(:focus, :disabled) {
+    transition: scale 800ms;
+    transform: scale(1.05);
+  }
 
-.caret {
-    height: 3px;
-    width: 9px;
-    background: var(--primary-color);
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    animation: blink 0.7s forwards infinite;
-}
-
-.readonly {
-    opacity: 0.7;
-}
-
-@keyframes blink {
-    0% {
-        opacity: 0;
-    }
-
-    50% {
-        opacity: 0.01;
-    }
-
-    100% {
-        opacity: 1;
-    }
+  &:focus {
+    transform-origin: left;
+    transition: scale 400ms;
+    //transform: scale(1.1);
+    background: rgba(255, 157, 157, 0.42);
+  }
 }

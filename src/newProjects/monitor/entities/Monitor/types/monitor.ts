@@ -23,7 +23,6 @@ export interface Monitor extends Record<TypeMon, any> {
         'stars'?: Partial<Record<string, number | null>>
     },
     'price': number,
-    'screenSize': number,
     'resolution': [
         number,
         number

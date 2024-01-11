@@ -17,6 +17,7 @@ export interface SiteListProps extends Omit<MonitorItemProps, 'monitor'> {
     list: Monitor[],
     monitorItemsRef?: ForwardedRef<ElementRef<typeof MonitorItem>[]>
     sort: Required<ComponentProps<typeof ControlPanel>>['sort'][0]
+    siteName: string
 }
 
 const SiteList = (props: SiteListProps, ref: ForwardedRef<ElementRef<typeof MonitorItem>[]>) => {
@@ -24,6 +25,7 @@ const SiteList = (props: SiteListProps, ref: ForwardedRef<ElementRef<typeof Moni
         className,
         list,
         isHide,
+        siteName,
         sort,
         currency,
         relations,
@@ -81,7 +83,11 @@ const SiteList = (props: SiteListProps, ref: ForwardedRef<ElementRef<typeof Moni
     ), [list, postSort]);
 
     return (
-        <VStack className={classNames(cls.SiteList, {}, [className])}>
+        <VStack
+            className={classNames(cls.SiteList, {}, [className])}
+            gap={8}
+        >
+            <h2 className={cls.siteName}>{siteName}</h2>
             <ControlPanel
                 isHide={[postIsHide, setPostIsHide]}
                 sort={[postSort, setPostSort]}

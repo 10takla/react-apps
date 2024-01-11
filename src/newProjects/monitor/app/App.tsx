@@ -1,16 +1,15 @@
 import {
     ComponentProps,
     ElementRef,
-    memo, useEffect, useMemo, useRef, useState,
+    memo, useMemo, useRef, useState,
 } from 'react';
 import SiteList from 'M/widgets/SiteList/SiteList';
 import { ControlPanel } from 'M/widgets/SiteList/ui/ControlPanel/ControlPanel';
 import { MonitorsListProps } from 'M/entities/MonitorList/MonitorsList';
-import { DrawRelationsProps, RelationContext } from 'M/entities/Relation/ui/DrawRelations/DrawRelations';
 import monitors from 'M/shared/const/monitors.json';
 import { classNames } from '@/shared/lib/classNames/classNames';
 import cls from './App.module.scss';
-import { HStack, VStack } from '@/shared/ui/Stack';
+import { VStack } from '@/shared/ui/Stack';
 
 interface AppProps {
     className?: string;
@@ -44,14 +43,18 @@ const App = memo((props: AppProps) => {
     }, []);
 
     const sitesMonitorsRefs = useRef<ElementRef<typeof SiteList>[]>([]);
-    const [elements, setElements] = useState<DrawRelationsProps['elements']>([]);
+    // const [elements, setElements] = useState<DrawRelationsProps['elements']>([]);
 
-    useEffect(() => {
-        setElements(sitesMonitorsRefs.current as any);
-    }, []);
+    // useEffect(() => {
+    //     setElements(sitesMonitorsRefs.current as any);
+    // }, []);
     const [counter, setCounter] = useState(false);
-    const [sort, setSort] = useState<Required<ComponentProps<typeof ControlPanel>>['sort'][0]>([[], false]);
-
+    // eslint-disable-next-line max-len
+    const [sort, setSort] = useState<Required<ComponentProps<typeof ControlPanel>>['sort'][0]>([['name', 'rating', 'resolution'], false]);
+    const [ranges, setRanges] = useState<Required<ComponentProps<typeof ControlPanel>>['ranges'][0]>([
+        ['price', [0, 200]],
+        ['price', [0, 200]],
+    ]);
     return (
         <VStack
             className={classNames(cls.App, {}, [className])}
@@ -60,34 +63,36 @@ const App = memo((props: AppProps) => {
                 isHide={[isHide, setIsHide]}
                 currency={[currency, setCurrency]}
                 sort={[sort, setSort]}
+                ranges={[ranges, setRanges]}
             />
             {/* eslint-disable-next-line react/jsx-no-constructed-context-values */}
-            <RelationContext.Provider value={{ counter, setCounter }}>
-                {/* {!!elements.length && (
+            {/* <RelationContext.Provider value={{ counter, setCounter }}> */}
+            {/* {!!elements.length && (
                     <DrawRelations
                         elements={elements}
                         relations={relations}
                     />
                 )} */}
-                <HStack className={cls.sites} justify="between">
-                    {Object.values(monitors)
-                        .map((list, i) => (
-                            <SiteList
-                                key={`${i}`}
-                                relations={relations.map((x) => x[i])}
-                                isHide={isHide}
-                                currency={currency}
-                                sort={sort}
-                                list={list}
-                                ref={(els) => {
-                                    if (els) {
-                                        sitesMonitorsRefs.current.push(els);
-                                    }
-                                }}
-                            />
-                        ))}
-                </HStack>
-            </RelationContext.Provider>
+            {/* <HStack className={cls.sites} justify="between">
+                {Object.entries(monitors)
+                    .map(([siteName, list], i) => (
+                        <SiteList
+                            siteName={siteName}
+                            key={`${i}`}
+                            relations={relations.map((x) => x[i])}
+                            isHide={isHide}
+                            currency={currency}
+                            sort={sort}
+                            list={list}
+                            ref={(els) => {
+                                if (els) {
+                                    sitesMonitorsRefs.current.push(els);
+                                }
+                            }}
+                        />
+                    ))}
+            </HStack> */}
+            {/* </RelationContext.Provider> */}
         </VStack>
     );
 });
