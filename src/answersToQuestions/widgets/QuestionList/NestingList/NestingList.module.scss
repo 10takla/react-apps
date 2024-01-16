@@ -15,9 +15,26 @@
             background: var(--color);
         }
 
+
+
         >.content {
             white-space: pre-wrap;
             padding: 0.2em 1em;
+
+            ol {
+                margin-left: 1em;
+                li {
+                    list-style-type: decimal;
+                }
+            }
+
+            ul {
+                margin-left: 1em;
+                li {
+                    list-style-type: circle;
+                }
+
+            }
         }
     }
 }

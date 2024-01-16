@@ -93,11 +93,14 @@ const NestingList = (props: NestingListProps) => {
                             )
                             : (
                                 <FoldTransition
-                                    className={cls.content}
                                     in={!isPostFold}
                                     timeout={100}
                                 >
-                                    <pre className={cls.content}>{content}</pre>
+                                    <div
+                                        className={cls.content}
+                                        dangerouslySetInnerHTML={{ __html: content }}
+                                    />
+                                    {/* <pre className={cls.content}>{content}</pre> */}
                                 </FoldTransition>
                             ))}
                     </VStack>
