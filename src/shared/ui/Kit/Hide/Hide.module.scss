@@ -1,3 +1,10 @@
 .Hide {
+    .arrow {
+        width: 1.9em;
+        height: 1.9em;
 
+        &.hide {
+            transform: rotate(180deg);
+        }
+    }
 }

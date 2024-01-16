@@ -1,5 +1,5 @@
 {
-  "name": "production-project",
+  "name": "react-apps",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -139,7 +139,7 @@
     "react-dom": "^18.2.0",
     "react-i18next": "^11.18.3",
     "react-redux": "^7.2.6",
-    "react-router-dom": "^6.2.1",
+    "react-router-dom": "^6.21.1",
     "react-virtualized": "^9.22.3"
   },
   "loki": {

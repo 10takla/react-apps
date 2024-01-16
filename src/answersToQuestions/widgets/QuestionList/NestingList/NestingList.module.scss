@@ -1,0 +1,23 @@
+.NestingList {
+    width: 100%;
+    gap: calc(0.3em / (var(--index) + 1));
+    padding: 0.2em calc(0.2em / (var(--index) + 1));
+
+    >.titleContent {
+        user-select: none;
+        margin-left: calc(var(--index) * 0.4em);
+        border-radius: 0.5em;
+        border: 0.2em solid;
+        box-sizing: border-box;
+
+        >.title {
+            padding: 0.4em;
+            background: var(--color);
+        }
+
+        >.content {
+            white-space: pre-wrap;
+            padding: 0.2em 1em;
+        }
+    }
+}

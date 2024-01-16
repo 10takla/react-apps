@@ -1,0 +1,23 @@
+.ControlPanel {
+    .sortOrder {
+        padding: 1em;
+        background: rgb(212, 232, 255);
+
+        >.sort {
+            border: none;
+            background: none;
+            padding: 0;
+        }
+    }
+
+    .ranges {
+        > div {
+            width: 100%;
+        }
+
+        .inputRange {
+            font-size: 0.9em;
+            width: 10em;
+        }
+    }
+}

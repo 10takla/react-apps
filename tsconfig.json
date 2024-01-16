@@ -9,8 +9,10 @@
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "M/*": ["./src/newProjects/monitor/*"]
+      "src/*": ["./src/*"],
+      "@/*": ["./src/wordLearner/*"],
+      "M/*": ["./src/monitors/*"],
+      "A/*": ["./src/answersToQuestions/*"],
     },
     "allowJs": true,
     "strict": true,

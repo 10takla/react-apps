@@ -1,7 +1,7 @@
 import {
     ComponentPropsWithoutRef, ElementType, ForwardedRef, forwardRef,
 } from 'react';
-import { classNames, Mods } from '@/shared/lib/classNames/classNames';
+import { classNames, Mods } from 'src/shared/lib/classNames/classNames';
 import cls from './Flex.module.scss';
 
 export type FlexJustify = 'start' | 'center' | 'end' | 'between';

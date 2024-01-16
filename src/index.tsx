@@ -1,11 +1,13 @@
-import { createRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
-import { ThemeProvider } from '@/app/providers/ThemeProvider';
-import { StoreProvider } from '@/app/providers/StoreProvider';
-import App from './app/App';
 import '@/app/styles/index.scss';
-import './shared/config/i18n/i18n';
-import { ErrorBoundary } from './app/providers/ErrorBoundary';
+import { createRoot } from 'react-dom/client';
+
+import {
+    HashRouter, Link, Route, Routes,
+} from 'react-router-dom';
+import AnswersToQuestions from './answersToQuestions';
+import Monitors from './monitors';
+import { VStack } from './shared/ui/Stack';
+import WordLearner from './wordLearner';
 
 const container = document.getElementById('root');
 
@@ -15,15 +17,30 @@ if (!container) {
 
 const root = createRoot(container);
 
+const sites = {
+    wordLearner: <WordLearner />,
+    monitors: <Monitors />,
+    answers: <AnswersToQuestions />,
+};
+
 root.render(
-    <BrowserRouter>
-        <StoreProvider>
-            <ErrorBoundary>
-                <ThemeProvider>
-                    <App />
-                </ThemeProvider>
-            </ErrorBoundary>
-        </StoreProvider>
-    </BrowserRouter>,
+    <HashRouter>
+        <Routes>
+            <Route
+                path="/"
+                element={(
+                    <VStack>
+                        {Object.keys(sites).map((siteName) => (
+                            <Link key={siteName} to={siteName}>
+                                {siteName}
+                            </Link>
+                        ))}
+                    </VStack>
+                )}
+            />
+            {Object.entries(sites).map(([siteName, siteElement]) => (
+                <Route key={siteName} path={`${siteName}/*`} element={siteElement} />
+            ))}
+        </Routes>
+    </HashRouter>,
 );
-export { Theme } from '@/shared/const/theme';
