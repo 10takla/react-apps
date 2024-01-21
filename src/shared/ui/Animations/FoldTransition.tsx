@@ -10,7 +10,10 @@ interface FoldTransitionProps extends Omit<TransitionProps, 'timeout'> {
 
 export const FoldTransition = (props: FoldTransitionProps) => {
     const {
-        children, timeout, ...otherProps
+        children,
+        timeout,
+        in: inToggle,
+        ...otherProps
     } = props;
 
     const postTimeout = useMemo(() => {
@@ -20,6 +23,7 @@ export const FoldTransition = (props: FoldTransitionProps) => {
         }
         return timeout;
     }, [timeout]);
+
     const animRef = useRef();
     useEffect(() => {
         if (animRef.current) {
@@ -30,18 +34,21 @@ export const FoldTransition = (props: FoldTransitionProps) => {
             }
         }
     }, []);
+
     useEffect(() => {
         if (animRef.current) {
-            if (!otherProps.in) {
+            if (!inToggle) {
                 $(animRef.current).slideUp(postTimeout);
             } else {
                 $(animRef.current).slideDown(postTimeout);
             }
         }
-    }, [otherProps.in, postTimeout]);
+    }, [inToggle, postTimeout]);
+
     return (
         cloneElement(children, {
             ref: animRef,
+            ...otherProps,
         })
     );
 };

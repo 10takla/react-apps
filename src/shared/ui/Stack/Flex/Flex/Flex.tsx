@@ -38,7 +38,7 @@ export type FlexProps<T extends ElementType = 'div'> = {
     children?: React.ReactNode;
     justify?: FlexJustify;
     align?: FlexAlign;
-    direction: FlexDirection;
+    direction?: FlexDirection;
     gap?: FlexGap;
     max?: boolean;
     tag?: T;

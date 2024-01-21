@@ -1,0 +1,24 @@
+.Input {
+  outline: 0.1em solid black;
+  border: 0;
+  $padding: 0.5em;
+  padding: $padding;
+  border-radius: 0.3em;
+  min-width: 4em;
+  font-size: inherit;
+
+  &[type="number"]::-webkit-inner-spin-button,
+  &[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+  }
+
+  &[type="number"] {
+    -moz-appearance: textfield;
+  }
+
+  &:disabled {
+    outline: 0;
+  }
+}
