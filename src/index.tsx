@@ -8,6 +8,7 @@ import AnswersToQuestions from './answersToQuestions';
 import Monitors from './monitors';
 import { VStack } from './shared/ui/Stack';
 import WordLearner from './wordLearner';
+import GameOfLife from './game_of_life';
 
 const container = document.getElementById('root');
 
@@ -21,6 +22,7 @@ const sites = {
     wordLearner: <WordLearner />,
     monitors: <Monitors />,
     answers: <AnswersToQuestions />,
+    game_of_life: <GameOfLife />,
 };
 
 root.render(

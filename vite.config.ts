@@ -1,12 +1,14 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import svgr from 'vite-plugin-svgr';
+import wasm from 'vite-plugin-wasm';
 
 export default defineConfig(({ mode }) => {
     const rootPath = mode === 'deploy' ? '/react-apps/' : '/';
     return (
         {
             plugins: [
+                wasm(),
                 svgr({ exportAsDefault: true }),
                 react(),
             ],
