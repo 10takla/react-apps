@@ -21,6 +21,11 @@ export default defineConfig(({ mode }) => {
                     { find: 'A', replacement: '/src/answersToQuestions' },
                 ],
             },
+            esbuild: {
+                supported: {
+                    'top-level-await': true,
+                },
+            },
             define: {
                 __IS_DEV__: JSON.stringify(true),
                 __API__: JSON.stringify('http://localhost:8000'),

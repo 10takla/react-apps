@@ -20,6 +20,9 @@ const newSubjectSlice = createSlice({
         removeSubjectName(state) {
             state.subjectName = '';
         },
+        setQuestions(state, action: PayloadAction<string[]>) {
+            state.questions = action.payload;
+        },
         pushQuestion(state, action: PayloadAction<string | string[]>) {
             const newQuestions = action.payload;
 

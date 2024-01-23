@@ -1,45 +1,65 @@
-import React, { ReactNode } from 'react';
+import React, {
+    ReactNode, cloneElement, useImperativeHandle, useRef,
+} from 'react';
 import Flex, { FlexProps } from '../Flex/Flex/Flex';
+import Wrapper from '../Wrapper/Wrapper';
 
 enum ListTag {
     numeric = 'ol',
-    marker = 'ul'
+    marker = 'ul',
 }
 
 enum ListStyle {
     numeric = 'decimal',
-    marker = 'disc'
+    marker = 'disc',
 }
 
-interface ListProps extends FlexProps {
-    children: ReactNode
-    type?: 'numeric' | 'marker'
+interface ListProps extends Omit<FlexProps, 'direction'> {
+    children: ReactNode;
+    type?: 'numeric' | 'marker';
 }
 
-const List = (props: ListProps) => {
-    const {
-        children,
-        type = 'numeric',
-        ...otherProps
-    } = props;
+const ListItemWrapper = ({ children, type = 'numeric' }: ListProps) => {
+    const style = { listStyleType: ListStyle[type], listStyle: `${ListStyle[type]} inside` };
+
+    const childRef = useRef<HTMLElement>(null);
+    const isHideRef = useRef(true);
+    useImperativeHandle(isHideRef, () => {
+        if (childRef.current) {
+            const els = childRef.current.querySelectorAll('li[data-list-item]');
+
+            if (els) {
+                els.forEach((el) => {
+                    Object.assign(el.style, style);
+                });
+            }
+
+            return els.length;
+        }
+        return true;
+    });
 
     return (
-        <Flex
-            gap={8}
-            tag={ListTag[type]}
-            direction="column"
-            {...otherProps}
-        >
-            {React.Children.map(
-                children,
-                (child) => (
-                    <li style={{ listStyleType: ListStyle[type] }}>
-                        {child}
-                    </li>
-                ),
-            )}
+        <Wrapper tag="li" style={style} isHide={isHideRef.current}>
+            {cloneElement(children, { ref: childRef })}
+        </Wrapper>
+    );
+};
+
+const List = (props: ListProps) => {
+    const { children, type = 'numeric', ...otherProps } = props;
+
+    return (
+        <Flex gap={8} tag={ListTag[type]} direction="column" {...otherProps}>
+            {React.Children.map(children, (child) => (
+                <ListItemWrapper children={child} type={type} />
+            ))}
         </Flex>
     );
 };
 
 export default List;
+
+export const ListItem = ({ children }) => {
+    return <li data-list-item>{children}</li>;
+};

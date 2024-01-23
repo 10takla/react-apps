@@ -1,10 +1,15 @@
 export type Mods = Record<string, boolean | string | undefined>
 
+type Additional = Array<string | undefined>
 export function classNames(
     cls: string,
-    mods: Mods = {},
-    additional: Array<string | undefined> = [],
+    mods: Mods | Additional = {},
+    additional: Mods | Additional = [],
 ): string {
+    if (Array.isArray(mods) || !Array.isArray(additional)) {
+        [mods, additional] = [additional, mods];
+    }
+    
     return [
         cls,
         ...additional.filter(Boolean),

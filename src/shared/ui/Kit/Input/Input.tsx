@@ -35,7 +35,7 @@ const Input = (props: InputProps, ref: ForwardedRef<HTMLInput>) => {
 
     const [postValue, setPostValue] = useState(String(value));
     useEffect(() => {
-        setPostValue(String(value));
+        setPostValue(value ? String(value) : '');
     }, [value]);
 
     const onPostChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -51,7 +51,7 @@ const Input = (props: InputProps, ref: ForwardedRef<HTMLInput>) => {
             value={postValue}
             onChange={onPostChange}
             ref={inputRef}
-            {...otherProps}
+            {...{style, ...otherProps}}
         />
     );
 };

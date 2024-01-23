@@ -6,7 +6,7 @@ import Flex, { FlexProps } from '../Flex/Flex';
 type VStackProps<T extends React.ElementType> = Omit<FlexProps<T>, 'direction'>
 
 const VStack = <T extends React.ElementType>(props: VStackProps<T>, ref: ForwardedRef<ElementRef<typeof Flex>>) => {
-    const { align = 'center' } = props;
+    const { align = 'stretch' } = props;
     return (
         <Flex {...props} direction="column" align={align} ref={ref} />
     );

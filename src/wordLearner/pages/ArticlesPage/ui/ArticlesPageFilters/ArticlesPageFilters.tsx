@@ -6,7 +6,7 @@ import {
     ArticleSortField, ArticleType, ArticleView,
 } from '@/entities/Article';
 import { classNames } from 'src/shared/lib/classNames/classNames';';
-import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch/useAppDispatch';
+import { useAppDispatch } from 'src/shared/hooks/useAppDispatch';
 import { Card } from '@/shared/ui/Card';
 import { SortOrder } from '@/shared/types';
 import { useDebounce } from '@/shared/lib/hooks/useDebounce/useDebounce';

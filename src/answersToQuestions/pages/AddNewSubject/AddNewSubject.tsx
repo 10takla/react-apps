@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { AnswerScheme } from 'A/app/providers/AnswerProvider/AnswerProvider';
-import { useAppDispatch } from 'src/wordLearner/shared/lib/hooks/useAppDispatch/useAppDispatch';
+import { useAppDispatch } from 'src/shared/hooks/useAppDispatch';
 import { newSubjectActions } from 'src/answersToQuestions/app/providers/AnswerProvider/slices/newSubjectSlice';
 import { subjectsActions } from 'src/answersToQuestions/app/providers/AnswerProvider/slices/subjectsSlice';
 import Subject from 'src/answersToQuestions/widgets/Subject/Subject';
@@ -24,7 +24,7 @@ const AddNewSubject = () => {
                 dispatch(newSubjectActions.setSubjectName(v));
             }}
             onChangeQuestions={(v) => {
-                dispatch(newSubjectActions.pushQuestion(v));
+                dispatch(newSubjectActions.setQuestions(v));
             }}
             {...{ subjectName, questions }}
         />

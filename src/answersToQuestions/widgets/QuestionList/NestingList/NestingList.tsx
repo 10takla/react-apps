@@ -1,9 +1,14 @@
-import { ComponentProps, useState, useEffect } from 'react';
+import {
+    ComponentProps, ReactNode,
+    useState,
+    useEffect,
+} from 'react';
 import { classNames } from 'src/shared/lib/classNames/classNames';
 import getRgbGradient from 'src/shared/lib/getRgbGradient/getRgbGradient';
 import { HStack, VStack } from 'src/shared/ui/Stack';
 import RadioButtonSvg from 'src/shared/assets/icons/radio_button.svg';
 import { FoldTransition } from 'src/shared/ui/Animations/FoldTransition';
+import List, { ListItem } from 'src/shared/ui/Stack/List/List';
 import cls from './NestingList.module.scss';
 
 type NestingArray = Array<[string, string | NestingArray]>
@@ -13,8 +18,8 @@ interface NestingListProps extends ComponentProps<typeof VStack> {
     nestingLevel?: number
     isFold: boolean
     isHide: boolean
-    titleC: (v: string, i: number) => void
-    children: (v: string) => void
+    index?: number
+    children?: (index: number, nestingLevel: number) => ReactNode
 }
 
 const NestingList = (props: NestingListProps) => {
@@ -24,22 +29,26 @@ const NestingList = (props: NestingListProps) => {
         isHide,
         isFold,
         style,
+        index = 0,
         className,
         children,
-        titleC,
         ...otherProps
     } = props;
+
+    const [postList, setPostList] = useState(list);
+
     return (
-        <VStack
+        <List
             className={classNames(cls.NestingList, {}, [className])}
             align="stretch"
             style={{
                 ...style,
                 '--index': nestingLevel,
             }}
+            gap={16}
             {...otherProps}
         >
-            {list.map(([title, content], i) => {
+            {postList.map(([title, content], i) => {
                 const [isPostFold, setIsPostFold] = useState(isFold);
                 useEffect(() => {
                     setIsPostFold(isFold);
@@ -77,7 +86,7 @@ const NestingList = (props: NestingListProps) => {
                                 }
                             }}
                         >
-                            {titleC(title, i)}
+                            <ListItem>{title}</ListItem>
                             {Array.isArray(content) && (
                                 <RadioButtonSvg
                                     onClick={(e) => {
@@ -87,29 +96,35 @@ const NestingList = (props: NestingListProps) => {
                                 />
                             )}
                         </HStack>
-                        {!isPostHide && (
-                            Array.isArray(content)
-                                ? (
-                                    <NestingList
-                                        isHide={isPostHide}
-                                        isFold={isPostFold}
-                                        list={content}
-                                        nestingLevel={nestingLevel + 1}
-                                    />
-                                )
-                                : (
-                                    <FoldTransition
-                                        className={cls.content}
-                                        in={!isPostFold}
-                                        timeout={100}
-                                    >
-                                        {children(content)}
-                                    </FoldTransition>
-                                ))}
+                        {
+                            !isPostHide
+                            && (
+                                Array.isArray(content)
+                                    ? (
+                                        <NestingList
+                                            isHide={isPostHide}
+                                            isFold={isPostFold}
+                                            list={content}
+                                            nestingLevel={nestingLevel + 1}
+                                            index={i}
+                                        />
+                                    )
+                                    : (
+                                        <FoldTransition
+                                            className={cls.content}
+                                            in={!isPostFold}
+                                            timeout={100}
+                                        >
+                                            <div
+                                                dangerouslySetInnerHTML={{ __html: content }}
+                                            />
+                                        </FoldTransition>
+                                    ))
+                        }
                     </VStack>
                 );
             })}
-        </VStack>
+        </List>
     );
 };
 

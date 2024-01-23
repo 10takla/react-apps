@@ -1,0 +1,33 @@
+.wrapper {
+    width: 100%;
+
+    .SubjectRoutesPage {
+        width: 50em;
+        height: 100dvh;
+    
+        .subjectLinks {
+            >.subject {
+                $color: rgba(255, 0, 0, 0.156);
+                border: solid 0.3em $color;
+                padding: 0.8em;
+                border-radius: 0.8em;
+    
+                >.link {
+                    width: 100%;
+                    padding: 1em;
+                }
+    
+                >.controlPanel {}
+    
+                &.newSubject {
+                    background: $color;
+    
+                    >.link {
+                        text-align: center;
+                    }
+                }
+            }
+        }
+    }
+}
+

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Input } from 'src/shared/ui/Kit/Input';
 import { Button, ButtonTheme } from 'src/shared/ui/Kit/Button';
 import { classNames } from 'src/shared/lib/classNames/classNames';';
-import { useAppDispatch } from '@/shared/lib/hooks/useAppDispatch/useAppDispatch';
+import { useAppDispatch } from 'src/shared/hooks/useAppDispatch';
 import { DynamicModuleLoader, ReducersList } from '@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader';
 import { HStack } from 'src/shared/ui/Stack';
 import { addCommentFormActions, addCommentFormReducer } from '../../model/slices/addCommentFormSlice';

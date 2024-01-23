@@ -1,4 +1,5 @@
 import {
+    CSSProperties,
     ForwardedRef,
     HTMLProps, forwardRef, memo,
     useCallback,
@@ -6,6 +7,9 @@ import {
     useImperativeHandle, useRef,
     useState,
 } from 'react';
+import { classNames } from 'src/shared/lib/classNames/classNames';
+import Tag from 'src/shared/ui/Stack/Tag/Tag';
+import cls from './AdaptiveInput.module.scss';
 
 interface AdaptiveInputProps extends HTMLProps<HTMLInputElement> {
 
@@ -17,6 +21,9 @@ const AdaptiveInput = (props: AdaptiveInputProps, ref: ForwardedRef<HTMLInput>) 
     const {
         value,
         style,
+        placeholder,
+        type,
+        className,
         ...otherProps
     } = props;
 
@@ -26,13 +33,18 @@ const AdaptiveInput = (props: AdaptiveInputProps, ref: ForwardedRef<HTMLInput>) 
         () => inputRef.current,
     );
 
-    const [width, setWidth] = useState<number>('auto');
+    const [adaptiveStyeles, setAdaptiveStyeles] = useState<CSSProperties>({});
     const [span, setSpan] = useState<HTMLDivElement>();
 
     const updateWidthBySpanValue = useCallback((newValue: string) => {
         if (span) {
             span.textContent = newValue;
-            setWidth(span.offsetWidth);
+            const spanRect = span.getBoundingClientRect();
+
+            setAdaptiveStyeles({
+                width: spanRect.width + 10,
+                height: spanRect.height,
+            });
         }
     }, [span]);
 
@@ -43,13 +55,8 @@ const AdaptiveInput = (props: AdaptiveInputProps, ref: ForwardedRef<HTMLInput>) 
 
             Array.from(inputStyles)
                 .forEach((styleKey) => {
-                    if (styleKey.substring('padding')) {
-                        console.log(styleKey);
-                    }
                     if (injectStyles.includes(styleKey)) {
                         const styleValue = inputStyles.getPropertyValue(styleKey);
-                        console.log(styleKey, styleValue);
-
                         // @ts-ignore
                         span.style[styleKey] = styleValue;
                     }
@@ -62,6 +69,8 @@ const AdaptiveInput = (props: AdaptiveInputProps, ref: ForwardedRef<HTMLInput>) 
         const span = document.createElement('div');
 
         span.style.position = 'absolute';
+        span.style.top = '0';
+        span.style.left = '0';
         span.style.whiteSpace = 'pre';
         span.style.visibility = 'hidden';
 
@@ -79,7 +88,7 @@ const AdaptiveInput = (props: AdaptiveInputProps, ref: ForwardedRef<HTMLInput>) 
         if (inputElement) {
             const observer = new ResizeObserver(() => {
                 copyStylesFromInput();
-                updateWidthBySpanValue(String(value));
+                updateWidthBySpanValue(value === '' ? placeholder : String(value));
             });
 
             observer.observe(inputElement);
@@ -88,15 +97,19 @@ const AdaptiveInput = (props: AdaptiveInputProps, ref: ForwardedRef<HTMLInput>) 
                 observer.unobserve(inputElement);
             };
         }
-    }, [copyStylesFromInput, updateWidthBySpanValue, value]);
+    }, [copyStylesFromInput, placeholder, updateWidthBySpanValue, value]);
 
     return (
-        <input
+        <Tag
+            tag={type === 'textarea' ? 'textarea' : 'input'}
+            className={classNames(cls.AdaptiveInput, [className])}
             style={{
                 ...style,
-                width,
+                ...adaptiveStyeles,
             }}
+            type={type}
             value={value}
+            placeholder={placeholder}
             ref={inputRef}
             {...otherProps}
         />

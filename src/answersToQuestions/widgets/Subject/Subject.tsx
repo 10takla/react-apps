@@ -1,19 +1,19 @@
-import { useState, useEffect } from 'react';
-import { HStack, VStack } from 'src/shared/ui/Stack';
-import List from 'src/shared/ui/Stack/List/List';
-import CrossSvg from 'src/shared/assets/icons/cross.svg';
+import { ComponentProps, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { HStack, VStack } from 'src/shared/ui/Stack';
+import Input from 'src/shared/ui/Kit/Input/Input';
 import QuestionList from '../QuestionList/QuestionList';
+import cls from './Subject.module.scss';
 
 interface SubjectProps {
     subjectName: string,
     onChangeSubjectName?: (subjectName: SubjectProps['subjectName']) => void
-    questions: string[],
-    onChangeQuestions?:(questions: SubjectProps['questions']) => void
+    questions: ComponentProps<typeof QuestionList>['questions'],
+    onChangeQuestions: ComponentProps<typeof QuestionList>['onChange'],
     onSave: (
         subjectName: SubjectProps['subjectName'],
         questions: SubjectProps['questions']
-        ) => void
+    ) => void
 }
 
 const Subject = (
@@ -36,9 +36,50 @@ const Subject = (
         setPostQuestions(questions);
     }, [questions]);
 
+    const example = `[\n  ["вопрос 1", "ответ"],
+  [
+    "Билет 1",
+    ["вопрос 1", "ответ"]
+  ]\n]`;
+
+    const placeholder = `добавить вопросы в формате json\n${example}`;
     return (
-        <VStack gap={16}>
-            <input
+        <VStack
+            className={cls.Subject}
+            gap={16}
+            align="center"
+        >
+            <HStack
+                gap={8}
+                align="center"
+            >
+                <Link
+                    to="/answers"
+                    onClick={() => onSave(postSubjectName, postQuestions)}
+                >
+                    сохранить
+                </Link>
+                <Input
+                    type="textarea"
+                    placeholder={placeholder}
+                    onBlur={(e) => {
+                        try {
+                            const el = JSON.parse(e.target.value);
+                            if (Array.isArray(el)) {
+                                if (el.length === 2 && typeof el[0] === 'string') {
+                                    setPostQuestions([...postQuestions, el]);
+                                } else {
+                                    setPostQuestions([...postQuestions, ...el]);
+                                }
+                            }
+                            e.target.value = '';
+                        } catch {
+
+                        }
+                    }}
+                />
+            </HStack>
+            <Input
                 placeholder="название предемета"
                 value={postSubjectName}
                 onChange={(e) => {
@@ -47,58 +88,14 @@ const Subject = (
                     onChangeSubjectName?.(newSubjetName);
                 }}
             />
-            <HStack>
-                <QuestionList questions={postQuestions} />
-                {/* <VStack>
-                    <List>
-                        {postQuestions.map((question, i) => (
-                            <HStack key={i}>
-                                <input
-                                    value={question}
-                                    placeholder={`вопрос № ${i + 1}`}
-                                    onChange={(e) => {
-                                        const newQuestions = postQuestions.toSpliced(i, 1, e.target.value);
-                                        setPostQuestions(newQuestions);
-                                        onChangeQuestions?.(newQuestions);
-                                    }}
-                                />
-                                <CrossSvg onClick={() => {
-                                    const newQuestions = postQuestions.toSpliced(i, 1);
-                                    setPostQuestions(newQuestions);
-                                    onChangeQuestions?.(newQuestions);
-                                }}
-                                />
-                            </HStack>
-                        ))}
-                    </List>
-                    <input
-                        placeholder={`вопрос № ${postQuestions.length + 1}`}
-                        onBlur={(e) => {
-                            const newQuestions = [...postQuestions, e.target.value];
-                            setPostQuestions(newQuestions);
-                            onChangeQuestions?.(newQuestions);
-                            e.target.value = '';
-                        }}
-                    />
-                </VStack>
-                <textarea
-                    placeholder="json"
-                    onBlur={(e) => {
-                        const parsedQuestions = JSON.parse(e.target.value);
-                        if (Array.isArray(parsedQuestions)) {
-                            const newQuestions = [...postQuestions, ...parsedQuestions];
-                            setPostQuestions(newQuestions);
-                            onChangeQuestions?.(newQuestions);
-                        }
-                    }}
-                /> */}
-            </HStack>
-            <Link
-                to="/answers"
-                onClick={() => onSave(postSubjectName, postQuestions)}
-            >
-                сохранить
-            </Link>
+            <QuestionList
+                mode="write"
+                questions={postQuestions}
+                onChange={(newList) => {
+                    setPostQuestions(newList);
+                    onChangeQuestions?.(newList);
+                }}
+            />
         </VStack>
     );
 };

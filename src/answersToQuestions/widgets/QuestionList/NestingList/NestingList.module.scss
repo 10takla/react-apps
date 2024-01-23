@@ -1,9 +1,12 @@
 .NestingList {
-    width: 100%;
     gap: calc(0.3em / (var(--index) + 1));
     padding: 0.2em calc(0.2em / (var(--index) + 1));
 
-    >.titleContent {
+    >.list {
+        width: 100%;
+    }
+
+    .titleContent {
         user-select: none;
         margin-left: calc(var(--index) * 0.4em);
         border-radius: 0.5em;
@@ -15,14 +18,13 @@
             background: var(--color);
         }
 
-
-
         >.content {
             white-space: pre-wrap;
             padding: 0.2em 1em;
 
             ol {
                 margin-left: 1em;
+
                 li {
                     list-style-type: decimal;
                 }
@@ -30,6 +32,7 @@
 
             ul {
                 margin-left: 1em;
+
                 li {
                     list-style-type: circle;
                 }

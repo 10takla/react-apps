@@ -105,7 +105,7 @@
     "react-transition-group": "^4.4.5",
     "reg-cli": "^0.17.6",
     "regenerator-runtime": "^0.13.9",
-    "rust_wasm": "file:../../RustRoverProjects/rust_wasm_apps/pkg/",
+    "rust_wasm": "file:../../RustRoverProjects/rust_wasm/pkg/",
     "sass": "^1.49.9",
     "sass-loader": "^12.6.0",
     "storybook-addon-mock": "^2.4.1",
