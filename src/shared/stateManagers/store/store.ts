@@ -3,6 +3,9 @@ import { CombinedState, Reducer } from 'redux';
 import { $api } from '@/shared/api/api';
 import { rtkApi } from '@/shared/api/rtkApi';
 import { createReducerManager, StateScheme } from './reducerManager';
+import { loadStateFromLocalStorage, localStorageMiddleware } from '../middlewars/localStorageMiddleware';
+
+
 
 export function createReduxStore<SS extends StateScheme = StateScheme>(
     rootReducers: ReducersMapObject<SS>,
@@ -17,12 +20,12 @@ export function createReduxStore<SS extends StateScheme = StateScheme>(
     const store = configureStore({
         reducer: reducerManager.reduce as Reducer<CombinedState<SS>>,
         devTools: __IS_DEV__,
-        preloadedState: initialState,
+        preloadedState: loadStateFromLocalStorage() || initialState,
         middleware: (getDefaultMiddleware) => getDefaultMiddleware({
             thunk: {
                 extraArgument: extraArg,
             },
-        }).concat(rtkApi.middleware),
+        }).concat(rtkApi.middleware).concat(localStorageMiddleware),
     });
 
     // @ts-ignore

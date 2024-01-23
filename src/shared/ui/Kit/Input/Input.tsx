@@ -33,7 +33,7 @@ const Input = (props: InputProps, ref: ForwardedRef<HTMLInput>) => {
         () => inputRef.current,
     );
 
-    const [postValue, setPostValue] = useState(String(value));
+    const [postValue, setPostValue] = useState(value);
     useEffect(() => {
         setPostValue(value ? String(value) : '');
     }, [value]);
@@ -51,7 +51,7 @@ const Input = (props: InputProps, ref: ForwardedRef<HTMLInput>) => {
             value={postValue}
             onChange={onPostChange}
             ref={inputRef}
-            {...{style, ...otherProps}}
+            {...{ style, ...otherProps }}
         />
     );
 };

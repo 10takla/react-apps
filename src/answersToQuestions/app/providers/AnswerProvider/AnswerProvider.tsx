@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, memo } from 'react';
 import StoreProvider, { StoreProviderProps } from 'src/shared/stateManagers/store/storeProvider';
 import { NewSubjectState, newSubjectReducer } from './slices/newSubjectSlice';
 import { SubjectsState, subjectsReducer } from './slices/subjectsSlice';
@@ -30,4 +30,4 @@ const AnswerProvider = (props: AnswerProviderProps) => {
     );
 };
 
-export default AnswerProvider;
+export default memo(AnswerProvider);

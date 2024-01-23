@@ -131,7 +131,7 @@ const WriteMode = (props: WriteModeProps) => {
                             onChange(newList);
                         }
 
-                        e.target.value = 'При вет';
+                        e.target.value = '';
                     }}
                 />
                 <PlusSvg
