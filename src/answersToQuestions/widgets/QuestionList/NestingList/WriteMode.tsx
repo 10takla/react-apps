@@ -10,6 +10,7 @@ import PlusSvg from 'src/shared/assets/icons/plus.svg';
 import CrossSvg from 'src/shared/assets/icons/cross.svg';
 import Input from 'src/shared/ui/Kit/Input/Input';
 import List, { ListItem } from 'src/shared/ui/Stack/List/List';
+import Draggable, { DraggableItem } from 'src/shared/ui/Kit/Draggable/Draggable';
 import cls from './NestingList.module.scss';
 import NestingList from './NestingList';
 
@@ -51,70 +52,73 @@ const WriteMode = (props: WriteModeProps) => {
                 gap={8}
             >
                 {postList.map(([title, content], i) => (
-                    <VStack
-                        key={`${i} ${nestingLevel}`}
-                        className={classNames(cls.titleContent)}
-                        style={{
-                            borderColor: getRgbGradient(nestingLevel, {}),
-                        }}
-                    >
-                        <HStack
-                            className={classNames(cls.title)}
+                    <Draggable key={`${i} ${nestingLevel}`}>
+                        <VStack
+                            className={classNames(cls.titleContent)}
                             style={{
-                                '--color': getRgbGradient(nestingLevel, {
-                                    alpha: 0.4,
-                                }),
+                                borderColor: getRgbGradient(nestingLevel, {}),
                             }}
-                            justify="between"
                         >
-                            <ListItem>
-                                <Input
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                    }}
-                                    value={title}
-                                    onChange={(e) => {
-                                        const newQuestion = e.target.value;
-                                        const newList = postList.toSpliced(i, 1, [newQuestion, postList[i][1]]);
-                                        onChange(newList);
-                                    }}
-                                />
-                            </ListItem>
-                            <CrossSvg
-                                onClick={() => {
-                                    const newList = postList.toSpliced(i, 1);
-                                    setPostList(newList);
-                                    onChange(newList);
+                            <HStack
+                                className={classNames(cls.title)}
+                                style={{
+                                    '--color': getRgbGradient(nestingLevel, {
+                                        alpha: 0.4,
+                                    }),
                                 }}
-                            />
-                        </HStack>
-                        {(Array.isArray(content)
-                            ? (
-                                <WriteMode
-                                    list={content}
-                                    nestingLevel={nestingLevel + 1}
-                                    index={i}
-                                    onChange={(newContent) => {
-                                        const newList = postList.toSpliced(i, 1, [postList[i][0], newContent]);
+                                justify="between"
+                            >
+                                <DraggableItem>
+                                    <ListItem>
+                                        <Input
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                            }}
+                                            value={title}
+                                            onChange={(e) => {
+                                                const newQuestion = e.target.value;
+                                                const newList = postList.toSpliced(i, 1, [newQuestion, postList[i][1]]);
+                                                onChange(newList);
+                                            }}
+                                        />
+                                    </ListItem>
+                                </DraggableItem>
+                                <CrossSvg
+                                    onClick={() => {
+                                        const newList = postList.toSpliced(i, 1);
+                                        setPostList(newList);
                                         onChange(newList);
                                     }}
                                 />
-                            )
-                            : (
-                                <Input
-                                    style={{
-                                        maxWidth: '100%',
-                                    }}
-                                    type="textarea"
-                                    defaultValue={content}
-                                    onChange={(e) => {
-                                        const newAnswer = e.target.value;
-                                        const newList = postList.toSpliced(i, 1, [postList[i][0], newAnswer]);
-                                        onChange(newList);
-                                    }}
-                                />
-                            ))}
-                    </VStack>
+                            </HStack>
+                            {(Array.isArray(content)
+                                ? (
+                                    <WriteMode
+                                        list={content}
+                                        nestingLevel={nestingLevel + 1}
+                                        index={i}
+                                        onChange={(newContent) => {
+                                            const newList = postList.toSpliced(i, 1, [postList[i][0], newContent]);
+                                            onChange(newList);
+                                        }}
+                                    />
+                                )
+                                : (
+                                    <Input
+                                        style={{
+                                            maxWidth: '100%',
+                                        }}
+                                        type="textarea"
+                                        defaultValue={content}
+                                        onChange={(e) => {
+                                            const newAnswer = e.target.value;
+                                            const newList = postList.toSpliced(i, 1, [postList[i][0], newAnswer]);
+                                            onChange(newList);
+                                        }}
+                                    />
+                                ))}
+                        </VStack>
+                    </Draggable>
                 ))}
             </List>
             <HStack

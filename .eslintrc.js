@@ -43,6 +43,7 @@ module.exports = {
         'react/function-component-definition': 'off',
         'no-mixed-operators': 'off',
         'no-shadow': 'off',
+        'no-use-before-define': 'off',
         'import/extensions': 'off',
         split: 'off',
         'import/no-extraneous-dependencies': 'off',
