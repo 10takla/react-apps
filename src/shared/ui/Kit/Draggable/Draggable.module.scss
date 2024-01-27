@@ -1,3 +1,6 @@
 .Draggable {
-    
+    position: relative;
+    &.isDragged {
+        z-index: 1000;
+    }
 }

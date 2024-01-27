@@ -1,13 +1,24 @@
-import { MutableRefObject, useEffect } from 'react';
+import { MutableRefObject, useCallback, useEffect } from 'react';
+import { Direction } from 'src/wordLearner/shared/lib/direction/direction';
 
-class Vector {
+export class Vector {
     x;
 
     y;
 
-    constructor(x: number, y: number) {
-        this.x = x;
-        this.y = y;
+    constructor(arg1: number | MouseEvent | DOMRect, arg2?: number) {
+        if (typeof arg1 === 'number' && arg2 !== undefined) {
+            this.x = arg1;
+            this.y = arg2;
+        } else if (arg1 instanceof MouseEvent) {
+            this.x = arg1.clientX;
+            this.y = arg1.clientY;
+        } else if (arg1 instanceof DOMRect) {
+            this.x = arg1.x;
+            this.y = arg1.y;
+        } else {
+            throw new Error('not valid input data');
+        }
     }
 
     add(v: Vector): Vector {
@@ -27,107 +38,138 @@ class Vector {
         });
         return this;
     }
-
-    toArray() {
-
-    }
 }
 
 interface DragProps {
-    dragElement: HTMLElement,
     dragInitiator: HTMLElement,
-    direction: 'x' | 'y' | undefined,
     step?: number,
     onStart?: () => void
-    onMove?: () => void
-    onEnd?: () => void
+    onMove?: (trans: Vector) => void
+    onEnd?: (trans: Vector) => void
 }
 
 const drag = (props: DragProps) => {
     const {
-        dragElement,
         dragInitiator,
-        direction,
         step = 1,
         onStart,
         onMove,
         onEnd,
     } = props;
-
     dragInitiator.addEventListener('mousedown', toStart);
     let start: Vector = new Vector(0, 0);
 
     function toStart(e: MouseEvent) {
-        start = getPostionFromEvent(e);
+        start = new Vector(e);
 
-        document.body.addEventListener('mousemove', toMove);
-        document.body.addEventListener('mouseup', toEnd);
+        document.addEventListener('mousemove', toMove);
+        document.addEventListener('mouseup', toEnd);
 
         onStart?.();
     }
 
     function toMove(e) {
-        const trans = getPostionFromEvent(e).sub(start)
-            .map((c) => {
-                return Math.floor(c / step) * step;
-            });
-        setTransform(trans);
-
-        onMove?.();
+        const trans = new Vector(e).sub(start)
+            .map((c) => Math.floor(c / step) * step);
+        onMove?.(trans);
     }
 
     function toEnd(e) {
-        document.body.removeEventListener('mousemove', toMove);
-        document.body.removeEventListener('mouseup', toEnd);
+        document.removeEventListener('mousemove', toMove);
+        document.removeEventListener('mouseup', toEnd);
 
         start = new Vector(0, 0);
-        setTransform(start);
-
-        onEnd?.();
+        onEnd?.(start);
     }
 
-    function getPostionFromEvent(e: MouseEvent) {
-        return new Vector(e.clientX, e.clientY);
-    }
-
-    function setTransform(trans: Vector) {
-        const prefix = direction ? direction.toUpperCase() : '';
-        const translateValue = ['x', 'y'].filter((k) => {
-            if (direction) {
-                return k === direction;
-            }
-            return true;
-        }).map((k) => `${trans[k]}px`).join(', ');
-        dragElement.style.transform = `translate${prefix}(${translateValue})`;
-    }
-
-    return toStart;
+    return [toStart];
 };
 
 export interface UseDragProps extends Omit<DragProps, 'dragElement' | 'dragInitiator'> {
-    elemenetRef: MutableRefObject<HTMLElement | undefined>
+    elemenetRef: MutableRefObject<HTMLElement | null>
+    rootRef?: MutableRefObject<HTMLElement | null>
+    dragElement: HTMLElement
+    direction: 'x' | 'y' | undefined
+    translate: Vector
 }
 
 export default (props: UseDragProps) => {
     const {
         elemenetRef,
+        translate,
+        direction,
+        onMove,
+        onEnd,
+        rootRef,
         ...otherProps
     } = props;
+    const filterTransCoords = ['x', 'y'].filter((k) => {
+        if (direction) {
+            return k === direction;
+        }
+        return true;
+    }) as Array<'x' | 'y'>;
+
+    const setTransform = useCallback((trans: Vector) => {
+        const dragElement = elemenetRef.current;
+        if (dragElement) {
+            const prefix = direction ? direction.toUpperCase() : '';
+
+            const translateValue = filterTransCoords.map((k) => `${trans[k]}px`).join(', ');
+            dragElement.style.transform = `translate${prefix}(${translateValue})`;
+        }
+    }, [direction, elemenetRef, filterTransCoords]);
 
     useEffect(() => {
+        const rootRect = rootRef?.current?.getBoundingClientRect();
+
         const dragElement = elemenetRef.current;
         const dragInitiator = dragElement?.querySelector('[data-drag]');
 
         if (dragElement && dragInitiator) {
-            const toStart = drag({
-                dragElement,
-                dragInitiator,
+            const dragRect = dragElement?.getBoundingClientRect();
+            const [toStart] = drag({
                 ...otherProps,
+                dragInitiator,
+                onMove: (translate) => {
+                    if (rootRect) {
+                        filterTransCoords.forEach((coordinate) => {
+                            const dir = new Direction(coordinate);
+
+                            const dragElLeft = dragRect[dir.get('left')];
+                            const dragElRight = dragRect[dir.get('right')];
+                            const offset = translate[coordinate];
+
+                            const rootElLeft = rootRect[dir.get('left')];
+                            const rootElRight = rootRect[dir.get('right')];
+                            if (dragElLeft + offset < rootElLeft) {
+                                translate[coordinate] = rootElLeft - dragElLeft;
+                            }
+
+                            if (dragElRight + offset > rootElRight) {
+                                translate[coordinate] = rootElRight - dragElRight;
+                            }
+                        });
+                    }
+
+                    setTransform(translate);
+                    onMove?.(translate);
+                },
+                onEnd: (v) => {
+                    setTransform(v);
+                    onEnd?.(v);
+                },
             });
 
             return () => {
                 dragInitiator.removeEventListener('mousedown', toStart);
             };
         }
-    }, [elemenetRef, otherProps]);
+    }, [elemenetRef, filterTransCoords, onEnd, onMove, otherProps, rootRef, setTransform]);
+
+    useEffect(() => {
+        if (translate) {
+            setTransform(translate);
+        }
+    }, [setTransform, translate]);
 };

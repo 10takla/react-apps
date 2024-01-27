@@ -10,7 +10,8 @@ import PlusSvg from 'src/shared/assets/icons/plus.svg';
 import CrossSvg from 'src/shared/assets/icons/cross.svg';
 import Input from 'src/shared/ui/Kit/Input/Input';
 import List, { ListItem } from 'src/shared/ui/Stack/List/List';
-import Draggable, { DraggableItem } from 'src/shared/ui/Kit/Draggable/Draggable';
+import { DraggableItem } from 'src/shared/ui/Kit/Draggable/Draggable';
+import SwapList from 'src/shared/ui/Kit/SwapList/SwapList';
 import cls from './NestingList.module.scss';
 import NestingList from './NestingList';
 
@@ -51,9 +52,13 @@ const WriteMode = (props: WriteModeProps) => {
                 className={cls.list}
                 gap={8}
             >
-                {postList.map(([title, content], i) => (
-                    <Draggable key={`${i} ${nestingLevel}`}>
+                <SwapList
+                    direction="y"
+                    list={postList}
+                >
+                    {([title, content], i) => (
                         <VStack
+                            key={`${nestingLevel} ${i}`}
                             className={classNames(cls.titleContent)}
                             style={{
                                 borderColor: getRgbGradient(nestingLevel, {}),
@@ -118,8 +123,8 @@ const WriteMode = (props: WriteModeProps) => {
                                     />
                                 ))}
                         </VStack>
-                    </Draggable>
-                ))}
+                    )}
+                </SwapList>
             </List>
             <HStack
                 gap={16}

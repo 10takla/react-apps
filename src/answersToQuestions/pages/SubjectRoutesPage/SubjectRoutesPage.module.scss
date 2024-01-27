@@ -1,7 +1,7 @@
 .wrapper {
     width: 100%;
     .SubjectRoutesPage {
-        width: 50em;
+        width: 100vw;
         height: 100dvh;
 
         .subjectLinks {
@@ -22,7 +22,6 @@
     
                 &.newSubject {
                     background: $color;
-    
                     >.link {
                         text-align: center;
                     }

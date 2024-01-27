@@ -53,13 +53,13 @@ export class Direction {
         throw new Error('get_dir');
     }
 
-    get rev(): Direction {
+    get reverse(): Direction {
         return new Direction(Object.entries(dir_rels).reduce((all, [a, b]) => (
             { ...all, [a]: b, [b]: a }
         ), {} as any)[this.dir]);
     }
 
-    rev(dir: keyof Dirs): Direc {
+    reverse(dir: keyof Dirs): Direc {
         return Object.entries(dir_rels).reduce((all, [a, b]) => (
             { ...all, [a]: b, [b]: a }
         ), {} as any)[dir];

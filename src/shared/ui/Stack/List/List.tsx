@@ -52,7 +52,9 @@ const List = (props: ListProps) => {
     return (
         <Flex gap={8} tag={ListTag[type]} direction="column" {...otherProps}>
             {React.Children.map(children, (child) => (
-                <ListItemWrapper children={child} type={type} />
+                <ListItemWrapper type={type}>
+                    {child}
+                </ListItemWrapper>
             ))}
         </Flex>
     );

@@ -11,6 +11,7 @@ import { HStack, VStack } from 'src/shared/ui/Stack';
 import { useAppDispatch } from 'src/shared/hooks/useAppDispatch';
 import { classNames } from 'src/shared/lib/classNames/classNames';
 import cls from './SubjectRoutesPage.module.scss';
+import TestPage from '../TestPage';
 
 const SubjectRoutesPage = () => {
     const subjects = useSelector<AnswerScheme>((state) => state.subjects);
@@ -37,6 +38,11 @@ const SubjectRoutesPage = () => {
             route: 'new',
             linkText: 'Новый предмет',
             to: <AddNewSubject />,
+        },
+        {
+            route: 'test',
+            linkText: 'Тест страница',
+            to: <TestPage />,
         },
     ];
 
