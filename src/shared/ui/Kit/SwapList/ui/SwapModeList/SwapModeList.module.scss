@@ -1,0 +1,21 @@
+.SwapModeList {
+    position: relative;
+
+    >.settings {
+        position: absolute;
+        left: 100%;
+
+        >.modeSelect {
+            position: absolute;
+            top: 100%;
+        }
+    }
+}
+
+.isSomeDragged {
+    transition: transform 500ms;
+}
+
+.isCurrDragged {
+    transition: transform 0ms;
+}

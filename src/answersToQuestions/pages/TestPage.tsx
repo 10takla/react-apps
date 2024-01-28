@@ -1,6 +1,6 @@
 import { DraggableItem } from 'src/shared/ui/Kit/Draggable/Draggable';
-import SwapList from 'src/shared/ui/Kit/SwapList/SwapList';
 import { useState } from 'react';
+import SwapModeList from 'src/shared/ui/Kit/SwapList/ui/SwapModeList/SwapModeList';
 
 interface TestPageProps {
 
@@ -10,34 +10,31 @@ const TestPage = (props: TestPageProps) => {
     const {
 
     } = props;
-    const list = Array(10).fill().map((_, i) => i);
 
+    const [list, setList] = useState(Array(4).fill().map((_, i) => i));
     const [dir, setDir] = useState(true);
+
     return (
         <>
             <button onClick={() => setDir(!dir)}>dsfsfd</button>
-            <SwapList
-                type="offset"
+            <SwapModeList
+                mode="offset"
                 list={list}
                 direction={!dir ? 'row' : 'column'}
                 gap={8}
                 onBlur={(v) => {
-                    // console.log(v);
+                    setList(v);
                 }}
                 onChange={(v) => {
-                    // console.log(v);
+                    console.log(v);
                 }}
             >
                 {(item) => (
-                    <DraggableItem
-                        style={{
-                            background: 'green',
-                        }}
-                    >
+                    <DraggableItem>
                         {item}
                     </DraggableItem>
                 )}
-            </SwapList>
+            </SwapModeList>
         </>
     );
 };

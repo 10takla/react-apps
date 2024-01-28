@@ -1,0 +1,7 @@
+.isSomeDragged {
+    transition: transform 500ms;
+}
+
+.isCurrDragged {
+    transition: transform 0ms;
+}

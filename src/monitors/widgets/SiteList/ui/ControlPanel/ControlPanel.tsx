@@ -5,7 +5,7 @@ import { Monitor } from 'M/entities/Monitor/types/monitor';
 import { classNames } from 'src/shared/lib/classNames/classNames';
 import { Hide } from 'src/shared/ui/Kit/Hide/Hide';
 import { } from 'src/shared/ui/Kit/Button/Button';
-import { Select } from 'src/shared/ui/Kit/Select';
+import Select from 'src/shared/ui/Kit/Select';
 import InputRange from 'src/shared/ui/Kit/Input/ui/KeepFocus/InputRange/InputRange';
 import MultiSelect from 'src/shared/ui/Kit/Select/MultiSelect/MultiSelect';
 import { Flex, HStack, VStack } from 'src/shared/ui/Stack';

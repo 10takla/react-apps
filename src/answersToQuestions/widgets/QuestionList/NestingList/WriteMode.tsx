@@ -9,9 +9,9 @@ import { HStack, VStack } from 'src/shared/ui/Stack';
 import PlusSvg from 'src/shared/assets/icons/plus.svg';
 import CrossSvg from 'src/shared/assets/icons/cross.svg';
 import Input from 'src/shared/ui/Kit/Input/Input';
-import List, { ListItem } from 'src/shared/ui/Stack/List/List';
+import { ListItem } from 'src/shared/ui/Stack/List/List';
 import { DraggableItem } from 'src/shared/ui/Kit/Draggable/Draggable';
-import SwapList from 'src/shared/ui/Kit/SwapList/SwapList';
+import { SwapList } from 'src/shared/ui/Kit/SwapList';
 import cls from './NestingList.module.scss';
 import NestingList from './NestingList';
 
@@ -48,84 +48,90 @@ const WriteMode = (props: WriteModeProps) => {
             align="center"
             {...otherProps}
         >
-            <List
+            <SwapList
                 className={cls.list}
+                direction="column"
+                list={postList}
+                mode="offset"
                 gap={8}
+                onChange={(v) => {
+                    // console.log(v.map(([x]) => x));
+                }}
+                onBlur={(v) => {
+                    onChange(v);
+                }}
             >
-                <SwapList
-                    direction="y"
-                    list={postList}
-                >
-                    {([title, content], i) => (
-                        <VStack
-                            key={`${nestingLevel} ${i}`}
-                            className={classNames(cls.titleContent)}
+                {([title, content], i) => (
+                    <VStack
+                        key={`${nestingLevel} ${i}`}
+                        className={cls.titleContent}
+                        style={{
+                            borderColor: getRgbGradient(nestingLevel, {}),
+                        }}
+                    >
+                        <HStack
+                            className={classNames(cls.title)}
                             style={{
-                                borderColor: getRgbGradient(nestingLevel, {}),
+                                '--color': getRgbGradient(nestingLevel, {
+                                    alpha: 0.4,
+                                }),
                             }}
+                            justify="between"
                         >
-                            <HStack
-                                className={classNames(cls.title)}
-                                style={{
-                                    '--color': getRgbGradient(nestingLevel, {
-                                        alpha: 0.4,
-                                    }),
+                            <DraggableItem>
+                                <ListItem>
+                                    <Input
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                        }}
+                                        value={title}
+                                        onChange={(e) => {
+                                            const newQuestion = e.target.value;
+                                            const newList = postList.toSpliced(i, 1, [newQuestion, postList[i][1]]);
+                                            onChange(newList);
+                                        }}
+                                        placeholder={`Блок номер ${i + 1}`}
+                                    />
+                                </ListItem>
+                            </DraggableItem>
+                            <CrossSvg
+                                onClick={() => {
+                                    const newList = postList.toSpliced(i, 1);
+                                    setPostList(newList);
+                                    onChange(newList);
                                 }}
-                                justify="between"
-                            >
-                                <DraggableItem>
-                                    <ListItem>
-                                        <Input
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                            }}
-                                            value={title}
-                                            onChange={(e) => {
-                                                const newQuestion = e.target.value;
-                                                const newList = postList.toSpliced(i, 1, [newQuestion, postList[i][1]]);
-                                                onChange(newList);
-                                            }}
-                                        />
-                                    </ListItem>
-                                </DraggableItem>
-                                <CrossSvg
-                                    onClick={() => {
-                                        const newList = postList.toSpliced(i, 1);
-                                        setPostList(newList);
+                            />
+                        </HStack>
+                        {(Array.isArray(content)
+                            ? (
+                                <WriteMode
+                                    list={content}
+                                    nestingLevel={nestingLevel + 1}
+                                    index={i}
+                                    onChange={(newContent) => {
+                                        const newList = postList.toSpliced(i, 1, [postList[i][0], newContent]);
                                         onChange(newList);
                                     }}
                                 />
-                            </HStack>
-                            {(Array.isArray(content)
-                                ? (
-                                    <WriteMode
-                                        list={content}
-                                        nestingLevel={nestingLevel + 1}
-                                        index={i}
-                                        onChange={(newContent) => {
-                                            const newList = postList.toSpliced(i, 1, [postList[i][0], newContent]);
-                                            onChange(newList);
-                                        }}
-                                    />
-                                )
-                                : (
-                                    <Input
-                                        style={{
-                                            maxWidth: '100%',
-                                        }}
-                                        type="textarea"
-                                        defaultValue={content}
-                                        onChange={(e) => {
-                                            const newAnswer = e.target.value;
-                                            const newList = postList.toSpliced(i, 1, [postList[i][0], newAnswer]);
-                                            onChange(newList);
-                                        }}
-                                    />
-                                ))}
-                        </VStack>
-                    )}
-                </SwapList>
-            </List>
+                            )
+                            : (
+                                <Input
+                                    style={{
+                                        maxWidth: '100%',
+                                    }}
+                                    type="textarea"
+                                    placeholder={`Ответ номер ${i + 1}`}
+                                    value={content}
+                                    onChange={(e) => {
+                                        const newAnswer = e.target.value;
+                                        const newList = postList.toSpliced(i, 1, [postList[i][0], newAnswer]);
+                                        onChange(newList);
+                                    }}
+                                />
+                            ))}
+                    </VStack>
+                )}
+            </SwapList>
             <HStack
                 gap={16}
                 align="center"

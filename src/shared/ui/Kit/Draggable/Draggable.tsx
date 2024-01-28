@@ -14,10 +14,12 @@ type El = HTMLElement | undefined;
 
 interface DraggableProps extends Omit<UseDragProps, 'elemenetRef'> {
     children: ReactNode
+    className: string
 }
 
 const Draggable = (props: DraggableProps, ref: ForwardedRef<El>) => {
     const {
+        className,
         children,
         onStart,
         onEnd,
@@ -31,22 +33,22 @@ const Draggable = (props: DraggableProps, ref: ForwardedRef<El>) => {
     );
 
     const userSelectStyleSave = document.body.style.userSelect;
-    let zIndexStyleSave: string;
+    let classNameSave: string;
 
     useDrag({
         elemenetRef: childrenRef,
         onStart: () => {
             document.body.style.userSelect = 'none';
             if (childrenRef.current) {
-                const zIndexStyleSave = childrenRef.current.style.zIndex;
-                childrenRef.current.style.zIndex = '1000';
+                classNameSave = childrenRef.current.className;
+                childrenRef.current.className += ` ${cls.isDragged}`;
             }
             onStart?.();
         },
         onEnd: (trans) => {
             document.body.style.userSelect = userSelectStyleSave;
             if (childrenRef.current) {
-                childrenRef.current.style.zIndex = zIndexStyleSave;
+                childrenRef.current.className = classNameSave;
             }
             onEnd?.(trans);
         },
@@ -56,6 +58,7 @@ const Draggable = (props: DraggableProps, ref: ForwardedRef<El>) => {
     return (
         cloneElement(children, {
             ref: childrenRef,
+            // className,
         })
     );
 };

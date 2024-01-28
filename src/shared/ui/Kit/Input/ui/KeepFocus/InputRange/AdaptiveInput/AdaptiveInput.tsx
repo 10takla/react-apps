@@ -51,7 +51,9 @@ const AdaptiveInput = (props: AdaptiveInputProps, ref: ForwardedRef<HTMLInput>) 
     const copyStylesFromInput = useCallback(() => {
         if (inputRef.current && span) {
             const inputStyles = window.getComputedStyle(inputRef.current);
-            const injectStyles = ['font', 'font-size', 'font-family', 'padding-bottom', 'padding-left', 'padding-right', 'padding-top'];
+            const injectStyles = ['font', 'font-size', 'font-family', 
+            'padding-bottom', 'padding-left', 'padding-right', 
+            'padding-top'];
 
             Array.from(inputStyles)
                 .forEach((styleKey) => {
@@ -108,9 +110,9 @@ const AdaptiveInput = (props: AdaptiveInputProps, ref: ForwardedRef<HTMLInput>) 
                 ...adaptiveStyeles,
             }}
             type={type}
-            defaultValue={value}
             placeholder={placeholder}
             ref={inputRef}
+            value={value || ''}
             {...otherProps}
         />
     );
