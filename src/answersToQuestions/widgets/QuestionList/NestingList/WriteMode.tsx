@@ -2,6 +2,8 @@ import {
     ComponentProps,
     useState,
     useEffect,
+    forwardRef,
+    useCallback,
 } from 'react';
 import { classNames } from 'src/shared/lib/classNames/classNames';
 import getRgbGradient from 'src/shared/lib/getRgbGradient/getRgbGradient';
@@ -12,8 +14,187 @@ import Input from 'src/shared/ui/Kit/Input/Input';
 import { ListItem } from 'src/shared/ui/Stack/List/List';
 import { DraggableItem } from 'src/shared/ui/Kit/Draggable/Draggable';
 import { SwapList } from 'src/shared/ui/Kit/SwapList';
+import RadioButtonSvg from 'src/shared/assets/icons/radio_button.svg';
+import { FoldTransition } from 'src/shared/ui/Animations/FoldTransition';
+import { Button } from 'src/shared/ui/Kit/Button';
 import cls from './NestingList.module.scss';
 import NestingList from './NestingList';
+
+const Tmp = forwardRef(({
+    isHide, isTotalHide, isFold, nestingLevel, title,
+    postList, onChange, isChatGpt,
+    setPostList, content, i,
+}, ref) => {
+    const [isPostHide, setIsPostHide] = useState(isHide);
+    useEffect(() => {
+        setIsPostHide(isHide);
+    }, [isHide]);
+    useEffect(() => {
+        setIsPostHide(isTotalHide);
+    }, [isTotalHide]);
+
+    const [isPostFold, setIsPostFold] = useState(isFold);
+    useEffect(() => {
+        setIsPostFold(isFold);
+    }, [isFold]);
+
+    const [isSendChat, setIsSendChat] = useState(isChatGpt);
+    useEffect(() => {
+        setIsSendChat(isChatGpt);
+    }, [isChatGpt]);
+
+    const [isChatError, setIsChatError] = useState(false);
+
+    const onChangeByAnswer = useCallback((newAnswer: string) => {
+        const newList = postList.toSpliced(i, 1, [postList[i][0], newAnswer]);
+        onChange(newList);
+    }, [i, onChange, postList]);
+
+    useEffect(() => {
+        if (isSendChat && typeof content === 'string') {
+            console.log(title);
+            new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve();
+                    // reject();
+                }, 1000);
+            })
+                .then(() => {
+                    const newAnswer = 'chat gpt';
+                    onChangeByAnswer(newAnswer);
+                    setIsChatError(false);
+                })
+                .catch(() => {
+                    const newAnswer = 'chat g';
+                    onChangeByAnswer(newAnswer);
+                    setIsChatError(true);
+                })
+                .finally(() => {
+                    setIsSendChat(false);
+                });
+        }
+    }, [content, i, isSendChat, onChange, onChangeByAnswer, postList, title]);
+
+    return (
+        <VStack
+            ref={ref}
+            className={cls.titleContent}
+            style={{
+                borderColor: getRgbGradient(nestingLevel, {}),
+            }}
+        >
+            <HStack
+                className={classNames(cls.title)}
+                style={{
+                    '--color': getRgbGradient(nestingLevel, {
+                        alpha: 0.4,
+                        saturation: isPostHide ? 50 : 100,
+                    }),
+                }}
+                justify="between"
+                onClick={() => {
+                    if (!isPostHide) {
+                        setIsPostFold(!isPostFold);
+                    } else {
+                        setIsPostHide(false);
+                    }
+                }}
+            >
+                <DraggableItem>
+                    <ListItem>
+                        <Input
+                            onClick={(e) => {
+                                e.stopPropagation();
+                            }}
+                            value={title}
+                            onChange={(e) => {
+                                const newQuestion = e.target.value;
+                                const newList = postList.toSpliced(i, 1, [newQuestion, postList[i][1]]);
+                                onChange(newList);
+                            }}
+                            placeholder={`Блок номер ${i + 1}`}
+                        />
+                    </ListItem>
+                </DraggableItem>
+                <HStack>
+                    {((Array.isArray(content) && (() => {
+                        const t = (v) => {
+                            return v.some(([_, answerOrList]) => {
+                                if (Array.isArray(answerOrList)) {
+                                    return t(answerOrList);
+                                }
+                                return !answerOrList.length;
+                            });
+                        };
+                        return t(content);
+                    })())
+                        || (!content.length || isChatError)) && (
+                        isSendChat
+                            ? <span>ожидание</span>
+                            : (
+                                <Button
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setIsSendChat(!isSendChat);
+                                    }}
+                                >
+                                    ChatGPT
+                                </Button>
+                            )
+                    )}
+                    <CrossSvg
+                        onClick={() => {
+                            const newList = postList.toSpliced(i, 1);
+                            setPostList(newList);
+                            onChange(newList);
+                        }}
+                    />
+                    {Array.isArray(content) && (
+                        <RadioButtonSvg
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setIsPostHide(!isPostHide);
+                            }}
+                        />
+                    )}
+                </HStack>
+            </HStack>
+            {!isPostHide && (Array.isArray(content)
+                ? (
+                    <WriteMode
+                        isHide={isPostHide}
+                        isFold={isPostFold}
+                        list={content}
+                        nestingLevel={nestingLevel + 1}
+                        index={i}
+                        isChatGpt={isSendChat}
+                        onChange={(newContent) => {
+                            const newList = postList.toSpliced(i, 1, [postList[i][0], newContent]);
+                            onChange(newList);
+                        }}
+                    />
+                )
+                : (
+                    <FoldTransition
+                        in={!isPostFold}
+                        timeout={100}
+                    >
+                        <Input
+                            className={classNames('', { [cls.isError]: isChatError })}
+                            type="textarea"
+                            placeholder={`Ответ номер ${i + 1}`}
+                            value={content}
+                            onChange={(e) => {
+                                const newAnswer = e.target.value;
+                                onChangeByAnswer(newAnswer);
+                                setIsChatError(false);
+                            }}
+                        />
+                    </FoldTransition>
+                ))}
+        </VStack>
+    );
+});
 
 type NestingArray = Array<[string, string | NestingArray]>
 
@@ -29,6 +210,9 @@ const WriteMode = (props: WriteModeProps) => {
         className,
         children,
         onChange,
+        isFold,
+        isHide,
+        isChatGpt,
         ...otherProps
     } = props;
 
@@ -37,6 +221,7 @@ const WriteMode = (props: WriteModeProps) => {
         setPostList(list);
     }, [list]);
 
+    const [isTotalHide, setIsTotalHide] = useState(isHide);
     return (
         <VStack
             className={classNames(cls.NestingList, {}, [className])}
@@ -53,83 +238,38 @@ const WriteMode = (props: WriteModeProps) => {
                 direction="column"
                 list={postList}
                 mode="offset"
+                type="numeric"
                 gap={8}
-                onChange={(v) => {
-                    // console.log(v.map(([x]) => x));
+                draggableProps={{
+                    step: 1,
+                    onStart: () => {
+                        setIsTotalHide(true);
+                    },
+                    onEnd: () => {
+                        setIsTotalHide(false);
+                    },
                 }}
                 onBlur={(v) => {
                     onChange(v);
                 }}
             >
                 {([title, content], i) => (
-                    <VStack
+                    <Tmp
                         key={`${nestingLevel} ${i}`}
-                        className={cls.titleContent}
-                        style={{
-                            borderColor: getRgbGradient(nestingLevel, {}),
+                        {...{
+                            isHide,
+                            isTotalHide,
+                            isFold,
+                            isChatGpt,
+                            nestingLevel,
+                            title,
+                            postList,
+                            onChange,
+                            setPostList,
+                            content,
+                            i,
                         }}
-                    >
-                        <HStack
-                            className={classNames(cls.title)}
-                            style={{
-                                '--color': getRgbGradient(nestingLevel, {
-                                    alpha: 0.4,
-                                }),
-                            }}
-                            justify="between"
-                        >
-                            <DraggableItem>
-                                <ListItem>
-                                    <Input
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                        }}
-                                        value={title}
-                                        onChange={(e) => {
-                                            const newQuestion = e.target.value;
-                                            const newList = postList.toSpliced(i, 1, [newQuestion, postList[i][1]]);
-                                            onChange(newList);
-                                        }}
-                                        placeholder={`Блок номер ${i + 1}`}
-                                    />
-                                </ListItem>
-                            </DraggableItem>
-                            <CrossSvg
-                                onClick={() => {
-                                    const newList = postList.toSpliced(i, 1);
-                                    setPostList(newList);
-                                    onChange(newList);
-                                }}
-                            />
-                        </HStack>
-                        {(Array.isArray(content)
-                            ? (
-                                <WriteMode
-                                    list={content}
-                                    nestingLevel={nestingLevel + 1}
-                                    index={i}
-                                    onChange={(newContent) => {
-                                        const newList = postList.toSpliced(i, 1, [postList[i][0], newContent]);
-                                        onChange(newList);
-                                    }}
-                                />
-                            )
-                            : (
-                                <Input
-                                    style={{
-                                        maxWidth: '100%',
-                                    }}
-                                    type="textarea"
-                                    placeholder={`Ответ номер ${i + 1}`}
-                                    value={content}
-                                    onChange={(e) => {
-                                        const newAnswer = e.target.value;
-                                        const newList = postList.toSpliced(i, 1, [postList[i][0], newAnswer]);
-                                        onChange(newList);
-                                    }}
-                                />
-                            ))}
-                    </VStack>
+                    />
                 )}
             </SwapList>
             <HStack

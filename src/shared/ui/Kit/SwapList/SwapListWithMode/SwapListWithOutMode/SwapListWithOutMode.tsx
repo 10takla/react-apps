@@ -4,12 +4,12 @@ import {
     ForwardedRef,
     ReactNode,
     forwardRef,
-    memo,
     useCallback,
-    useEffect,
     useImperativeHandle,
     useRef,
+    memo,
     useState,
+    useEffect,
 } from 'react';
 import { Direction } from 'src/wordLearner/shared/lib/direction/direction';
 import { classNames } from 'src/shared/lib/classNames/classNames';
@@ -32,6 +32,11 @@ interface SwapListWithOutModeProps<T> extends Exclude<ComponentProps<typeof Flex
     transalteByMode: (itemRects: DOMRect[], swap: Swap, i: number) => Vector | undefined
     getNewListByMode: (postList: T[], swap: Swap) => T[]
     dragClassesByMode: (swap: Swap, i: number) => string
+    draggableProps?: ComponentProps<typeof Draggable> & {
+        onStart?: (trans: Vector, i: number) => void,
+        onEnd?: (trans: Vector, i: number) => void,
+        onMove?: (trans: Vector, swap: Swap, i: number) => void,
+    }
 }
 
 type El = ElementRef<typeof List>
@@ -47,9 +52,15 @@ const SwapListWithOutMode = <T extends string>(props: SwapListWithOutModeProps<T
         onBlur,
         transalteByMode,
         getNewListByMode,
+        draggableProps = {},
         ...otherProps
     } = props;
-
+    const {
+        onStart,
+        onEnd,
+        onMove,
+        ...otherDraggableProps
+    } = draggableProps;
     const rootRef = useRef<HTMLDivElement>(null);
     useImperativeHandle<El, El>(
         ref,
@@ -61,7 +72,7 @@ const SwapListWithOutMode = <T extends string>(props: SwapListWithOutModeProps<T
     useEffect(() => {
         setPostList(list);
     }, [list]);
-    
+
     const [toI, setToI] = useState<number>();
     const [fromI, setFromI] = useState<number>();
     const swap = useRef<Swap>();
@@ -73,7 +84,7 @@ const SwapListWithOutMode = <T extends string>(props: SwapListWithOutModeProps<T
         return postList;
     }, [postList, getNewListByMode]);
 
-    const onEnd = useCallback(() => {
+    const onPostEnd = useCallback((trans, i) => {
         if (swap.current) {
             setPostList(getNewList());
             onBlur?.(getNewList());
@@ -81,9 +92,11 @@ const SwapListWithOutMode = <T extends string>(props: SwapListWithOutModeProps<T
         swap.current = undefined;
         setFromI(undefined);
         setToI(undefined);
-    }, [getNewList, onBlur]);
 
-    const onMove = useCallback((trans: Vector, i: number) => {
+        onEnd?.(trans, i);
+    }, [getNewList, onBlur, onEnd]);
+
+    const onPostMove = useCallback((trans: Vector, i: number) => {
         const currRect = itemRectsRef.current[i];
 
         const findIndex = itemRectsRef.current
@@ -132,7 +145,6 @@ const SwapListWithOutMode = <T extends string>(props: SwapListWithOutModeProps<T
             });
 
         if (findIndex !== -1) {
-            setFromI(i);
             setToI(findIndex);
             if (!swap.current || (swap.current && swap.current.fromI !== i || swap.current.toI !== findIndex)) {
                 swap.current = { fromI: i, toI: findIndex };
@@ -143,10 +155,11 @@ const SwapListWithOutMode = <T extends string>(props: SwapListWithOutModeProps<T
                 swap.current = undefined;
                 onChange?.(getNewList());
             }
-            setFromI(undefined);
             setToI(undefined);
         }
-    }, [direction, onChange, getNewList]);
+
+        onMove?.(trans, itemRectsRef.current, swap.current, i);
+    }, [onMove, direction, onChange, getNewList]);
 
     const setTranslate = useCallback((i: number) => {
         if (fromI !== undefined && toI !== undefined) {
@@ -157,7 +170,6 @@ const SwapListWithOutMode = <T extends string>(props: SwapListWithOutModeProps<T
         }
         return new Vector(0, 0);
     }, [fromI, toI, transalteByMode]);
-
     return (
         <List
             className={classNames(cls.SwapListWithOutMode, [className])}
@@ -165,27 +177,30 @@ const SwapListWithOutMode = <T extends string>(props: SwapListWithOutModeProps<T
             {...{ direction, ...otherProps }}
         >
             {postList.map((item, i) => (
-                <Draggable
-                    className={classNames(
-                        cls.item,
-                        [dragClassesByMode({ fromI, toI }, i)],
-                    )}
+                <div
                     key={i}
                     ref={(el) => {
                         if (el) {
-                            if (!itemRectsRef.current[i]) { // для единоразовой инициализации
-                                itemRectsRef.current[i] = el.getBoundingClientRect();
-                            }
+                            itemRectsRef.current[i] = el.getBoundingClientRect();
                         }
                     }}
-                    rootRef={rootRef}
-                    direction={new Direction(direction).get('x')}
-                    translate={setTranslate(i)}
-                    onMove={(trans) => onMove(trans, i)}
-                    onEnd={onEnd}
                 >
-                    {children(item, i)}
-                </Draggable>
+                    <Draggable
+                        {...otherDraggableProps}
+                        className={dragClassesByMode({ fromI, toI }, i)}
+                        rootRef={rootRef}
+                        direction={new Direction(direction).get('x')}
+                        translate={setTranslate(i)}
+                        onStart={() => {
+                            setFromI(i);
+                            onStart?.(i);
+                        }}
+                        onMove={(trans) => onPostMove(trans, i)}
+                        onEnd={onPostEnd}
+                    >
+                        {children(item, i)}
+                    </Draggable>
+                </div>
             ))}
         </List>
     );

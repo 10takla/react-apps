@@ -55,14 +55,13 @@ const NestingList = (props: NestingListProps) => {
                 }, [isFold]);
 
                 const [isPostHide, setIsPostHide] = useState(isHide);
-
                 useEffect(() => {
                     setIsPostHide(isHide);
                 }, [isHide]);
 
                 return (
                     <VStack
-                        key={title}
+                        key={`${nestingLevel} ${i}`}
                         className={classNames(cls.titleContent)}
                         align="stretch"
                         style={{

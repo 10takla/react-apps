@@ -3,6 +3,7 @@ import {
     ElementRef,
     ForwardedRef,
     ReactNode, cloneElement, forwardRef, memo, useImperativeHandle, useRef,
+    useState,
 } from 'react';
 import DragSvg from 'src/shared/assets/icons/drag.svg';
 import { classNames } from 'src/shared/lib/classNames/classNames';
@@ -32,24 +33,19 @@ const Draggable = (props: DraggableProps, ref: ForwardedRef<El>) => {
         () => childrenRef.current,
     );
 
+    const [isDragged, setIsDragged] = useState(false);
     const userSelectStyleSave = document.body.style.userSelect;
-    let classNameSave: string;
 
     useDrag({
         elemenetRef: childrenRef,
         onStart: () => {
             document.body.style.userSelect = 'none';
-            if (childrenRef.current) {
-                classNameSave = childrenRef.current.className;
-                childrenRef.current.className += ` ${cls.isDragged}`;
-            }
+            setIsDragged(true);
             onStart?.();
         },
         onEnd: (trans) => {
             document.body.style.userSelect = userSelectStyleSave;
-            if (childrenRef.current) {
-                childrenRef.current.className = classNameSave;
-            }
+            setIsDragged(false);
             onEnd?.(trans);
         },
         ...otherProps,
@@ -58,7 +54,11 @@ const Draggable = (props: DraggableProps, ref: ForwardedRef<El>) => {
     return (
         cloneElement(children, {
             ref: childrenRef,
-            // className,
+            className: classNames(
+                cls.Draggable,
+                { [cls.isDragged]: isDragged },
+                [children.props.className, className],
+            ),
         })
     );
 };
@@ -78,12 +78,14 @@ export const DraggableItem = forwardRef(
 
         return (
             <HStack
-                className={classNames(cls.Draggable)}
                 ref={ref}
                 {...otherProps}
             >
                 <DragSvg
                     data-drag
+                    onClick={(e) => {
+                        e.stopPropagation();
+                    }}
                 />
                 {children}
             </HStack>

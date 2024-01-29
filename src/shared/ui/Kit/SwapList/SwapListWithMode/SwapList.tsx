@@ -3,6 +3,8 @@ import {
     ForwardedRef,
     forwardRef,
     memo,
+    useCallback,
+    useState,
 } from 'react';
 import { classNames } from 'src/shared/lib/classNames/classNames';
 import Vector from 'src/shared/lib/geometry/vector';
@@ -16,6 +18,8 @@ interface SwapListProps extends ComponentProps<typeof SwapListWithOutMode> {
 const SwapList = (props: SwapListProps, ref: ForwardedRef<El>) => {
     const {
         mode = 'swap',
+        draggableProps = {},
+        direction,
         ...otherProps
     } = props;
 
@@ -29,13 +33,14 @@ const SwapList = (props: SwapListProps, ref: ForwardedRef<El>) => {
             }
         },
         offset: (itemRects, swap, i) => {
-            const nearItemIndex = i + Math.sign(swap.fromI - swap.toI);
+            const directionIndex = Math.sign(swap.fromI - swap.toI);
             const [leftBound, rightBound] = [swap.fromI, swap.toI].sort();
-            if (leftBound <= i && i <= rightBound && itemRects[nearItemIndex]) {
-                const currItem = new Vector(itemRects[i]);
-                const nearItem = new Vector(itemRects[nearItemIndex]);
 
-                return nearItem.sub(currItem);
+            if (leftBound <= i && i <= rightBound) {
+                return new Vector(
+                    directionIndex * itemRects[swap.fromI].width,
+                    directionIndex * itemRects[swap.fromI].height,
+                );
             }
         },
     };
@@ -58,15 +63,46 @@ const SwapList = (props: SwapListProps, ref: ForwardedRef<El>) => {
         },
     };
 
+    const [isTrunOffCurrDragged, setIsTurnOffCurrDragged] = useState(false);
     const dragClassesByMode = {
         swap: (swap, i) => '',
         offset: (swap, i) => {
             return classNames('', {
                 [cls.isSomeDragged]: swap?.fromI !== undefined,
-                [cls.isCurrDragged]: swap?.fromI === i,
+                [cls.isCurrDragged]: !isTrunOffCurrDragged && swap?.fromI === i,
             });
         },
     };
+
+    const onMove = useCallback((trans: Vector, itemRects, swap, i: number) => {
+        // эффукт резких перемещний при swap
+        // НЕДОРАБОТАНО
+        // if (swap) {
+        //     const directionIndex = Math.sign(swap.fromI - swap.toI);
+        //     const toRect = itemRects[swap.toI];
+        //     const fromRect = itemRects[swap.fromI];
+
+        //     let stop;
+        //     if (directionIndex === 1) {
+        //         stop = new Vector(0, toRect.top - fromRect.top);
+        //     } else {
+        //         stop = new Vector(0, toRect.bottom - fromRect.bottom);
+        //     }
+
+        //     const dirs = new Direction(direction).get('x');
+
+        //     if (directionIndex === 1 ? trans[dirs] > stop[dirs] : trans[dirs] < stop[dirs]) {
+        //         trans.set(stop);
+        //         setIsTurnOffCurrDragged(true);
+        //     } else {
+        //         setIsTurnOffCurrDragged(false);
+        //     }
+        // } else {
+        //     setIsTurnOffCurrDragged(false);
+        // }
+
+        draggableProps.onMove?.(trans, i);
+    }, [direction, draggableProps]);
 
     return (
         <SwapListWithOutMode
@@ -75,7 +111,12 @@ const SwapList = (props: SwapListProps, ref: ForwardedRef<El>) => {
             dragClassesByMode={(swap, i) => {
                 return dragClassesByMode[mode](swap, i);
             }}
+            draggableProps={{
+                onMove,
+                ...draggableProps,
+            }}
             ref={ref}
+            direction={direction}
             {...otherProps}
         />
     );
