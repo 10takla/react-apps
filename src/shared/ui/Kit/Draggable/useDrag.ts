@@ -113,9 +113,8 @@ export default (props: UseDragProps) => {
                             }
                         });
                     }
-
-                    setTransform(translate);
                     onMove?.(translate);
+                    setTransform(translate);
                 },
                 onEnd: (v) => {
                     setTransform(v);

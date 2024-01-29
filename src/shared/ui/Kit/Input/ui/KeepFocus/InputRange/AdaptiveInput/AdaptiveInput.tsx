@@ -38,12 +38,14 @@ const AdaptiveInput = (props: AdaptiveInputProps, ref: ForwardedRef<HTMLInput>) 
 
     const updateWidthBySpanValue = useCallback((newValue: string) => {
         if (span) {
-            span.textContent = newValue;
+            span.textContent = newValue?.replace(/\n$/, '\n ') || ' '; // ' ' - чтобы произвести минимальный размер
             const spanRect = span.getBoundingClientRect();
+            const width = window.getComputedStyle(inputRef.current).getPropertyValue('max-width');
+            const height = window.getComputedStyle(inputRef.current).getPropertyValue('max-height');
 
             setAdaptiveStyeles({
-                width: spanRect.width + 10,
-                height: spanRect.height,
+                width: width === 'none' && spanRect.width + 1,
+                height: height === 'none' && spanRect.height,
             });
         }
     }, [span]);
@@ -51,9 +53,9 @@ const AdaptiveInput = (props: AdaptiveInputProps, ref: ForwardedRef<HTMLInput>) 
     const copyStylesFromInput = useCallback(() => {
         if (inputRef.current && span) {
             const inputStyles = window.getComputedStyle(inputRef.current);
-            const injectStyles = ['font', 'font-size', 'font-family', 
-            'padding-bottom', 'padding-left', 'padding-right', 
-            'padding-top'];
+            const injectStyles = ['font', 'font-size', 'font-family',
+                'padding-bottom', 'padding-left', 'padding-right',
+                'padding-top'];
 
             Array.from(inputStyles)
                 .forEach((styleKey) => {
@@ -68,13 +70,15 @@ const AdaptiveInput = (props: AdaptiveInputProps, ref: ForwardedRef<HTMLInput>) 
 
     // инициализация span и начльной width
     useEffect(() => {
-        const span = document.createElement('div');
+        const span = document.createElement('вшм');
 
         span.style.position = 'absolute';
         span.style.top = '0';
         span.style.left = '0';
-        span.style.whiteSpace = 'pre';
+        span.style.whiteSpace = 'pre-wrap';
+        span.style.overflowWrap = 'break-word';
         span.style.visibility = 'hidden';
+        span.style.maxWidth = `${inputRef.current?.getBoundingClientRect().width}px`;
 
         document.body.appendChild(span);
         setSpan(span);

@@ -46,6 +46,7 @@ const NestingList = (props: NestingListProps) => {
                 '--index': nestingLevel,
             }}
             gap={16}
+            type="numeric"
             {...otherProps}
         >
             {postList.map(([title, content], i) => {
@@ -55,14 +56,13 @@ const NestingList = (props: NestingListProps) => {
                 }, [isFold]);
 
                 const [isPostHide, setIsPostHide] = useState(isHide);
-
                 useEffect(() => {
                     setIsPostHide(isHide);
                 }, [isHide]);
 
                 return (
                     <VStack
-                        key={title}
+                        key={`${nestingLevel} ${i}`}
                         className={classNames(cls.titleContent)}
                         align="stretch"
                         style={{

@@ -5,6 +5,7 @@ import { HStack, VStack } from 'src/shared/ui/Stack';
 import ArrowUpSvg from 'src/shared/assets/icons/arrows/arrow_up.svg';
 import { classNames } from 'src/shared/lib/classNames/classNames';
 import RadioButtonSvg from 'src/shared/assets/icons/radio_button.svg';
+import { Button } from 'src/shared/ui/Kit/Button';
 import cls from './QuestionList.module.scss';
 import NestingList from './NestingList/NestingList';
 import WriteMode from './NestingList/WriteMode';
@@ -22,7 +23,8 @@ const QuestionList = (props: QuestionListProps) => {
         onChange,
     } = props;
     const [isHide, setIsHide] = useState(false);
-    const [isFold, setIsFold] = useState(true);
+    const [isFold, setIsFold] = useState(false);
+    const [isChatGpt, setIsChatGpt] = useState(false);
     const [fontSize, setFontSize] = useState(1);
 
     const els = useMemo(() => {
@@ -48,10 +50,13 @@ const QuestionList = (props: QuestionListProps) => {
                     onChange={(v) => {
                         onChange?.(v);
                     }}
+                    isHide={isHide}
+                    isFold={isFold}
+                    isChatGpt={isChatGpt}
                 />
             ),
         };
-    }, [fontSize, isFold, isHide, onChange, questions]);
+    }, [fontSize, isChatGpt, isFold, isHide, onChange, questions]);
 
     return (
         <VStack
@@ -75,6 +80,15 @@ const QuestionList = (props: QuestionListProps) => {
                     }}
                 />
                 <HStack gap={8} className={cls.hideFold}>
+                    {mode === 'write' && (
+                        <Button
+                            onClick={() => {
+                                setIsChatGpt(!isChatGpt);
+                            }}
+                        >
+                            ChatGpt
+                        </Button>
+                    )}
                     <RadioButtonSvg
                         onClick={() => {
                             setIsHide(!isHide);

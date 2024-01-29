@@ -18,6 +18,19 @@ class Vector {
         }
     }
 
+    set(arg1: number | MouseEvent | DOMRect | Vector, arg2?: number): Vector {
+        let vector: Vector;
+
+        if (arg1 instanceof Vector) {
+            vector = arg1;
+        } else {
+            vector = new Vector(arg1, arg2);
+        }
+
+        this.x = vector.x;
+        this.y = vector.y;
+    }
+
     add(v: Vector): Vector {
         return new Vector(this.x + v.x, this.y + v.y);
     }
