@@ -1,7 +1,7 @@
 import { memo, useState } from 'react';
 import { HStack } from 'src/shared/ui/Stack';
 import { classNames } from 'src/shared/lib/classNames/classNames';
-import { Scene } from 'src/game_of_life/app/ui/Scene/Scene';
+import { Scene } from 'src/wasm/app/ui/Scene/Scene';
 import PlaySvg from 'src/shared/assets/icons/reproduction/play.svg';
 import PauseSvg from 'src/shared/assets/icons/reproduction/pause.svg';
 import cls from './GameOfLife.module.scss';

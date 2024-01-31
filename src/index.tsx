@@ -22,7 +22,7 @@ const sites = {
     wordLearner: <WordLearner />,
     monitors: <Monitors />,
     answers: <AnswersToQuestions />,
-    game_of_life: <Wasm />,
+    wasm: <Wasm />,
 };
 
 root.render(
