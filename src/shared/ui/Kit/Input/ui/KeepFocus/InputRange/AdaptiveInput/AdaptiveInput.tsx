@@ -116,7 +116,7 @@ const AdaptiveInput = (props: AdaptiveInputProps, ref: ForwardedRef<HTMLInput>) 
             type={type}
             placeholder={placeholder}
             ref={inputRef}
-            value={value || ''}
+            defaultValue={value || ''}
             {...otherProps}
         />
     );
