@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
+import { HStack } from 'src/shared/ui/Stack';
+import { classNames } from 'src/shared/lib/classNames/classNames';
+import { Scene } from 'src/game_of_life/app/ui/Scene/Scene';
 import PlaySvg from 'src/shared/assets/icons/reproduction/play.svg';
 import PauseSvg from 'src/shared/assets/icons/reproduction/pause.svg';
-import cls from './App.module.scss';
-import { Scene } from './ui/Scene/Scene';
+import cls from './GameOfLife.module.scss';
 
 const Range = ({
     setState, min, max, value,
@@ -21,7 +23,15 @@ const Range = ({
     );
 };
 
-export const App = () => {
+interface GameOfLifeProps{
+
+}
+
+const GameOfLife = (props: GameOfLifeProps) => {
+    const {
+
+    } = props;
+
     const [trigger, setTrigger] = useState(0);
     const [isStart, setIsStart] = useState(false);
     const [speed, setSpeed] = useState(400);
@@ -29,7 +39,7 @@ export const App = () => {
     const [resol, setResol] = useState<[number, number, number]>([12, 12, 12]);
 
     return (
-        <div className={cls.App}>
+        <HStack className={classNames(cls.GameOfLife)}>
             <Scene
                 speed={speed}
                 trigger={trigger}
@@ -76,6 +86,8 @@ export const App = () => {
                     tick
                 </button>
             </div>
-        </div>
+        </HStack>
     );
 };
+
+export default memo(GameOfLife);

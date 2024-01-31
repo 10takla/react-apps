@@ -1,9 +1,9 @@
 import { App } from './app/App';
 
-const GameOfLife = () => {
+const Wasm = () => {
     return (
         <App />
     );
 };
 
-export default GameOfLife;
+export default Wasm;
