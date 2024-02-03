@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import AdaptiveInput from 'src/shared/ui/Kit/Input/ui/KeepFocus/InputRange/AdaptiveInput/AdaptiveInput';
+import Input from 'src/shared/ui/Kit/Input/Input';
 
 interface TestPageProps {
 
@@ -13,10 +13,10 @@ const TestPage = (props: TestPageProps) => {
     const [list, setList] = useState(Array(4).fill().map((_, i) => i));
     const [dir, setDir] = useState(true);
 
-    const [value, setValue] = useState('Привет');
+    const [value, setValue] = useState();
 
     useEffect(() => {
-        let i = 0;
+        const i = 0;
         // const interval = setInterval(() => {
         //     setValue((pre) => `${pre}s`);
         //     i += 1;
@@ -31,8 +31,10 @@ const TestPage = (props: TestPageProps) => {
                 background: 'red', padding: 10, width: 200,
             }}
             >
-                <AdaptiveInput
+                <Input
+                    // type="textarea"
                     value={value}
+                    placeholder='dsffsdf'
                 />
             </div>
             {/* <button onClick={() => setDir(!dir)}>dsfsfd</button>

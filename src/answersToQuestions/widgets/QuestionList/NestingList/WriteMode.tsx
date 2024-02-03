@@ -11,7 +11,6 @@ import { HStack, VStack } from 'src/shared/ui/Stack';
 import PlusSvg from 'src/shared/assets/icons/plus.svg';
 import CrossSvg from 'src/shared/assets/icons/cross.svg';
 import Input from 'src/shared/ui/Kit/Input/Input';
-import { ListItem } from 'src/shared/ui/Stack/List/List';
 import { DraggableItem } from 'src/shared/ui/Kit/Draggable/Draggable';
 import { SwapList } from 'src/shared/ui/Kit/SwapList';
 import RadioButtonSvg from 'src/shared/assets/icons/radio_button.svg';
@@ -22,6 +21,7 @@ import { AnswerScheme } from 'src/answersToQuestions/app/providers/AnswerProvide
 import { htmlToText } from 'html-to-text';
 import cls from './NestingList.module.scss';
 import NestingList from './NestingList';
+import { ListItem } from 'src/shared/ui/Stack/List/List';
 
 const Tmp = forwardRef(({
     isHide, isTotalHide, isFold, nestingLevel, title,
@@ -133,6 +133,7 @@ const Tmp = forwardRef(({
                                 const newList = postList.toSpliced(i, 1, [newQuestion, postList[i][1]]);
                                 onChange(newList);
                             }}
+                            type="textarea"
                             placeholder={`Блок номер ${i + 1}`}
                         />
                     </ListItem>
@@ -201,7 +202,7 @@ const Tmp = forwardRef(({
                         timeout={100}
                     >
                         <Input
-                            className={classNames('', { [cls.isError]: isChatError })}
+                            className={classNames(cls.content, { [cls.isError]: isChatError })}
                             type="textarea"
                             placeholder={`Ответ номер ${i + 1}`}
                             value={htmlToText(content, {
@@ -306,6 +307,7 @@ const WriteMode = (props: WriteModeProps) => {
             >
                 <Input
                     value={inputValue}
+                    type="textarea"
                     placeholder={`Вопрос номер ${list.length + 1}`}
                     onChange={(e) => {
                         const newValue = String(e.target.value);

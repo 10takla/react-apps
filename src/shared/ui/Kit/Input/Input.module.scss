@@ -1,10 +1,10 @@
 .Input {
   outline: 0.1em solid black;
   border: 0;
-  $padding: 0.5em;
+  $padding: 0.2em;
   padding: $padding;
-  border-radius: 0.3em;
-  min-width: 4em;
+  border-radius: 0.2em;
+  min-width: 2em;
   font-size: inherit;
 
   &[type="number"]::-webkit-inner-spin-button,

@@ -4,13 +4,21 @@
     >.list {
         width: 100%;
 
-        textarea  {
-            max-width: 100%;
+        .titleContent {
+            >.title {
+                textarea, input {
+                    width: 100%;
+                }
+            }
+    
+            >.content {
+                max-width: 100%;
             height: 100%;
             padding: 0.8em;
 
             &.isError {
                 border: red solid 0.4em;
+            }
             }
         }
     }

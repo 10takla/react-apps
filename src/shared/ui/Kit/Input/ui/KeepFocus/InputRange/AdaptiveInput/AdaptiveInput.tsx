@@ -32,6 +32,11 @@ const AdaptiveInput = (props: AdaptiveInputProps, ref: ForwardedRef<HTMLInput>) 
         setValue(preValue);
     }, [preValue]);
 
+    const onPostChange = useCallback((e) => {
+        const newValue = e.target.value;
+        setValue(newValue);
+    }, []);
+
     const inputRef = useRef<HTMLInputElement>(null);
     useImperativeHandle<HTMLInput, HTMLInput>(
         ref,
@@ -40,37 +45,56 @@ const AdaptiveInput = (props: AdaptiveInputProps, ref: ForwardedRef<HTMLInput>) 
 
     const contentRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
-        const content = document.createElement('div');
+        const wrapContent = document.createElement('pre');
+        wrapContent.className = cls.wrap;
+        document.body.appendChild(wrapContent);
 
+        const content = document.createElement('pre');
+        content.className = cls.content;
         if (inputRef.current) {
-            
+            const inputStyles = window.getComputedStyle(inputRef.current);
+            const injectStyles = ['font', 'font-size', 'font-family',
+                'padding-bottom', 'padding-left', 'padding-right',
+                'padding-top'];
+
+            Array.from(inputStyles)
+                .forEach((styleKey) => {
+                    if (injectStyles.includes(styleKey)) {
+                        const styleValue = inputStyles.getPropertyValue(styleKey);
+                        // @ts-ignore
+                        content.style[styleKey] = styleValue;
+                    }
+                });
+
+            inputRef.current.style.width = '100%';
+            const { width } = inputRef.current.getBoundingClientRect();
+            content.style.maxWidth = `${width}px`;
         }
 
-        content.className = cls.content;
-        document.body.appendChild(content);
+        wrapContent.appendChild(content);
         contentRef.current = content;
+
         return () => {
-            document.body.removeChild(content);
+            document.body.removeChild(wrapContent);
             contentRef.current = null;
         };
     }, []);
 
-    const [adaptiveStyeles, setAdaptiveStyeles] = useState({});
-
     useEffect(() => {
-        if (contentRef.current) {
-            contentRef.current.textContent = value || 's';
+        if (contentRef.current && inputRef.current) {
+            contentRef.current.textContent = value?.replace(/\n$/, '\n ') || placeholder || Array(1).fill(' ').join('');
 
-            const { width, height } = contentRef.current.getBoundingClientRect();
-            console.log(value, width, height);
-            setAdaptiveStyeles({ width });
+            const [width, height] = [
+                contentRef.current.scrollWidth,
+                contentRef.current.scrollHeight,
+            ];
+
+            inputRef.current.style.width = `${width + 1}px`;
+            if (type === 'textarea') {
+                inputRef.current.style.height = `${height + 1}px`;
+            }
         }
-    }, [value]);
-
-    const onPostChange = useCallback((e) => {
-        const newValue = e.target.value;
-        setValue(newValue);
-    }, []);
+    }, [placeholder, type, value]);
 
     return (
         <Tag
@@ -78,7 +102,6 @@ const AdaptiveInput = (props: AdaptiveInputProps, ref: ForwardedRef<HTMLInput>) 
             className={classNames(cls.AdaptiveInput, [className])}
             style={{
                 ...style,
-                ...adaptiveStyeles,
             }}
             type={type}
             placeholder={placeholder}
