@@ -40,15 +40,13 @@ const AdaptiveInput = (props: AdaptiveInputProps, ref: ForwardedRef<HTMLInput>) 
         if (span) {
             span.textContent = newValue?.replace(/\n$/, '\n ') || ' '; // ' ' - чтобы произвести минимальный размер
             const spanRect = span.getBoundingClientRect();
-            const width = window.getComputedStyle(inputRef.current).getPropertyValue('max-width');
-            const height = window.getComputedStyle(inputRef.current).getPropertyValue('max-height');
-
-            setAdaptiveStyeles({
-                width: width === 'none' && spanRect.width + 1,
-                height: height === 'none' && spanRect.height,
-            });
+            let sizes = { width: spanRect.width + 1 };
+            if (type === 'textarea') {
+                sizes = { ...sizes, height: spanRect.height };
+            }
+            setAdaptiveStyeles(sizes);
         }
-    }, [span]);
+    }, [span, type]);
 
     const copyStylesFromInput = useCallback(() => {
         if (inputRef.current && span) {
@@ -70,14 +68,10 @@ const AdaptiveInput = (props: AdaptiveInputProps, ref: ForwardedRef<HTMLInput>) 
 
     // инициализация span и начльной width
     useEffect(() => {
-        const span = document.createElement('вшм');
+        const span = document.createElement('div');
+        span.classList = [span.classList, cls.content].join(' ');
 
-        span.style.position = 'absolute';
-        span.style.top = '0';
-        span.style.left = '0';
-        span.style.whiteSpace = 'pre-wrap';
-        span.style.overflowWrap = 'break-word';
-        span.style.visibility = 'hidden';
+        // необходимо для того чтобы span не расширялся за пределы экрана
         span.style.maxWidth = `${inputRef.current?.getBoundingClientRect().width}px`;
 
         document.body.appendChild(span);
@@ -105,6 +99,9 @@ const AdaptiveInput = (props: AdaptiveInputProps, ref: ForwardedRef<HTMLInput>) 
         }
     }, [copyStylesFromInput, placeholder, updateWidthBySpanValue, value]);
 
+    useEffect(() => {
+        console.log(adaptiveStyeles);
+    }, [adaptiveStyeles]);
     return (
         <Tag
             tag={type === 'textarea' ? 'textarea' : 'input'}

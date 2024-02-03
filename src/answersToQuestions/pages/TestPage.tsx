@@ -1,6 +1,4 @@
-import { DraggableItem } from 'src/shared/ui/Kit/Draggable/Draggable';
 import { useState } from 'react';
-import SwapModeList from 'src/shared/ui/Kit/SwapList/ui/SwapModeList/SwapModeList';
 import Input from 'src/shared/ui/Kit/Input/Input';
 
 interface TestPageProps {
@@ -17,7 +15,7 @@ const TestPage = (props: TestPageProps) => {
 
     return (
         <>
-            <button onClick={() => setDir(!dir)}>dsfsfd</button>
+            {/* <button onClick={() => setDir(!dir)}>dsfsfd</button>
             <SwapModeList
                 mode="offset"
                 type={undefined}
@@ -41,6 +39,17 @@ const TestPage = (props: TestPageProps) => {
                 <Input
                     type="textarea"
                     style={{ maxWidth: '100%' }}
+                />
+            </div> */}
+            <div style={{
+                background: 'red', padding: 10, width: 200,
+            }}
+            >
+                <Input
+                    type="textarea"
+                    style={{
+                        // width: 100,
+                    }}
                 />
             </div>
 

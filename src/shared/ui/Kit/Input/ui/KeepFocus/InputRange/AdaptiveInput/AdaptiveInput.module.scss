@@ -1,5 +1,17 @@
 .AdaptiveInput {
+    max-width: 100%;
+
     &::-webkit-scrollbar {
         display: none;
     }
+}
+
+.content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    // visibility: hidden;
+    overflow: hidden;
 }
