@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import Input from 'src/shared/ui/Kit/Input/Input';
+import { useState, useEffect } from 'react';
+import AdaptiveInput from 'src/shared/ui/Kit/Input/ui/KeepFocus/InputRange/AdaptiveInput/AdaptiveInput';
 
 interface TestPageProps {
 
@@ -13,8 +13,28 @@ const TestPage = (props: TestPageProps) => {
     const [list, setList] = useState(Array(4).fill().map((_, i) => i));
     const [dir, setDir] = useState(true);
 
+    const [value, setValue] = useState('Привет');
+
+    useEffect(() => {
+        let i = 0;
+        // const interval = setInterval(() => {
+        //     setValue((pre) => `${pre}s`);
+        //     i += 1;
+        //     if (i === 10) {
+        //         clearInterval(interval);
+        //     }
+        // }, 1000);
+    }, []);
     return (
         <>
+            <div style={{
+                background: 'red', padding: 10, width: 200,
+            }}
+            >
+                <AdaptiveInput
+                    value={value}
+                />
+            </div>
             {/* <button onClick={() => setDir(!dir)}>dsfsfd</button>
             <SwapModeList
                 mode="offset"
@@ -41,17 +61,6 @@ const TestPage = (props: TestPageProps) => {
                     style={{ maxWidth: '100%' }}
                 />
             </div> */}
-            <div style={{
-                background: 'red', padding: 10, width: 200,
-            }}
-            >
-                <Input
-                    type="textarea"
-                    style={{
-                        // width: 100,
-                    }}
-                />
-            </div>
 
         </>
     );

@@ -1,0 +1,10 @@
+.ScenePage {
+    position: relative;
+
+    .controlPanel {
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        right: 0;
+    }
+}

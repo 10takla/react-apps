@@ -1,10 +1,9 @@
 import {
-    CSSProperties,
     ForwardedRef,
     HTMLProps, forwardRef, memo,
-    useCallback,
-    useEffect,
     useImperativeHandle, useRef,
+    useEffect,
+    useCallback,
     useState,
 } from 'react';
 import { classNames } from 'src/shared/lib/classNames/classNames';
@@ -19,13 +18,19 @@ type HTMLInput = HTMLInputElement | null
 
 const AdaptiveInput = (props: AdaptiveInputProps, ref: ForwardedRef<HTMLInput>) => {
     const {
-        value,
+        value: preValue,
         style,
         placeholder,
         type,
         className,
+        onChange,
         ...otherProps
     } = props;
+
+    const [value, setValue] = useState(preValue);
+    useEffect(() => {
+        setValue(preValue);
+    }, [preValue]);
 
     const inputRef = useRef<HTMLInputElement>(null);
     useImperativeHandle<HTMLInput, HTMLInput>(
@@ -33,75 +38,40 @@ const AdaptiveInput = (props: AdaptiveInputProps, ref: ForwardedRef<HTMLInput>) 
         () => inputRef.current,
     );
 
-    const [adaptiveStyeles, setAdaptiveStyeles] = useState<CSSProperties>({});
-    const [span, setSpan] = useState<HTMLDivElement>();
-
-    const updateWidthBySpanValue = useCallback((newValue: string) => {
-        if (span) {
-            span.textContent = newValue?.replace(/\n$/, '\n ') || ' '; // ' ' - чтобы произвести минимальный размер
-            const spanRect = span.getBoundingClientRect();
-            let sizes = { width: spanRect.width + 1 };
-            if (type === 'textarea') {
-                sizes = { ...sizes, height: spanRect.height };
-            }
-            setAdaptiveStyeles(sizes);
-        }
-    }, [span, type]);
-
-    const copyStylesFromInput = useCallback(() => {
-        if (inputRef.current && span) {
-            const inputStyles = window.getComputedStyle(inputRef.current);
-            const injectStyles = ['font', 'font-size', 'font-family',
-                'padding-bottom', 'padding-left', 'padding-right',
-                'padding-top'];
-
-            Array.from(inputStyles)
-                .forEach((styleKey) => {
-                    if (injectStyles.includes(styleKey)) {
-                        const styleValue = inputStyles.getPropertyValue(styleKey);
-                        // @ts-ignore
-                        span.style[styleKey] = styleValue;
-                    }
-                });
-        }
-    }, [span]);
-
-    // инициализация span и начльной width
+    const contentRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
-        const span = document.createElement('div');
-        span.classList = [span.classList, cls.content].join(' ');
+        const content = document.createElement('div');
 
-        // необходимо для того чтобы span не расширялся за пределы экрана
-        span.style.maxWidth = `${inputRef.current?.getBoundingClientRect().width}px`;
+        if (inputRef.current) {
+            
+        }
 
-        document.body.appendChild(span);
-        setSpan(span);
-
+        content.className = cls.content;
+        document.body.appendChild(content);
+        contentRef.current = content;
         return () => {
-            span.remove();
+            document.body.removeChild(content);
+            contentRef.current = null;
         };
     }, []);
 
-    // отслеживать любые внешние изменения Input для изменения width
+    const [adaptiveStyeles, setAdaptiveStyeles] = useState({});
+
     useEffect(() => {
-        const inputElement = inputRef.current;
-        if (inputElement) {
-            const observer = new ResizeObserver(() => {
-                copyStylesFromInput();
-                updateWidthBySpanValue(value === '' ? placeholder : String(value));
-            });
+        if (contentRef.current) {
+            contentRef.current.textContent = value || 's';
 
-            observer.observe(inputElement);
-
-            return () => {
-                observer.unobserve(inputElement);
-            };
+            const { width, height } = contentRef.current.getBoundingClientRect();
+            console.log(value, width, height);
+            setAdaptiveStyeles({ width });
         }
-    }, [copyStylesFromInput, placeholder, updateWidthBySpanValue, value]);
+    }, [value]);
 
-    useEffect(() => {
-        console.log(adaptiveStyeles);
-    }, [adaptiveStyeles]);
+    const onPostChange = useCallback((e) => {
+        const newValue = e.target.value;
+        setValue(newValue);
+    }, []);
+
     return (
         <Tag
             tag={type === 'textarea' ? 'textarea' : 'input'}
@@ -113,7 +83,8 @@ const AdaptiveInput = (props: AdaptiveInputProps, ref: ForwardedRef<HTMLInput>) 
             type={type}
             placeholder={placeholder}
             ref={inputRef}
-            defaultValue={value || ''}
+            value={value}
+            onChange={onPostChange}
             {...otherProps}
         />
     );
