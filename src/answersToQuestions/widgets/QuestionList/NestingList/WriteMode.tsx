@@ -11,7 +11,7 @@ import { HStack, VStack } from 'src/shared/ui/Stack';
 import PlusSvg from 'src/shared/assets/icons/plus.svg';
 import CrossSvg from 'src/shared/assets/icons/cross.svg';
 import Input from 'src/shared/ui/Kit/Input/Input';
-import { DraggableItem } from 'src/shared/ui/Kit/Draggable/Draggable';
+import DraggableItem from 'src/shared/ui/Kit/Draggable/ui/DraggableItem';
 import { SwapList } from 'src/shared/ui/Kit/SwapList';
 import RadioButtonSvg from 'src/shared/assets/icons/radio_button.svg';
 import { FoldTransition } from 'src/shared/ui/Animations/FoldTransition';
@@ -19,9 +19,9 @@ import { Button } from 'src/shared/ui/Kit/Button';
 import { useSelector } from 'react-redux';
 import { AnswerScheme } from 'src/answersToQuestions/app/providers/AnswerProvider/AnswerProvider';
 import { htmlToText } from 'html-to-text';
+import { ListItem } from 'src/shared/ui/Stack/List/List';
 import cls from './NestingList.module.scss';
 import NestingList from './NestingList';
-import { ListItem } from 'src/shared/ui/Stack/List/List';
 
 const Tmp = forwardRef(({
     isHide, isTotalHide, isFold, nestingLevel, title,

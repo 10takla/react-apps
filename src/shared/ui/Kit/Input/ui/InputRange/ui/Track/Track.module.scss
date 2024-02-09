@@ -1,0 +1,54 @@
+.Track {
+    position: relative;
+    background: yellow;
+    $offset-input: 0.2em;
+
+    >.sliderInput {
+        position: absolute;
+        top: 0;
+        left: 0;
+    
+        >.slider {
+            background: green;
+            width: 1em;
+            aspect-ratio: 1/1;
+            height: 1em;
+            border-radius: 50%;
+            padding: 4px;
+        }
+    }
+
+    &.row {
+        width: 200px;
+        >.sliderInput {
+            &:nth-child(even) {
+                >.input {
+                    top: calc(100% + $offset-input);
+                    bottom: none;
+                }
+            }
+            >.input {
+                // position: absolute;
+                top: none;
+                bottom: calc(100% + $offset-input);
+            }
+        }
+    }
+
+    &.column {
+        height: 200px;
+
+        >.sliderInput {
+            &:nth-child(even) {
+                >.input {
+                    left: calc(100% + $offset-input);
+                    right: none;
+                }
+            }
+            >.input {
+                left: none;
+                right: calc(100% + $offset-input);
+            }
+        }
+    }
+}

@@ -19,6 +19,7 @@ export default defineConfig(({ mode }) => {
                     { find: '@', replacement: '/src/wordLearner' },
                     { find: 'M', replacement: '/src/monitors' },
                     { find: 'A', replacement: '/src/answersToQuestions' },
+                    { find: 'W', replacement: '/src/wasm' },
                 ],
             },
             esbuild: {

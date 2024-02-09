@@ -3,7 +3,7 @@ class Vector {
 
     y;
 
-    constructor(arg1: number | MouseEvent | DOMRect, arg2?: number) {
+    constructor(arg1: number | MouseEvent | DOMRect | Vector, arg2?: number) {
         if (typeof arg1 === 'number' && arg2 !== undefined) {
             this.x = arg1;
             this.y = arg2;
@@ -11,6 +11,9 @@ class Vector {
             this.x = arg1.clientX;
             this.y = arg1.clientY;
         } else if (arg1 instanceof DOMRect) {
+            this.x = arg1.x;
+            this.y = arg1.y;
+        } else if (arg1 instanceof Vector) {
             this.x = arg1.x;
             this.y = arg1.y;
         } else {
@@ -39,12 +42,12 @@ class Vector {
         return new Vector(this.x - v.x, this.y - v.y);
     }
 
-    map(fn: (c: number) => void): this {
+    map(fn: (a: [string, number], index: number) => number | undefined): this {
         Object.entries({
             x: this.x,
             y: this.y,
-        }).forEach(([key, c]) => {
-            this[key] = fn(c);
+        }).forEach(([key, c], i) => {
+            this[key] = fn([key, c], i) ?? c;
         });
         return this;
     }

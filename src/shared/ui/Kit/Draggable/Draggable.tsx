@@ -1,21 +1,20 @@
 import {
-    ComponentProps,
-    ElementRef,
     ForwardedRef,
-    ReactNode, cloneElement, forwardRef, memo, useImperativeHandle, useRef,
+    ReactElement,
+    cloneElement, forwardRef, memo,
     useState,
+    useRef,
 } from 'react';
-import DragSvg from 'src/shared/assets/icons/drag.svg';
 import { classNames } from 'src/shared/lib/classNames/classNames';
-import { HStack } from 'src/shared/ui/Stack';
+import { StringLiteralLike } from 'typescript';
 import cls from './Draggable.module.scss';
-import useDrag, { UseDragProps } from './useDrag';
+import useDrag, { UseDragProps } from '../../../hooks/useDrag/useDrag';
 
-type El = HTMLElement | undefined;
+type El = HTMLElement | null;
 
 interface DraggableProps extends Omit<UseDragProps, 'elemenetRef'> {
-    children: ReactNode
-    className: string
+    children: ReactElement
+    className?: StringLiteralLike
 }
 
 const Draggable = (props: DraggableProps, ref: ForwardedRef<El>) => {
@@ -27,15 +26,12 @@ const Draggable = (props: DraggableProps, ref: ForwardedRef<El>) => {
         ...otherProps
     } = props;
 
-    const childrenRef = useRef<El>();
-    useImperativeHandle<El, El>(
-        ref,
-        () => childrenRef.current,
-    );
+    const childrenRef = useRef<El>(null);
 
     const [isDragged, setIsDragged] = useState(false);
     const userSelectStyleSave = document.body.style.userSelect;
 
+    const tmp = useRef();
     useDrag({
         elemenetRef: childrenRef,
         onStart: () => {
@@ -53,7 +49,12 @@ const Draggable = (props: DraggableProps, ref: ForwardedRef<El>) => {
 
     return (
         cloneElement(children, {
-            ref: childrenRef,
+            ref: (el) => {
+                if (el) {
+                    childrenRef.current = el;
+                    ref?.(el);
+                }
+            },
             className: classNames(
                 cls.Draggable,
                 { [cls.isDragged]: isDragged },
@@ -64,31 +65,3 @@ const Draggable = (props: DraggableProps, ref: ForwardedRef<El>) => {
 };
 
 export default memo(forwardRef(Draggable));
-
-interface DraggableItemProps extends ComponentProps<typeof HStack> {
-    children: ReactNode
-}
-
-export const DraggableItem = forwardRef(
-    (props: DraggableItemProps, ref: ForwardedRef<ElementRef<typeof HStack>>) => {
-        const {
-            children,
-            ...otherProps
-        } = props;
-
-        return (
-            <HStack
-                ref={ref}
-                {...otherProps}
-            >
-                <DragSvg
-                    data-drag
-                    onClick={(e) => {
-                        e.stopPropagation();
-                    }}
-                />
-                {children}
-            </HStack>
-        );
-    },
-);

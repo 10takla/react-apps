@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import Input from 'src/shared/ui/Kit/Input/Input';
+import InputRange from 'src/shared/ui/Kit/Input/ui/InputRange/InputRange';
+import { VStack } from 'src/shared/ui/Stack';
 
 interface TestPageProps {
 
@@ -27,20 +29,32 @@ const TestPage = (props: TestPageProps) => {
     }, []);
     return (
         <>
-            <div style={{
-                background: 'red', padding: 10, width: 200,
+            <VStack style={{
+                background: 'red',
+                padding: 10,
+                width: 200,
             }}
             >
                 <Input
-                    // type="textarea"
+                    type="number"
+                    max={100}
+                    min={0}
                     value={value}
-                    placeholder='dsffsdf'
                 />
-            </div>
-            {/* <button onClick={() => setDir(!dir)}>dsfsfd</button>
-            <SwapModeList
+                <InputRange
+                    // min={10}
+                    // direction="y"
+                    max={100}
+                    values={[0, 40, 80]}
+                    step={5}
+                    onChange={(v) => {
+                        // console.log(v);
+                    }}
+                />
+            </VStack>
+            {/* <button onClick={() => setDir(!dir)}>dsfsfd</button> */}
+            {/* <SwapModeList
                 mode="offset"
-                type={undefined}
                 list={list}
                 direction={dir ? 'row' : 'column'}
                 gap={8}
@@ -56,14 +70,13 @@ const TestPage = (props: TestPageProps) => {
                         {10 ** item}
                     </DraggableItem>
                 )}
-            </SwapModeList>
-            <div style={{ width: 100, background: 'red', padding: 10 }}>
+            </SwapModeList> */}
+            {/* <div style={{ width: 100, background: 'red', padding: 10 }}>
                 <Input
                     type="textarea"
                     style={{ maxWidth: '100%' }}
                 />
             </div> */}
-
         </>
     );
 };

@@ -77,6 +77,7 @@ module.exports = {
         'no-undef': 'off',
         'react/no-array-index-key': 'off',
         'arrow-body-style': 'off',
+        'linebreak-style': ['error', process.platform === 'win32' ? 'windows' : 'unix']
         // 'ulbi-tv-plugin/path-checker': ['error', { alias: '@' }],
         // 'ulbi-tv-plugin/layer-imports': [
         //     'error',

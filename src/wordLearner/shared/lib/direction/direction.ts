@@ -9,7 +9,7 @@ interface Dirs {
     width: 'height'
 }
 type Direc = keyof Dirs | Dirs[keyof Dirs]
-const dir_rels = {
+const relations = {
     row: 'column',
     offsetWidth: 'offsetHeight',
     x: 'y',
@@ -27,7 +27,7 @@ export class Direction {
 
     constructor(value: Direc) {
         this.dir = value;
-        const index = Object.entries(dir_rels).reduce((all, x) => {
+        const index = Object.entries(relations).reduce((all, x) => {
             if (all !== undefined) {
                 return all;
             }
@@ -44,23 +44,25 @@ export class Direction {
         this.id = index;
     }
 
-    get(dir: keyof Dirs): Direc {
+    get<K extends keyof Dirs>(dir: K): Dirs[K] | K {
         if (this.id === 0) {
             return dir;
         } if (this.id === 1) {
-            return dir_rels[dir];
+            return relations[dir];
         }
         throw new Error('get_dir');
     }
 
-    get reverse(): Direction {
-        return new Direction(Object.entries(dir_rels).reduce((all, [a, b]) => (
-            { ...all, [a]: b, [b]: a }
-        ), {} as any)[this.dir]);
+    get rev(): Direction {
+        return new Direction(
+            Object.entries(relations).reduce((all, [a, b]) => (
+                { ...all, [a]: b, [b]: a }
+            ), {} as any)[this.dir],
+        );
     }
 
     reverse(dir: keyof Dirs): Direc {
-        return Object.entries(dir_rels).reduce((all, [a, b]) => (
+        return Object.entries(relations).reduce((all, [a, b]) => (
             { ...all, [a]: b, [b]: a }
         ), {} as any)[dir];
     }
@@ -70,6 +72,6 @@ export class Direction {
     }
 }
 
-export const revDir = Object.entries(dir_rels).reduce((all, [a, b]) => (
+export const revDir = Object.entries(relations).reduce((all, [a, b]) => (
     { ...all, [a]: b, [b]: a }
 ), {} as any);

@@ -1,25 +1,19 @@
 import { ReactNode } from 'react';
 import { Provider } from 'react-redux';
-import { createReduxStore } from './store';
+import { CreateReduxStoreProps, createReduxStore } from './store';
 import { StateScheme } from './reducerManager';
 
-export interface StoreProviderProps<SS extends StateScheme> {
+export interface StoreProviderProps<SS extends StateScheme> extends CreateReduxStoreProps<SS> {
     children?: ReactNode;
-    initialState?: SS;
-    rootReducers: Parameters<typeof createReduxStore>[0]
 }
 
 const StoreProvider = <SS extends StateScheme>(props: StoreProviderProps<SS>) => {
     const {
         children,
-        initialState,
-        rootReducers,
+        ...otherProps
     } = props;
 
-    const store = createReduxStore(
-        rootReducers,
-        initialState || {},
-    );
+    const store = createReduxStore<SS>(otherProps);
 
     return (
         <Provider store={store}>

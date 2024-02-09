@@ -13,6 +13,7 @@
       "@/*": ["./src/wordLearner/*"],
       "M/*": ["./src/monitors/*"],
       "A/*": ["./src/answersToQuestions/*"],
+      "W/*": ["./src/wasm/*"],
     },
     "allowJs": true,
     "strict": true,

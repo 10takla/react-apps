@@ -10,7 +10,8 @@ import {
 
 import { classNames } from 'src/shared/lib/classNames/classNames';
 import cls from './Input.module.scss';
-import AdaptiveInput from './ui/KeepFocus/InputRange/AdaptiveInput/AdaptiveInput';
+import AdaptiveInput from './ui/AdaptiveInput/AdaptiveInput';
+import TypeRoutes from './wrappers/TypeRoutes';
 
 interface InputProps extends HTMLProps<HTMLInputElement> {
 
@@ -35,24 +36,27 @@ const Input = (props: InputProps, ref: ForwardedRef<HTMLInput>) => {
 
     const [postValue, setPostValue] = useState(value);
     useEffect(() => {
-        setPostValue(value ? String(value) : '');
+        setPostValue(value);
     }, [value]);
 
     const onPostChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         const newValue = String(e.target.value);
         setPostValue(newValue);
-
         onChange?.(e);
     }, [onChange]);
 
     return (
-        <AdaptiveInput
-            className={classNames(cls.Input, {}, [className])}
+        <TypeRoutes
             value={postValue}
             onChange={onPostChange}
-            ref={inputRef}
-            {...{ style, ...otherProps }}
-        />
+            {...otherProps}
+        >
+            <AdaptiveInput
+                className={classNames(cls.Input, {}, [className])}
+                ref={inputRef}
+                {...{ style, ...otherProps }}
+            />
+        </TypeRoutes>
     );
 };
 

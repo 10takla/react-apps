@@ -1,28 +1,31 @@
-import { ForwardedRef, forwardRef, memo } from 'react';
-import { HStack } from 'src/shared/ui/Stack';
-import ControlPanel from 'src/wasm/widgets/ControlPanel/ControlPanel';
-import { Scene } from 'src/wasm/widgets/Scene/Scene';
+import {
+    forwardRef, memo, ForwardedRef, ComponentProps, ReactNode,
+} from 'react';
 import { classNames } from 'src/shared/lib/classNames/classNames';
-import SceneProvider from './Scene/SceneProvider';
+import { HStack } from 'src/shared/ui/Stack';
 import cls from './ScenePage.module.scss';
+import SceneProvider from './SceneProvider/SceneProvider';
 
 type El = HTMLElement | undefined;
 
-interface ScenePageProps {
-
+interface ScenePageProps extends ComponentProps<typeof HStack> {
+    scene: ReactNode
+    controlPanel: ReactNode
 }
 
 const ScenePage = (props: ScenePageProps, ref: ForwardedRef<El>) => {
     const {
-
+        className,
+        scene,
+        controlPanel,
     } = props;
 
     return (
-        <HStack className={classNames(cls.ScenePage)}>
-            {/* <SceneProvider> */}
-                <Scene />
-                <ControlPanel className={cls.controlPanel} />
-            {/* </SceneProvider> */}
+        <HStack className={classNames(cls.ScenePage, [className])}>
+            {scene}
+            <div className={cls.controlPanel}>
+                {controlPanel}
+            </div>
         </HStack>
     );
 };

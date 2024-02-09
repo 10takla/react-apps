@@ -1,0 +1,14 @@
+.PlanetScene {
+  background: black;
+
+  canvas {
+    width: 100vw;
+    height: 100vh;
+  }
+  .coordinate {
+    background: rgba(176, 0, 0, 0.671);
+    color: white;
+    padding: 0.2em;
+    transform: translateY(30px);
+  }
+}
