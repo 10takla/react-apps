@@ -7,7 +7,7 @@ import {
 import { Pos, Cell, Universe } from 'rust_wasm';
 import { memory } from 'rust_wasm/rust_wasm_bg.wasm';
 import { useSelector } from 'react-redux';
-import { SceneScheme } from 'src/wasm/pages/ScenePage/SceneProvider/SceneProvider';
+import { SceneScheme } from "src/wasm/app/providers/SceneProvider/SceneProvider";
 import cls from './GameOfLifeScene.module.scss';
 
 interface GameOfLifeSceneProps {

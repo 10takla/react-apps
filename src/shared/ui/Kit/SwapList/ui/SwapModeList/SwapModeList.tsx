@@ -7,8 +7,8 @@ import {
     useEffect,
     useState,
 } from 'react';
-import SettingsSvg from 'src/shared/assets/icons/settings.svg';
-import { classNames } from 'src/shared/lib/classNames/classNames';
+import SettingsSvg from "S/assets/icons/settings.svg";
+import { classNames } from "S/lib/classNames/classNames";
 import { HStack, VStack } from '../../../../Stack';
 import Select from '../../../Select';
 import SwapList from '../../SwapListWithMode/SwapList';
@@ -53,7 +53,7 @@ const ModeSwapList = (props: ModeSwapList, ref: ForwardedRef<ElementRef<typeof H
                         {!isHide && (
                             <Select
                                 className={cls.modeSelect}
-                                options={['swap', 'offset']}
+                                values={['swap', 'offset']}
                                 defaultValue={postMode}
                                 onChange={(v) => {
                                     setPostMode(v);

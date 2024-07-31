@@ -6,8 +6,8 @@ import {
     useCallback,
     useState,
 } from 'react';
-import { classNames } from 'src/shared/lib/classNames/classNames';
-import Tag from 'src/shared/ui/Stack/Tag/Tag';
+import { classNames } from "S/lib/classNames/classNames";
+import Tag from "S/ui/Stack/Tag/Tag";
 import cls from './AdaptiveInput.module.scss';
 
 interface AdaptiveInputProps extends HTMLProps<HTMLInputElement> {

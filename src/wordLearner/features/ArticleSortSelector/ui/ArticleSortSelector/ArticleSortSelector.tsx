@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { memo, useMemo } from 'react';
-import { Select, SelectOption } from 'src/shared/ui/Kit/Select';
-import { classNames } from 'src/shared/lib/classNames/classNames';
+import Select from "S/ui/Kit/Select";
+import { classNames } from "S/lib/classNames/classNames";
 import { SortOrder } from '@/shared/types';
 import cls from './ArticleSortSelector.module.scss';
 import { ArticleSortField } from '@/entities/Article';
@@ -20,7 +20,7 @@ export const ArticleSortSelector = memo((props: ArticleSortSelectorProps) => {
     } = props;
     const { t } = useTranslation();
 
-    const orderOptions = useMemo<SelectOption<SortOrder>[]>(() => [
+    const orderOptions = useMemo<any[]>(() => [
         {
             value: 'asc',
             content: t('возрастанию'),
@@ -31,7 +31,7 @@ export const ArticleSortSelector = memo((props: ArticleSortSelectorProps) => {
         },
     ], [t]);
 
-    const sortFieldOptions = useMemo<SelectOption<ArticleSortField>[]>(() => [
+    const sortFieldOptions = useMemo<any[]>(() => [
         {
             value: ArticleSortField.CREATED,
             content: t('дате создания'),
@@ -49,13 +49,13 @@ export const ArticleSortSelector = memo((props: ArticleSortSelectorProps) => {
     return (
         <div className={classNames(cls.ArticleSortSelector, {}, [className])}>
             <Select<ArticleSortField>
-                options={sortFieldOptions}
+                values={sortFieldOptions}
                 label={t('Сортировать ПО')}
                 value={sort}
                 onChange={onChangeSort}
             />
             <Select
-                options={orderOptions}
+                values={orderOptions}
                 label={t('по')}
                 value={order}
                 onChange={onChangeOrder}

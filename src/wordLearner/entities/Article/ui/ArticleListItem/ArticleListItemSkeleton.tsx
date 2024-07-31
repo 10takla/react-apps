@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { classNames } from 'src/shared/lib/classNames/classNames';
+import { classNames } from "S/lib/classNames/classNames";
 import { Card } from '@/shared/ui/Card';
 import { Skeleton } from '@/shared/ui/Skeleton';
 import { ArticleView } from '../../model/consts/articleConsts';

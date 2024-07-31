@@ -1,0 +1,33 @@
+.Description {
+    position: relative;
+
+    >.describtion {
+        position: absolute;
+        $offset: 0.2em;
+        background: red;
+        padding: 0.3em;
+        border-radius: 0.2em;
+
+        &.left {
+            right: calc(100% + $offset);
+        }
+
+        &.right {
+            left: calc(100% + $offset);
+        }
+
+        &.top {
+            bottom: calc(100% + $offset);
+        }
+
+        &.bottom {
+            top: calc(100% + $offset);
+        }
+    }
+
+    &.dark {
+        >.describtion {
+            color: white
+        }
+    }
+}

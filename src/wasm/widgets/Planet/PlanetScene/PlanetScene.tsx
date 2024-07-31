@@ -1,103 +1,152 @@
-import { Canvas } from '@react-three/fiber';
 import {
     memo,
+    useRef,
     useState,
-    useEffect,
     useMemo,
+    useEffect,
+    useContext,
+    Fragment,
 } from 'react';
+
+import { useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { SceneScheme } from 'src/wasm/pages/ScenePage/SceneProvider/SceneProvider';
-import { ConvexHull } from 'rust_wasm/rust_wasm';
-import {
-    Box, Line, OrthographicCamera,
-} from '@react-three/drei';
+import { SceneScheme } from "src/wasm/app/providers/SceneProvider/SceneProvider";
+import { themeContext } from "S/providers/theme/themeContext";
+import { classNames } from "S/lib/classNames/classNames";
+import { Point } from './ui/ThreeJs/ThreeJs';
 import cls from './PlanetScene.module.scss';
 
-export type Point = [number, number, number]
-
 interface PlanetSceneProps {
-    sizes: Point
+    points: Array<Point>
+    edges: Array<number>[]
 }
 
 const PlanetScene = (props: PlanetSceneProps) => {
+    const { points: prePoints, edges } = props;
+
     const {
-    } = props;
-    const { trigger, sizes, pointCount } = useSelector((state: SceneScheme) => state.planet);
-    const [edges, setEdges] = useState<number[]>([]);
+        trigger, trigger2, scales: { pointsField: scale }, sizes: preSizes, pointCount,
+    } = useSelector((state: SceneScheme) => state.planet);
 
-    const hull = useMemo(() => {
-        setEdges([]);
-        return ConvexHull.set_random_ponts(pointCount, [1, 1, 0]);
-        // return ConvexHull.set_points([
-        //     [0, 0, 0], [1, -0.2, 0], [2, 1, 0],
-        //     [1.8, 2, 0], [0.7, 2.1, 0], [0.2, 1.6, 0],
-        // ]);
-    }, [pointCount]);
-    const points = hull.get_points()
-        .map((p) => p.map((m, j) => m * sizes[j] - sizes[j] / 2)) as Array<Point>;
-
+    const [maxSizes, setMaxSizes] = useState<Point>([1, 1]);
+    const location = useLocation();
+    const svgRef = useRef<SVGSVGElement>(null);
     useEffect(() => {
-        if (trigger) {
-            const edge = hull.get_tick();
-            if (edge) {
-                setEdges((edges) => [...edges, edge]);
-            }
-        }
-    }, [trigger, hull]);
+        const handleResize = () => {
+            const canvas = svgRef.current;
+            if (!canvas) return;
+
+            const canvasRect = canvas.getBoundingClientRect();
+            setMaxSizes([
+                canvasRect.width,
+                canvasRect.height,
+            ]);
+        };
+
+        window.addEventListener('resize', handleResize);
+        handleResize();
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [preSizes, location]);
+
+    const sizes = useMemo<Point>(() => {
+        return maxSizes.map((o, i) => o * preSizes[i]);
+    }, [maxSizes, preSizes]);
+
+    const offsetSizes = useMemo<Point>(() => {
+        return maxSizes.map((o, i) => (o - sizes[i]) / 2);
+    }, [maxSizes, sizes]);
+
+    const points = useMemo<Array<Point>>(() => {
+        return prePoints.map((p) => (
+            p.map((m, j) => {
+                const start = m * sizes[j] * scale;
+                return start + offsetSizes[j] + sizes[j] / 2 * (1 - scale);
+            })
+        ));
+    }, [offsetSizes, prePoints, scale, sizes]);
 
     const lines = useMemo(() => {
-        return edges.map((i) => points[i]);
+        // console.log(edges);
+        
+        return edges.map((r) => {
+            // console.log(r);
+            return r.map((i) => points[i]);
+        });
     }, [edges, points]);
 
-    const max = useMemo(() => {
-        const [x, y] = sizes.slice(0, 2).map((x) => x / 2)
-            .map((x, i) => [x, x - sizes[i]])
-            .map(([x, y]) => [x, y]);
-        return x.map((x) => y.reverse()
-            .map((y) => [x, y, 0].map((x) => x * 1.2)).flat());
-    }, [sizes]);
+    const bounds = useMemo(() => {
+        return [
+            [offsetSizes[0], offsetSizes[1]],
+            [sizes[0] + offsetSizes[0], offsetSizes[1]],
+            [sizes[0] + offsetSizes[0], sizes[1] + offsetSizes[1]],
+            [offsetSizes[0], sizes[1] + offsetSizes[1]],
+            [offsetSizes[0], offsetSizes[1]],
+        ];
+    }, [offsetSizes, sizes]);
+
+    const { scales } = useSelector((state: SceneScheme) => state.planet);
+    const theme = useContext(themeContext);
 
     return (
-        <Canvas
-            className={cls.PlanetScene}
+        <svg
+            className={classNames(cls.PlanetScene, [cls[theme]])}
+            ref={svgRef}
         >
-            <OrthographicCamera />
-            {/* <OrbitControls /> */}
-            {points.map((point, i) => (
-                <Box
-                    scale={0.08}
-                    position={point}
+            {lines.map((lines, i) => (
+                <path
                     key={i}
-                >
-                    <meshBasicMaterial
-                        color={
-                            edges[edges.length - 1] === i ? 'blue'
-                                : edges.includes(i) ? 'yellow'
-                                    : 'white'
-                        }
-                    />
-                    {/* <Html center>
-                        <HStack className={cls.coordinate} gap={8}>
-                            {point.map((p, i) => (
-                                <span key={i}>{p}</span>
-                            ))}
-                        </HStack>
-                    </Html> */}
-                </Box>
-            ))}
-            {lines.length && (
-                <Line
-                    points={lines}
-                    color="red"
-                    lineWidth={5}
+                    stroke="red"
+                    strokeWidth={scales.points}
+                    fill="none"
+                    d={lines.filter((p) => p).map((point, index) => {
+                        const [x, y] = point;
+                        return index === 0 ? `M ${x} ${y}` : `L ${x} ${y}`;
+                    }).join(' ')}
                 />
-            )}
-            <Line
-                points={[...max, max[0]]}
-                color="red"
-                lineWidth={4}
+            ))}
+            {points.map((point, i) => (
+                <Fragment key={i}>
+                    <circle
+                        cx={point[0]}
+                        cy={point[1]}
+                        r={scales.points}
+                        fill={edges[edges.length - 1] === i
+                            ? 'blue' : edges.includes(i)
+                                ? 'yellow' : 'white'}
+                    />
+                    {/* <text
+                        x={point[0] + 10}
+                        y={point[1] - 5}
+                    >
+                        {prePoints[i][0].toFixed(2)}
+                    </text>
+                    <text
+                        x={point[0] + 42}
+                        y={point[1]}
+                    >
+                        {i}
+                    </text>
+                    <text
+                        x={point[0] + 10}
+                        y={point[1] + 10}
+                    >
+                        {prePoints[i][1].toFixed(2)}
+                    </text> */}
+                </Fragment>
+            ))}
+            <path
+                stroke="red"
+                strokeWidth={scales.points}
+                fill="none"
+                d={bounds.map((point, index) => {
+                    const [x, y] = point;
+                    return index === 0 ? `M ${x} ${y}` : `L ${x} ${y}`;
+                }).join(' ')}
             />
-        </Canvas>
+        </svg>
     );
 };
 

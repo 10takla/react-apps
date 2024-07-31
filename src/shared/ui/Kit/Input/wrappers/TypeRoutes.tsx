@@ -1,12 +1,12 @@
 import {
-    forwardRef, memo, ForwardedRef, cloneElement, ReactElement, ComponentProps,
+    forwardRef, memo, ForwardedRef, cloneElement, ReactElement, ComponentProps, RefAttributes, MutableRefObject,
 } from 'react';
 import NumberInput from './ui/NumberInput';
 
 type El = HTMLElement | undefined;
 
 interface TypeRoutesProps extends ComponentProps<typeof NumberInput> {
-    children: ReactElement
+    children: ReactElement & RefAttributes<El>
 }
 
 const TypeRoutes = (props: TypeRoutesProps, ref: ForwardedRef<El>) => {
@@ -18,9 +18,10 @@ const TypeRoutes = (props: TypeRoutesProps, ref: ForwardedRef<El>) => {
 
     if (type === 'number') {
         return (
-            <NumberInput {...{
-                ...otherProps, type,
-            }}
+            <NumberInput
+                {...{
+                    ...otherProps, type,
+                }}
             >
                 {children}
             </NumberInput>
@@ -31,11 +32,11 @@ const TypeRoutes = (props: TypeRoutesProps, ref: ForwardedRef<El>) => {
         cloneElement(children, {
             ...otherProps,
             type,
-            ref: (el) => {
+            ref: (el: El) => {
                 if (typeof children.ref === 'function') {
                     children.ref(el);
                 } else if (children.ref !== null) {
-                    children.ref.current = el;
+                    (children.ref as MutableRefObject<El>).current = el;
                 }
                 if (typeof ref === 'function') {
                     ref(el);

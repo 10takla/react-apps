@@ -1,12 +1,12 @@
 import {
-    Link,
     Navigate, Route, Routes,
+    Link,
 } from 'react-router-dom';
-import { HStack } from 'src/shared/ui/Stack';
-import SceneProvider from '../pages/ScenePage/SceneProvider/SceneProvider';
-import GameOfLifePage from '../pages/ScenePage/ui/GameOfLifePage';
-import PlanetPage from '../pages/ScenePage/ui/PlanetPage';
+import { HStack, VStack } from "S/ui/Stack";
+import { classNames } from "S/lib/classNames/classNames";
 import cls from './App.module.scss';
+import GameOfLifePage from '../pages/ScenePage/ui/GameOfLifePage';
+import PlanetPage from '../pages/ScenePage/ui/PlanetPage/PlanetPage';
 
 export const App = () => {
     const routes = [
@@ -23,22 +23,22 @@ export const App = () => {
     ];
 
     return (
-        <div className={cls.App}>
-            <SceneProvider>
-                <Routes>
-                    {routes.map(({ route, to }) => (
-                        <Route key={route} path={route} element={to} />
-                    ))}
-                    <Route index element={<Navigate to={routes[0].route} />} />
-                </Routes>
-            </SceneProvider>
-            <HStack className={cls.pagesLinks} gap={16}>
-                {routes.map(({ route, linkText }) => (
-                    <Link key={route} to={route}>
-                        {linkText}
-                    </Link>
+        <div className={classNames(cls.App)}>
+            <Routes>
+                <Route index element={<Navigate to={routes[0].route} />} />
+                {routes.map(({ route, to }) => (
+                    <Route key={route} path={`${route}/*`} element={to} />
                 ))}
-            </HStack>
+            </Routes>
+            <VStack data-portal-links className={cls.pageLinks}>
+                <HStack>
+                    {routes.map(({ route, linkText }) => (
+                        <Link key={route} to={route}>
+                            {linkText}
+                        </Link>
+                    ))}
+                </HStack>
+            </VStack>
         </div>
     );
 };

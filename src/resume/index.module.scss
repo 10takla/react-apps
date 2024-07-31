@@ -1,0 +1,75 @@
+.App {
+    width: 210mm;
+    height: 297mm;
+    border: 0.2em solid red;
+
+    >.left,
+    >.right {
+        // padding: 0.6em;
+
+        >.format {
+            >.formatText {
+                display: inline-block;
+                margin: 0;
+
+                >h2 {
+                    display: inline-block;
+                    margin: 0;
+                    background: rgba(166, 166, 230, 0.349);
+                }
+            }
+
+            >*:not(div) {
+                padding: 1em;
+            }
+
+            $pad: 0.6em;
+            $pad-min: 0.1em;
+
+            &.topLeft {
+                >.formatText {
+                    >h2 {
+                        padding: $pad-min $pad $pad $pad-min;
+                        border-radius: $pad-min $pad-min $pad $pad-min;
+                    }
+                }
+            }
+
+            &.topRight {
+                >.formatText {
+                    text-align: end;
+
+                    >h2 {
+                        padding: $pad-min $pad-min $pad $pad;
+                        border-radius: 0 0 0 $pad;
+                    }
+                }
+            }
+
+            &.left {
+                >.formatText {
+                    >h2 {
+                        padding: $pad $pad *8 $pad $pad-min;
+                        border-radius: 0 $pad $pad 0;
+                    }
+                }
+            }
+        }
+
+    }
+
+    >.left {
+        min-width: 40%;
+        background: rgb(237, 237, 237);
+        height: 100%;
+        padding-right: 0.3em;
+    }
+
+    >.right {
+        padding-left: 0.3em;
+
+        h2 {
+            text-align: right;
+        }
+    }
+}

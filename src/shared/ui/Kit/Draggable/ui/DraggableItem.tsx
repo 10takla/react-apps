@@ -3,8 +3,8 @@ import {
     ElementRef,
     ForwardedRef, ReactNode, forwardRef, memo,
 } from 'react';
-import DragSvg from 'src/shared/assets/icons/drag.svg';
-import { HStack } from 'src/shared/ui/Stack';
+import DragSvg from "S/assets/icons/drag.svg";
+import { HStack } from "S/ui/Stack";
 
 interface DraggableItemProps extends ComponentProps<typeof HStack> {
     children: ReactNode;

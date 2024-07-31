@@ -11,12 +11,12 @@ import {
     useState,
     useEffect,
 } from 'react';
-import { Direction } from 'src/wordLearner/shared/lib/direction/direction';
-import { classNames } from 'src/shared/lib/classNames/classNames';
-import { Flex } from 'src/shared/ui/Stack';
-import Draggable from 'src/shared/ui/Kit/Draggable/Draggable';
-import List from 'src/shared/ui/Stack/List/List';
-import Vector from 'src/shared/lib/geometry/vector';
+import { Direction } from "src/wordLearner/shared/lib/direction/direction";
+import { classNames } from "S/lib/classNames/classNames";
+import { Flex } from "S/ui/Stack";
+import Draggable from "S/ui/Kit/Draggable/Draggable";
+import List from "S/ui/Stack/List/List";
+import Vector from "S/lib/geometry/vector";
 import cls from './SwapListWithOutMode.module.scss';
 
 type Swap = {
@@ -188,7 +188,7 @@ const SwapListWithOutMode = <T extends string>(props: SwapListWithOutModeProps<T
                     <Draggable
                         {...otherDraggableProps}
                         className={dragClassesByMode({ fromI, toI }, i)}
-                        rootRef={rootRef}
+                        boundsRectRef={rootRef}
                         direction={new Direction(direction).get('x')}
                         translate={setTranslate(i)}
                         onStart={() => {

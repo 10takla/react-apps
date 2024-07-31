@@ -1,14 +1,14 @@
 import {
     forwardRef, memo, ForwardedRef, ComponentProps,
 } from 'react';
-import PlaySvg from 'src/shared/assets/icons/reproduction/play.svg';
-import PauseSvg from 'src/shared/assets/icons/reproduction/pause.svg';
-import { useAppDispatch } from 'src/shared/hooks/useAppDispatch';
+import PlaySvg from "S/assets/icons/reproduction/play.svg";
+import PauseSvg from "S/assets/icons/reproduction/pause.svg";
+import { useAppDispatch } from "S/lib/hooks/useAppDispatch";
 import { useSelector } from 'react-redux';
-import { classNames } from 'src/shared/lib/classNames/classNames';
-import { HStack } from 'src/shared/ui/Stack';
-import { SceneScheme } from 'src/wasm/pages/ScenePage/SceneProvider/SceneProvider';
-import { gameOfLifeActions } from 'W/pages/ScenePage/SceneProvider/slices/gameOfLifeSlice';
+import { classNames } from "S/lib/classNames/classNames";
+import { HStack } from "S/ui/Stack";
+import { gameOfLifeActions } from "src/wasm/app/providers/SceneProvider/slices/gameOfLifeSlice";
+import { SceneScheme } from "src/wasm/app/providers/SceneProvider/SceneProvider";
 import cls from './GameOfLifePanel.module.scss';
 
 const Range = ({

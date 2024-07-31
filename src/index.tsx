@@ -1,4 +1,4 @@
-import '@/app/styles/index.scss';
+import "./index.scss"
 import { createRoot } from 'react-dom/client';
 
 import {
@@ -9,6 +9,9 @@ import Monitors from './monitors';
 import { VStack } from './shared/ui/Stack';
 import WordLearner from './wordLearner';
 import Wasm from './wasm';
+import Market from './market';  
+import Mons from './mons';
+import Resume from "./resume"
 
 const container = document.getElementById('root');
 
@@ -23,6 +26,9 @@ const sites = {
     monitors: <Monitors />,
     answers: <AnswersToQuestions />,
     wasm: <Wasm />,
+    mons: <Mons />,
+    resume: <Resume />
+    // market: <Market />,
 };
 
 root.render(

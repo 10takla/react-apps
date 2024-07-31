@@ -1,0 +1,15 @@
+.Header {
+    width: 100%;
+    background-color: rgb(161, 223, 197);
+    padding: 1em;
+    box-sizing: border-box;
+    position: relative;
+
+    .menu {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        z-index: 100;
+        background-color: red;
+    }
+}

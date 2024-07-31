@@ -9,7 +9,7 @@ export function classNames(
     if (Array.isArray(mods) || !Array.isArray(additional)) {
         [mods, additional] = [additional, mods];
     }
-    
+
     return [
         cls,
         ...additional.filter(Boolean),

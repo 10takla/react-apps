@@ -7,9 +7,9 @@ import {
 import { ControlEls, ControlPanel } from 'M/widgets/SiteList/ui/ControlPanel/ControlPanel';
 import { Monitor } from 'M/entities/Monitor/types/monitor';
 import { RelationContext } from 'M/entities/Relation/ui/DrawRelations/DrawRelations';
-import { classNames } from 'src/shared/lib/classNames/classNames';
-import Currency from 'src/shared/ui/BusinessLogic/Currency/Currency';
-import { HStack, VStack } from 'src/shared/ui/Stack';
+import { classNames } from "S/lib/classNames/classNames";
+import Currency from "S/ui/BusinessLogic/Currency/Currency";
+import { HStack, VStack } from "S/ui/Stack";
 import cls from './MonitorItem.module.scss';
 import { Relation } from '../Relation/types/Relation';
 import getRgbGradient from '@/shared/lib/getRgbGradient/getRgbGradient';

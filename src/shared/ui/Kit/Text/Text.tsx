@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { classNames, Mods } from '@/shared/lib/classNames/classNames';
+import { classNames, Mods } from "S/lib/classNames/classNames";
 import cls from './Text.module.scss';
 
 export enum TextTheme {
@@ -23,7 +23,7 @@ export enum TextSize {
 interface TextProps {
     className?: string;
     title?: string;
-    text?: string;
+    children?: string;
     theme?: TextTheme;
     align?: TextAlign;
     size?: TextSize;
@@ -42,7 +42,7 @@ const mapSizeToHeaderTag: Record<TextSize, HeaderTagType> = {
 export const Text = memo((props: TextProps) => {
     const {
         className,
-        text,
+        children,
         title,
         theme = TextTheme.PRIMARY,
         align = TextAlign.LEFT,
@@ -68,12 +68,12 @@ export const Text = memo((props: TextProps) => {
                     {title}
                 </HeaderTag>
             )}
-            {text && (
+            {children && (
                 <p
                     className={cls.text}
                     data-testid={`${dataTestId}.Paragraph`}
                 >
-                    {text}
+                    {children}
                 </p>
             )}
         </div>

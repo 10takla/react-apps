@@ -1,15 +1,15 @@
 import { useTranslation } from 'react-i18next';
 import { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { Text, TextTheme } from 'src/shared/ui/Kit/Text';
-import { useAppDispatch } from 'src/shared/hooks/useAppDispatch';
-import { classNames } from 'src/shared/lib/classNames/classNames';';
+import { Text, TextTheme } from "S/ui/Kit/Text";
+import { useAppDispatch } from "S/lib/hooks/useAppDispatch";
+import { classNames } from "S/lib/classNames/classNames";
 import { useInitialEffect } from '@/shared/lib/hooks/useInitialEffect/useInitialEffect';
 import { Currency } from '@/entities/Currency';
 import { Country } from '@/entities/Country';
 import { ProfileCard } from '@/entities/Profile';
 import { DynamicModuleLoader, ReducersList } from '@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader';
-import { VStack } from 'src/shared/ui/Stack';
+import { VStack } from "S/ui/Stack";
 import { ValidateProfileError } from '../../model/consts/consts';
 import { getProfileForm } from '../../model/selectors/getProfileForm/getProfileForm';
 import { getProfileIsLoading } from '../../model/selectors/getProfileIsLoading/getProfileIsLoading';
@@ -98,7 +98,7 @@ export const EditableProfileCard = memo((props: EditableProfileCardProps) => {
                     <Text
                         key={err}
                         theme={TextTheme.ERROR}
-                        text={validateErrorTranslates[err]}
+                        children={validateErrorTranslates[err]}
                         data-testid="EditableProfileCard.Error"
                     />
                 ))}

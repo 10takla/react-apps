@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { memo } from 'react';
 import { useSelector } from 'react-redux';
-import { Text } from 'src/shared/ui/Kit/Text';
+import { Text } from "S/ui/Kit/Text";
 import { ArticleList } from '@/entities/Article';
 import { getArticles } from '../../model/slices/articlesPageSlice';
 import {
@@ -23,7 +23,7 @@ export const ArticleInfiniteList = memo((props: ArticleInfiniteListProps) => {
     const { t } = useTranslation();
 
     if (error) {
-        return <Text text={t('Ошибка при загрузке статей')} />;
+        return <Text children={t('Ошибка при загрузке статей')} />;
     }
 
     return (

@@ -1,0 +1,9 @@
+.Contacts {
+    flex-wrap: wrap;
+
+    >.contact {
+        > img {
+            width: 1.4em;
+        }
+    }
+}

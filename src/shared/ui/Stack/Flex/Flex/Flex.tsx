@@ -1,19 +1,20 @@
 import {
     ComponentPropsWithoutRef, ElementType, ForwardedRef, forwardRef,
 } from 'react';
-import { classNames, Mods } from 'src/shared/lib/classNames/classNames';
+import { classNames, Mods } from "S/lib/classNames/classNames";
 import cls from './Flex.module.scss';
 
-export type FlexJustify = 'start' | 'center' | 'end' | 'between';
 export type FlexAlign = 'start' | 'center' | 'end';
 export type FlexDirection = 'row' | 'column';
 export type FlexGap = '4' | '8' | '16' | '32';
 
-const justifyClasses: Record<FlexJustify, string> = {
+const justifyClasses = {
     start: cls.justifyStart,
     center: cls.justifyCenter,
     end: cls.justifyEnd,
     between: cls.justifyBetween,
+    around: cls.justifyAround,
+    evenly: cls.justifyEvenly,
 };
 
 const alignClasses: Record<FlexAlign, string> = {
@@ -36,7 +37,7 @@ const gapClasses: Record<FlexGap, string> = {
 export type FlexProps<T = ElementType> = {
     className?: string;
     children?: React.ReactNode;
-    justify?: FlexJustify;
+    justify?: keyof typeof justifyClasses;
     align?: FlexAlign;
     direction?: FlexDirection;
     gap?: FlexGap;
@@ -70,7 +71,7 @@ const Flex = <T extends ElementType = 'div'>(
     const mods: Mods = {
         [cls.max]: max,
     };
-
+    
     return (
         <Tag
             {...otherProps}

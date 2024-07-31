@@ -21,11 +21,14 @@ class Vector {
         }
     }
 
-    set(arg1: number | MouseEvent | DOMRect | Vector, arg2?: number): Vector {
+    set(arg1: number | MouseEvent | DOMRect | Vector | string, arg2?: number): Vector {
         let vector: Vector;
 
         if (arg1 instanceof Vector) {
             vector = arg1;
+        } else if (typeof arg1 === 'string' && typeof arg2 === 'number') {
+            vector = new Vector(0, 0);
+            vector[arg1] = arg2
         } else {
             vector = new Vector(arg1, arg2);
         }

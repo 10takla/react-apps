@@ -1,8 +1,8 @@
 import {
     useState, useEffect, ReactNode,
 } from 'react';
-import { classNames } from 'src/shared/lib/classNames/classNames';
-import ArrowUpSvg from 'src/shared/assets/icons/arrows/arrow_up.svg';
+import { classNames } from "S/lib/classNames/classNames";
+import ArrowUpSvg from "S/assets/icons/arrows/arrow_up.svg";
 import { HStack, VStack } from '../../Stack';
 import cls from './Hide.module.scss';
 

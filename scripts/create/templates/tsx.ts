@@ -10,7 +10,7 @@ export default ({ genericNameMutator, name, fileNames }: TemplateFileProps) => {
         `import { classNames } from 'shared/lib/classNames/classNames';
 import { useTranslation } from 'react-i18next';
 import { memo } from 'react';
-${StyleFN ? `import cls from "./${StyleFN}.module.scss"\n` : ''}
+${StyleFN ? `import cls from "./${StyleFN}.module.scss"\n` : '"}
 ${interfaceConst} ${IPN}Props {
     className?: string
 }

@@ -1,16 +1,15 @@
 import { useTranslation } from 'react-i18next';
 import { memo, useCallback, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Text, TextAlign, TextSize } from 'src/shared/ui/Kit/Text';
+import { Text, TextAlign, TextSize } from "S/ui/Kit/Text";
+import { classNames } from "S/lib/classNames/classNames";
+import { useAppDispatch } from "S/lib/hooks/useAppDispatch";
 import { DynamicModuleLoader, ReducersList } from '@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader';
-import { classNames } from 'src/shared/lib/classNames/classNames';
-import { useAppDispatch } from 'src/shared/hooks/useAppDispatch';
 import { Skeleton } from '@/shared/ui/Skeleton';
 import { Avatar } from '@/shared/ui/Avatar';
-import EyeIcon from '@/shared/assets/icons/eye-20-20.svg';
-import CalendarIcon from '@/shared/assets/icons/calendar-20-20.svg';
+import EyeIcon from "S/assets/icons/eye-20-20.svg";
+import CalendarIcon from "S/assets/icons/calendar-20-20.svg";
 import { Icon } from '@/shared/ui/Icon';
-import { HStack, VStack } from 'ыкс/shared/ui/Stack';
 import { ArticleBlockType } from '../../model/consts/articleConsts';
 import { ArticleCodeBlockComponent } from '../ArticleCodeBlockComponent/ArticleCodeBlockComponent';
 import { ArticleImageBlockComponent } from '../ArticleImageBlockComponent/ArticleImageBlockComponent';
@@ -24,6 +23,7 @@ import {
     getArticleDetailsIsLoading,
 } from '../../model/selectors/articleDetails';
 import { ArticleBlock } from '../../model/types/article';
+import { HStack, VStack } from "S/ui/Stack";
 
 interface ArticleDetailsProps {
     className?: string;
@@ -112,16 +112,16 @@ export const ArticleDetails = memo((props: ArticleDetailsProps) => {
                     <Text
                         className={cls.title}
                         title={article?.title}
-                        text={article?.subtitle}
+                        children={article?.subtitle}
                         size={TextSize.L}
                     />
                     <HStack gap="8" className={cls.articleInfo}>
                         <Icon className={cls.icon} Svg={EyeIcon} />
-                        <Text text={String(article?.views)} />
+                        <Text children={String(article?.views)} />
                     </HStack>
                     <HStack gap="8" className={cls.articleInfo}>
                         <Icon className={cls.icon} Svg={CalendarIcon} />
-                        <Text text={article?.createdAt} />
+                        <Text children={article?.createdAt} />
                     </HStack>
                 </VStack>
                 {article?.blocks.map(renderBlock)}

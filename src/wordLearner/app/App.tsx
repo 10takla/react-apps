@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { classNames } from 'src/shared/lib/classNames/classNames';
+import { classNames } from "S/lib/classNames/classNames";
 import { getUserInited, userActions } from '@/entities/User';
 import { useTheme } from '@/shared/lib/hooks/useTheme/useTheme';
 import { Words } from '@/pages/Words';

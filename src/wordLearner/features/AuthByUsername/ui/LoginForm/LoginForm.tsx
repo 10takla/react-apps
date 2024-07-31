@@ -1,12 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { memo, useCallback } from 'react';
-import { Button, ButtonTheme } from 'src/shared/ui/Kit/Button';
-import { Input } from 'src/shared/ui/Kit/Input';
-import { Text, TextTheme } from 'src/shared/ui/Kit/Text';
-import { classNames } from 'src/shared/lib/classNames/classNames';';
+import { Button, ButtonTheme } from "S/ui/Kit/Button";
+import { Input } from "S/ui/Kit/Input";
+import { Text, TextTheme } from "S/ui/Kit/Text";
+import { classNames } from "S/lib/classNames/classNames";
+import { useAppDispatch } from "S/lib/hooks/useAppDispatch";
 import { DynamicModuleLoader, ReducersList } from '@/shared/lib/components/DynamicModuleLoader/DynamicModuleLoader';
-import { useAppDispatch } from 'src/shared/hooks/useAppDispatch';
 import { getLoginUsername } from '../../model/selectors/getLoginUsername/getLoginUsername';
 import { getLoginPassword } from '../../model/selectors/getLoginPassword/getLoginPassword';
 import { getLoginIsLoading } from '../../model/selectors/getLoginIsLoading/getLoginIsLoading';
@@ -54,7 +54,7 @@ const LoginForm = memo(({ className, onSuccess }: LoginFormProps) => {
         >
             <div className={classNames(cls.LoginForm, {}, [className])}>
                 <Text title={t('Форма авторизации')} />
-                {error && <Text text={t('Вы ввели неверный логин или пароль')} theme={TextTheme.ERROR} />}
+                {error && <Text children={t('Вы ввели неверный логин или пароль')} theme={TextTheme.ERROR} />}
                 <Input
                     autofocus
                     type="text"

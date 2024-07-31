@@ -1,0 +1,18 @@
+.Foldden {
+    &.dark {
+        svg {
+            fill: white
+        }
+    }
+
+    > .to {
+        > .crossSvg {
+            display: none;
+        }
+        &:hover {
+            > .crossSvg {
+                display: block;
+            }
+        }
+    }
+}

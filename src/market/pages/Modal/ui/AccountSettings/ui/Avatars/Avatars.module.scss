@@ -1,0 +1,17 @@
+.Avatars {
+    background-color: red;
+    flex-wrap: wrap;
+    padding: 1em;
+    max-height: 10em;
+    overflow-y: scroll;
+    
+    > .avatar {
+        font-size: 0.145em;
+        padding: 1em;
+        background-color: blue;
+
+        &.current {
+            background-color: yellow;
+        }
+    }
+}

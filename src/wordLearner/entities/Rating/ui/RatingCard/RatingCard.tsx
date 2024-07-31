@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import { memo, useCallback, useState } from 'react';
 import { BrowserView, MobileView } from 'react-device-detect';
-import { Text } from 'src/shared/ui/Kit/Text';
-import { Input } from 'src/shared/ui/Kit/Input';
-import { Button, ButtonSize, ButtonTheme } from 'src/shared/ui/Kit/Button';
+import { Text } from "S/ui/Kit/Text";
+import { Input } from "S/ui/Kit/Input";
+import { Button, ButtonSize, ButtonTheme } from "S/ui/Kit/Button";
 import { Card } from '@/shared/ui/Card';
-import { HStack, VStack } from 'src/shared/ui/Stack';
+import { HStack, VStack } from "S/ui/Stack";
 import { StarRating } from '@/shared/ui/StarRating';
 import { Modal } from '@/shared/ui/Modal';
 import { Drawer } from '@/shared/ui/Drawer';

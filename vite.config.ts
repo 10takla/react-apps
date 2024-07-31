@@ -7,6 +7,9 @@ export default defineConfig(({ mode }) => {
     const rootPath = mode === 'deploy' ? '/react-apps/' : '/';
     return (
         {
+            server: {
+                port: 3000,
+            },
             plugins: [
                 wasm(),
                 svgr({ exportAsDefault: true }),
@@ -20,6 +23,8 @@ export default defineConfig(({ mode }) => {
                     { find: 'M', replacement: '/src/monitors' },
                     { find: 'A', replacement: '/src/answersToQuestions' },
                     { find: 'W', replacement: '/src/wasm' },
+                    { find: 'market', replacement: '/src/market' },
+                    { find: 'S', replacement: '/src/shared' },
                 ],
             },
             esbuild: {

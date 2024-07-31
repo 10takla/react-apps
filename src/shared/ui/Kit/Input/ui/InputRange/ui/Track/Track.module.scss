@@ -1,15 +1,19 @@
 .Track {
     position: relative;
-    background: yellow;
-    $offset-input: 0.2em;
+    $offset-input: 0.5em;
+
+    >.track {
+        position: absolute;
+        border-radius: 1em;
+    }
 
     >.sliderInput {
         position: absolute;
         top: 0;
         left: 0;
-    
+
         >.slider {
-            background: green;
+            background: rgb(4, 128, 0);
             width: 1em;
             aspect-ratio: 1/1;
             height: 1em;
@@ -19,7 +23,24 @@
     }
 
     &.row {
-        width: 200px;
+        width: calc(var(--count-values) * 50px + 100px);
+        height: var(--height);
+
+        >.track {
+            width: var(--width);
+            $height: calc(var(--height) / 2);
+            height: $height;
+
+            &.left {
+                bottom: 0;
+                transform: translate(var(--offset), calc(-1 * $height / 2));
+            }
+
+            &.right {
+                transform: translate(var(--offset), calc($height / 2));
+            }
+        }
+
         >.sliderInput {
             &:nth-child(even) {
                 >.input {
@@ -27,16 +48,27 @@
                     bottom: none;
                 }
             }
-            >.input {
-                // position: absolute;
-                top: none;
-                bottom: calc(100% + $offset-input);
-            }
         }
     }
 
     &.column {
+        width: var(--height);
         height: 200px;
+
+        >.track {
+            $height: calc(var(--height) / 2);
+            width: $height;
+            height: var(--width);
+
+            &.left {
+                right: 0;
+                transform: translate(calc(-1 * $height / 2), var(--offset));
+            }
+
+            &.right {
+                transform: translate(calc($height / 2), var(--offset));
+            }
+        }
 
         >.sliderInput {
             &:nth-child(even) {
@@ -44,10 +76,6 @@
                     left: calc(100% + $offset-input);
                     right: none;
                 }
-            }
-            >.input {
-                left: none;
-                right: calc(100% + $offset-input);
             }
         }
     }

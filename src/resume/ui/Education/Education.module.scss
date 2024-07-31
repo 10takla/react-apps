@@ -1,0 +1,20 @@
+.Education {
+    gap: 16px;
+    font-size: 0.8em;
+
+    > .place {
+        background: rgba(196, 196, 196, 0.233);
+        padding: 0.4em;
+        border-radius: 1em;  
+
+        > h4 {
+            // text-align: end;
+            margin: 0em;
+            margin-top: 1.3em;
+            text-decoration: none;
+        }
+        > .descript {
+            text-align: end;
+        }
+    }
+}

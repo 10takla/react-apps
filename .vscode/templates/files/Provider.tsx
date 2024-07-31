@@ -1,6 +1,6 @@
 import { ReactNode, memo } from 'react';
-import StoreProvider, { StoreProviderProps } from 'src/shared/stateManagers/store/storeProvider';
-import { {fileNameUpper}Reducer, {fileNameUpper}State } from './slices/{fileNameLower}Slice';
+import StoreProvider, { StoreProviderProps } from 'src/shared/providers/store/StoreProvider';
+import { {fileNameUpper}State, {fileNameLower}Reducer } from './slices/{fileNameLower}Slice';
 
 export interface {fileNameUpper}Scheme {
     {fileNameLower}: {fileNameUpper}State
@@ -21,7 +21,7 @@ const {fileNameUpper}Provider = (props: {fileNameUpper}ProviderProps) => {
     };
 
     return (
-        <StoreProvider {...{ rootReducers, initialState }}>
+        <StoreProvider keyName="{fileNameLower}" localStateConfig={[]} {...{ rootReducers, initialState }}>
             {children}
         </StoreProvider>
     );

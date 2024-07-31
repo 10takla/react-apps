@@ -4,11 +4,7 @@ module.exports = {
         es2021: true,
         jest: true,
     },
-    extends: [
-        'plugin:react/recommended',
-        'airbnb',
-        'plugin:i18next/recommended',
-    ],
+    extends: ['plugin:react/recommended', 'airbnb', 'plugin:i18next/recommended', 'plugin:storybook/recommended'],
     parser: '@typescript-eslint/parser',
     parserOptions: {
         ecmaFeatures: {
@@ -49,7 +45,7 @@ module.exports = {
         'import/no-extraneous-dependencies': 'off',
         'no-underscore-dangle': 'off',
         'i18next/no-literal-string': [
-            'error',
+            'off',
             {
                 markupOnly: true,
                 ignoreAttribute: [
@@ -76,8 +72,9 @@ module.exports = {
         'no-param-reassign': 'off',
         'no-undef': 'off',
         'react/no-array-index-key': 'off',
+        'react/button-has-type': 'off',
         'arrow-body-style': 'off',
-        'linebreak-style': ['error', process.platform === 'win32' ? 'windows' : 'unix']
+        'linebreak-style': 'off'
         // 'ulbi-tv-plugin/path-checker': ['error', { alias: '@' }],
         // 'ulbi-tv-plugin/layer-imports': [
         //     'error',

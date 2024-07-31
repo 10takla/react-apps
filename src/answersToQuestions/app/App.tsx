@@ -1,6 +1,6 @@
-import SubjectRoutesPage from 'src/answersToQuestions/pages/SubjectRoutesPage/SubjectRoutesPage';
+import SubjectRoutesPage from "src/answersToQuestions/pages/SubjectRoutesPage/SubjectRoutesPage";
 import answers from 'A/shared/const/answers.json';
-import DeleteSvg from 'src/shared/assets/icons/delete.svg';
+import DeleteSvg from "S/assets/icons/delete.svg";
 import AnswerProvider, { AnswerScheme } from './providers/AnswerProvider/AnswerProvider';
 import cls from './App.module.scss';
 
@@ -10,7 +10,8 @@ const App = () => {
             return JSON.parse(arg) as AnswerScheme;
         }
     })(localStorage.getItem('answers'));
-
+    
+    
     const initialState: AnswerScheme = {
         subjects: an || answers,
     };

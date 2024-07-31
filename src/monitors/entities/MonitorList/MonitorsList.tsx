@@ -1,8 +1,8 @@
 import { memo } from 'react';
 import MonitorItem, { MonitorItemProps } from 'M/entities/Monitor/MonitorItem';
 import { Monitor } from 'M/entities/Monitor/types/monitor';
-import { classNames } from 'src/shared/lib/classNames/classNames';
-import { VStack } from 'src/shared/ui/Stack';
+import { classNames } from "S/lib/classNames/classNames";
+import { VStack } from "S/ui/Stack";
 import cls from './MonitorsList.module.scss';
 
 export interface MonitorsListProps extends MonitorItemProps {

@@ -6,8 +6,8 @@ import {
     useCallback,
     useState,
 } from 'react';
-import { classNames } from 'src/shared/lib/classNames/classNames';
-import Vector from 'src/shared/lib/geometry/vector';
+import { classNames } from "S/lib/classNames/classNames";
+import Vector from "S/lib/geometry/vector";
 import cls from './SwapList.module.scss';
 import SwapListWithOutMode from './SwapListWithOutMode/SwapListWithOutMode';
 

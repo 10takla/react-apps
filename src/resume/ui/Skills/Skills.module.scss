@@ -1,0 +1,53 @@
+.Skills {
+    li {
+        list-style-type: none;
+    }
+
+    ul,
+    ol,
+    il,
+    & {
+        margin: 0;
+    }
+
+    font-size: 0.7em;
+    padding: 0;
+    max-height: 340px;
+    flex-wrap: wrap;
+
+    .skillBlock {
+        max-width: 45%;
+
+        .skills {
+            flex-wrap: wrap;
+            max-width: 20em;
+            padding: 0.5em;
+
+            .skill {
+                padding: 0.3em;
+                background: rgba(108, 95, 175, 0.226);
+                border-radius: 0.2em;
+
+                >.stars {
+                    font-size: 0.3em;
+                    position: relative;
+
+                    >.backGround {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+
+                        svg {
+                            fill: gold;
+                        }
+                    }
+
+                    svg {
+                        width: 2em;
+                        height: 2em;
+                    }
+                }
+            }
+        }
+    }
+}

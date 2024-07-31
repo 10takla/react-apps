@@ -7,8 +7,8 @@ import { ControlPanel } from 'M/widgets/SiteList/ui/ControlPanel/ControlPanel';
 import MonitorItem, { MonitorItemProps } from 'M/entities/Monitor/MonitorItem';
 import { Monitor } from 'M/entities/Monitor/types/monitor';
 import { Relation } from 'M/entities/Relation/types/Relation';
-import { classNames } from 'src/shared/lib/classNames/classNames';
-import { VStack } from 'src/shared/ui/Stack';
+import { classNames } from "S/lib/classNames/classNames";
+import { VStack } from "S/ui/Stack";
 import cls from './SiteList.module.scss';
 
 export interface SiteListProps extends Omit<MonitorItemProps, 'monitor'> {

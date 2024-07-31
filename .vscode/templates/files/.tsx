@@ -1,30 +1,31 @@
-import { forwardRef, memo, ForwardedRef, ComponentProps, useImperativeHandle, useRef } from 'react';
+import { forwardRef, memo, ForwardedRef, ComponentProps, useImperativeHandle, useRef, ElementRef } from 'react';
 import { HStack } from 'src/shared/ui/Stack';
 import { classNames } from 'src/shared/lib/classNames/classNames';
 import cls from './{fileNameUpper}.module.scss';
 
-type El = HTMLElement | null;
+type Component = typeof HStack;
+type ElRef = ElementRef<Component> | null;
 
-interface {fileNameUpper}Props extends ComponentProps<typeof HStack> {
+interface {fileNameUpper}Props extends ComponentProps<Component> {
     
 }
 
-const {fileNameUpper} = (props: {fileNameUpper}Props, ref: ForwardedRef<El>) => {
+const {fileNameUpper} = (props: {fileNameUpper}Props, ref: ForwardedRef<ElRef>) => {
     const {
         className,
         ...otherProps
     } = props;
     
-    const elementRef = useRef<El>(null);
-    useImperativeHandle<El, El>(
+    const {fileNameLower}Ref = useRef<ElRef>(null);
+    useImperativeHandle<ElRef, ElRef>(
         ref,
-        () => elementRef.current,
+        () => {fileNameLower}Ref.current,
     );
     
     return (
         <HStack
             className={classNames(cls.{fileNameUpper}, [className])}
-            ref={elementRef}
+            ref={{fileNameLower}Ref}
             {...otherProps}
         >
             

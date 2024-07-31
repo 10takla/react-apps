@@ -2,27 +2,34 @@ import {
     ForwardedRef, SelectHTMLAttributes, forwardRef, memo,
 } from 'react';
 
-interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
-    options: Array<string>;
-    onChange: (value: string) => void;
+interface SelectProps<V> extends Omit<SelectHTMLAttributes<HTMLSelectElement>, 'onChange'> {
+    values: Array<V> | [Array<V>, string];
+    onChange: (value: V) => void;
 }
 
-const Select = (props: SelectProps, ref: ForwardedRef<HTMLSelectElement>) => {
+const Select = <V,>(props: SelectProps<V>, ref: ForwardedRef<HTMLSelectElement>) => {
     const {
-        options,
+        values,
         onChange,
         ...otherProps
     } = props;
+    
     return (
         <select
             ref={ref}
             {...otherProps}
-            onChange={(e) => onChange(e.target.value)}
+            onChange={(e) => onChange(e.target.value as V)}
         >
-            {options.map((option) => (
-                <option key={option} value={option}>
-                    {option}
-                </option>
+            {values.map((value, i) => (
+                !Array.isArray(value) ? (
+                    <option key={i} value={value}>
+                        {value}
+                    </option>
+                ) : (
+                    <option key={value} value={value[0]}>
+                        {value[1]}
+                    </option>
+                )
             ))}
         </select>
     );

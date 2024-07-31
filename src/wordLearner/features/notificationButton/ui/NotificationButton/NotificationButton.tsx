@@ -1,9 +1,9 @@
 import React, { memo, useCallback, useState } from 'react';
 import { BrowserView, MobileView } from 'react-device-detect';
-import { Button, ButtonTheme } from 'src/shared/ui/Kit/Button';
-import { classNames } from 'src/shared/lib/classNames/classNames';';
+import { Button, ButtonTheme } from "S/ui/Kit/Button";
+import { classNames } from "S/lib/classNames/classNames";
 import { Icon } from '@/shared/ui/Icon';
-import NotificationIcon from '@/shared/assets/icons/notification-20-20.svg';
+import NotificationIcon from "S/assets/icons/notification-20-20.svg";
 import { NotificationList } from '@/entities/Notification';
 import { Popover } from '@/shared/ui/Popups';
 import { Drawer } from '@/shared/ui/Drawer';

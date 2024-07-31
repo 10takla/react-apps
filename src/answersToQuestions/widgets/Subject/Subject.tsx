@@ -1,7 +1,7 @@
 import { ComponentProps, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { HStack, VStack } from 'src/shared/ui/Stack';
-import Input from 'src/shared/ui/Kit/Input/Input';
+import { HStack, VStack } from "S/ui/Stack";
+import Input from "S/ui/Kit/Input/Input";
 import QuestionList from '../QuestionList/QuestionList';
 import cls from './Subject.module.scss';
 

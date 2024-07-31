@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import React, { memo, useState } from 'react';
-import { Button } from 'src/shared/ui/Kit/Button';
-import { classNames } from 'src/shared/lib/classNames/classNames';
-import { HStack, VStack } from 'src/shared/ui/Stack';
+import { Button } from "S/ui/Kit/Button";
+import { classNames } from "S/lib/classNames/classNames";
+import { HStack, VStack } from "S/ui/Stack";
 import cls from './Word.module.scss';
 import { Input } from './ui/Input';
 

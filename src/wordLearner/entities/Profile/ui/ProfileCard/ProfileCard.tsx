@@ -1,12 +1,12 @@
 import { useTranslation } from 'react-i18next';
-import { Text, TextAlign, TextTheme } from 'src/shared/ui/Kit/Text';
-import { Input } from 'src/shared/ui/Kit/Input';
-import { classNames } from 'src/shared/lib/classNames/classNames';';
+import { Text, TextAlign, TextTheme } from "S/ui/Kit/Text";
+import { Input } from "S/ui/Kit/Input";
+import { classNames } from "S/lib/classNames/classNames";
 import { Loader } from '@/shared/ui/Loader';
 import { Avatar } from '@/shared/ui/Avatar';
 import { Currency, CurrencySelect } from '@/entities/Currency';
 import { Country, CountrySelect } from '@/entities/Country';
-import { HStack, VStack } from 'src/shared/ui/Stack';
+import { HStack, VStack } from "S/ui/Stack";
 import cls from './ProfileCard.module.scss';
 import { Profile } from '../../model/types/profile';
 
@@ -58,7 +58,7 @@ export const ProfileCard = (props: ProfileCardProps) => {
                 <Text
                     theme={TextTheme.ERROR}
                     title={t('Произошла ошибка при загрузке профиля')}
-                    text={t('Попробуйте обновить страницу')}
+                    children={t('Попробуйте обновить страницу')}
                     align={TextAlign.CENTER}
                 />
             </HStack>

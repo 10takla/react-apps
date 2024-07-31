@@ -5,21 +5,21 @@ import {
     forwardRef,
     useCallback,
 } from 'react';
-import { classNames } from 'src/shared/lib/classNames/classNames';
-import getRgbGradient from 'src/shared/lib/getRgbGradient/getRgbGradient';
-import { HStack, VStack } from 'src/shared/ui/Stack';
-import PlusSvg from 'src/shared/assets/icons/plus.svg';
-import CrossSvg from 'src/shared/assets/icons/cross.svg';
-import Input from 'src/shared/ui/Kit/Input/Input';
-import DraggableItem from 'src/shared/ui/Kit/Draggable/ui/DraggableItem';
-import { SwapList } from 'src/shared/ui/Kit/SwapList';
-import RadioButtonSvg from 'src/shared/assets/icons/radio_button.svg';
-import { FoldTransition } from 'src/shared/ui/Animations/FoldTransition';
-import { Button } from 'src/shared/ui/Kit/Button';
+import { classNames } from "S/lib/classNames/classNames";
+import getRgbGradient from "S/lib/getRgbGradient/getRgbGradient";
+import { HStack, VStack } from "S/ui/Stack";
+import PlusSvg from "S/assets/icons/plus.svg";
+import CrossSvg from "S/assets/icons/cross.svg";
+import Input from "S/ui/Kit/Input/Input";
+import DraggableItem from "S/ui/Kit/Draggable/ui/DraggableItem";
+import { SwapList } from "S/ui/Kit/SwapList";
+import RadioButtonSvg from "S/assets/icons/radio_button.svg";
+import { FoldTransition } from "S/ui/Animations/FoldTransition";
+import { Button } from "S/ui/Kit/Button";
 import { useSelector } from 'react-redux';
-import { AnswerScheme } from 'src/answersToQuestions/app/providers/AnswerProvider/AnswerProvider';
+import { AnswerScheme } from "src/answersToQuestions/app/providers/AnswerProvider/AnswerProvider";
 import { htmlToText } from 'html-to-text';
-import { ListItem } from 'src/shared/ui/Stack/List/List';
+import { ListItem } from "S/ui/Stack/List/List";
 import cls from './NestingList.module.scss';
 import NestingList from './NestingList';
 

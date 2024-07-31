@@ -1,5 +1,5 @@
 import { ReactNode, memo } from 'react';
-import StoreProvider, { StoreProviderProps } from 'src/shared/stateManagers/store/StoreProvider';
+import StoreProvider, { StoreProviderProps } from "S/providers/store/StoreProvider";
 import { NewSubjectState, newSubjectReducer } from './slices/newSubjectSlice';
 import { SubjectsState, subjectsReducer } from './slices/subjectsSlice';
 

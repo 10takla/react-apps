@@ -2,10 +2,10 @@ import { useTranslation } from 'react-i18next';
 import { memo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Button, ButtonTheme } from 'src/shared/ui/Kit/Button';
-import { classNames } from 'src/shared/lib/classNames/classNames';';
+import { Button, ButtonTheme } from "S/ui/Kit/Button";
+import { classNames } from "S/lib/classNames/classNames";
 import { getArticleDetailsData } from '@/entities/Article';
-import { HStack } from 'src/shared/ui/Stack';
+import { HStack } from "S/ui/Stack";
 import { getCanEditArticle } from '../../model/selectors/article';
 import { getRouteArticleEdit, getRouteArticles } from '@/shared/const/router';
 

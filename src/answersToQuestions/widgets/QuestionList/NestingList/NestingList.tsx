@@ -3,12 +3,12 @@ import {
     useState,
     useEffect,
 } from 'react';
-import { classNames } from 'src/shared/lib/classNames/classNames';
-import getRgbGradient from 'src/shared/lib/getRgbGradient/getRgbGradient';
-import { HStack, VStack } from 'src/shared/ui/Stack';
-import RadioButtonSvg from 'src/shared/assets/icons/radio_button.svg';
-import { FoldTransition } from 'src/shared/ui/Animations/FoldTransition';
-import List, { ListItem } from 'src/shared/ui/Stack/List/List';
+import { classNames } from "S/lib/classNames/classNames";
+import getRgbGradient from "S/lib/getRgbGradient/getRgbGradient";
+import { HStack, VStack } from "S/ui/Stack";
+import RadioButtonSvg from "S/assets/icons/radio_button.svg";
+import { FoldTransition } from "S/ui/Animations/FoldTransition";
+import List, { ListItem } from "S/ui/Stack/List/List";
 import cls from './NestingList.module.scss';
 
 type NestingArray = Array<[string, string | NestingArray]>

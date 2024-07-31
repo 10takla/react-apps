@@ -13,6 +13,10 @@
         "Selector.ts": "{lF}Selector.ts",
         "Service.ts": "{lF}Service.ts",
         "Slice.ts": "{lF}Slice.ts",
-        "Provider.ts": "{uF}Provider.ts"
+        "Provider.ts": "{uF}Provider.ts",
+        "Context.ts": "{lF}Context.ts",
+        "ContextProvider.tsx": "{uF}Provider.tsx",
+        "Api.ts": "{lF}Api.ts",
+        "rtkApi.ts": "{lF}Api.ts"
     }
 }

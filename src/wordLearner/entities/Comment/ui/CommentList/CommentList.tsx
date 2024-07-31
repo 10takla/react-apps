@@ -1,8 +1,8 @@
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Text } from 'src/shared/ui/Kit/Text';
-import { classNames } from 'src/shared/lib/classNames/classNames';
-import { VStack } from 'src/shared/ui/Stack';
+import { Text } from "S/ui/Kit/Text";
+import { classNames } from "S/lib/classNames/classNames";
+import { VStack } from "S/ui/Stack";
 import { CommentCard } from '../CommentCard/CommentCard';
 import { Comment } from '../../model/types/comment';
 
@@ -36,7 +36,7 @@ export const CommentList = memo((props: CommentListProps) => {
                         key={comment.id}
                     />
                 ))
-                : <Text text={t('Комментарии отсутствуют')} />}
+                : <Text children={t('Комментарии отсутствуют')} />}
         </VStack>
     );
 });

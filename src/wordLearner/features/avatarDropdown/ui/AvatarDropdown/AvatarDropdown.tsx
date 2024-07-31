@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import React, { memo, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { classNames } from 'src/shared/lib/classNames/classNames';';
+import { classNames } from "S/lib/classNames/classNames";
 import { Avatar } from '@/shared/ui/Avatar';
 import { Dropdown } from '@/shared/ui/Popups';
 import {

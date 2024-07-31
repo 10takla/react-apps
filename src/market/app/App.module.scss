@@ -1,0 +1,14 @@
+.App {
+    width: 100dvw;
+    height: 100dvh;
+    position: relative;
+
+    >.header {
+        height: 50px;
+    }
+
+    >.page {
+        position: relative;
+        height: 100%;
+    }
+}

@@ -1,12 +1,12 @@
 import { useTranslation } from 'react-i18next';
 import { memo, useCallback } from 'react';
 import { useSelector } from 'react-redux';
-import { Input } from 'src/shared/ui/Kit/Input';
+import { Input } from "S/ui/Kit/Input";
 import {
     ArticleSortField, ArticleType, ArticleView,
 } from '@/entities/Article';
-import { classNames } from 'src/shared/lib/classNames/classNames';';
-import { useAppDispatch } from 'src/shared/hooks/useAppDispatch';
+import { classNames } from "S/lib/classNames/classNames";
+import { useAppDispatch } from "S/lib/hooks/useAppDispatch";
 import { Card } from '@/shared/ui/Card';
 import { SortOrder } from '@/shared/types';
 import { useDebounce } from '@/shared/lib/hooks/useDebounce/useDebounce';

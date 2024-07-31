@@ -1,20 +1,24 @@
 import QuestionList from 'A/widgets/QuestionList/QuestionList';
 import { useSelector } from 'react-redux';
 import { Link, Route, Routes } from 'react-router-dom';
-import { AnswerScheme } from 'src/answersToQuestions/app/providers/AnswerProvider/AnswerProvider';
-import { subjectsActions } from 'src/answersToQuestions/app/providers/AnswerProvider/slices/subjectsSlice';
-import AddNewSubject from 'src/answersToQuestions/pages/AddNewSubject/AddNewSubject';
-import Subject from 'src/answersToQuestions/widgets/Subject/Subject';
-import EditSvg from 'src/shared/assets/icons/edit.svg';
-import CrossSvg from 'src/shared/assets/icons/cross.svg';
-import { HStack, VStack } from 'src/shared/ui/Stack';
-import { useAppDispatch } from 'src/shared/hooks/useAppDispatch';
-import { classNames } from 'src/shared/lib/classNames/classNames';
+import { AnswerScheme } from "src/answersToQuestions/app/providers/AnswerProvider/AnswerProvider";
+import { subjectsActions } from "src/answersToQuestions/app/providers/AnswerProvider/slices/subjectsSlice";
+import AddNewSubject from "src/answersToQuestions/pages/AddNewSubject/AddNewSubject";
+import Subject from "src/answersToQuestions/widgets/Subject/Subject";
+import EditSvg from "S/assets/icons/edit.svg";
+import CrossSvg from "S/assets/icons/cross.svg";
+import { HStack, VStack } from "S/ui/Stack";
+import { useAppDispatch } from "S/lib/hooks/useAppDispatch";
+import { classNames } from "S/lib/classNames/classNames";
 import cls from './SubjectRoutesPage.module.scss';
 import TestPage from '../TestPage';
 
 const SubjectRoutesPage = () => {
-    const subjects = useSelector<AnswerScheme>((state) => state.subjects);
+    const subjects = useSelector<AnswerScheme>((state) => {
+        console.log(state);
+        
+        return state.subjects
+    });
     const dispatch = useAppDispatch();
 
     const subjectsRoutes = Object.entries(subjects)
@@ -45,7 +49,7 @@ const SubjectRoutesPage = () => {
             to: <TestPage />,
         },
     ];
-
+    
     return (
         <HStack
             className={cls.wrapper}

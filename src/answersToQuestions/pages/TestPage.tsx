@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import Input from 'src/shared/ui/Kit/Input/Input';
-import InputRange from 'src/shared/ui/Kit/Input/ui/InputRange/InputRange';
-import { VStack } from 'src/shared/ui/Stack';
+import Input from "S/ui/Kit/Input/Input";
+import InputRange from "S/ui/Kit/Input/ui/InputRange/InputRange";
+import { VStack } from "S/ui/Stack";
 
 interface TestPageProps {
 
@@ -30,23 +30,26 @@ const TestPage = (props: TestPageProps) => {
     return (
         <>
             <VStack style={{
-                background: 'red',
+                // background: 'red',
                 padding: 10,
                 width: 200,
+                height: 200,
             }}
             >
                 <Input
-                    type="number"
+                    min={10}
                     max={100}
-                    min={0}
-                    value={value}
+                    type="number"
+                    value={-120}
+                    onChange={(e) => console.log('change', e.target.value)}
+                    onBlur={(e) => console.log('blur', e.target.value)}
                 />
                 <InputRange
-                    // min={10}
+                    min={10}
                     // direction="y"
-                    max={100}
-                    values={[0, 40, 80]}
-                    step={5}
+                    // max={100}
+                    values={[-20]}
+                    // step={5}
                     onChange={(v) => {
                         // console.log(v);
                     }}

@@ -1,11 +1,11 @@
 import {
     ComponentProps, useMemo, useState,
 } from 'react';
-import { HStack, VStack } from 'src/shared/ui/Stack';
-import ArrowUpSvg from 'src/shared/assets/icons/arrows/arrow_up.svg';
-import { classNames } from 'src/shared/lib/classNames/classNames';
-import RadioButtonSvg from 'src/shared/assets/icons/radio_button.svg';
-import { Button } from 'src/shared/ui/Kit/Button';
+import { HStack, VStack } from "S/ui/Stack";
+import ArrowUpSvg from "S/assets/icons/arrows/arrow_up.svg";
+import { classNames } from "S/lib/classNames/classNames";
+import RadioButtonSvg from "S/assets/icons/radio_button.svg";
+import { Button } from "S/ui/Kit/Button";
 import cls from './QuestionList.module.scss';
 import NestingList from './NestingList/NestingList';
 import WriteMode from './NestingList/WriteMode';
@@ -23,7 +23,7 @@ const QuestionList = (props: QuestionListProps) => {
         onChange,
     } = props;
     const [isHide, setIsHide] = useState(false);
-    const [isFold, setIsFold] = useState(false);
+    const [isFold, setIsFold] = useState(true);
     const [isChatGpt, setIsChatGpt] = useState(false);
     const [fontSize, setFontSize] = useState(1);
 

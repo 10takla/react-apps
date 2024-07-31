@@ -1,0 +1,32 @@
+.StoreControlPanel {
+    width: 100%;
+    pointer-events: none;
+    position: relative;
+    font-size: 2.3em;
+
+    > * {
+        pointer-events: all;
+    }
+
+    &.dark {
+        svg {
+            fill: white;
+            height: 1em;
+            width: 1em;
+
+            
+        }
+        
+    }
+
+    > .bottomPanel {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+    }
+}
+
+.active {
+    fill:red
+}

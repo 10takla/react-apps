@@ -1,0 +1,38 @@
+.App {
+  font-size: 1.2em;
+  // background: rgb(54, 14, 150);
+  // color: white;
+
+  >.list {
+    // max-height: 100dvh;
+    overflow-y: scroll;
+    flex-wrap: wrap;
+    column-count: 2;
+    row-gap: 0.5em;
+
+    >.monitor {
+      // width: 50%;
+      padding: 0.2em;
+      background: rgba(255, 166, 0, 0.527);
+      border-radius: 0.1em;
+
+      &.isHide {
+        background: rgba(255, 0, 76, 0.527);
+      }
+
+      >.head {
+        background: rgba(238, 59, 59, 0.274);
+      }
+
+      .store {
+        a {
+          // color: white;
+        }
+
+        &.isHide {
+          background: rgba(180, 211, 8, 0.527);
+        }
+      }
+    }
+  }
+}

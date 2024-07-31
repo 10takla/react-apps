@@ -1,10 +1,10 @@
 import { memo } from 'react';
-import { Text } from 'src/shared/ui/Kit/Text';
-import { classNames } from 'src/shared/lib/classNames/classNames';
+import { Text } from "S/ui/Kit/Text";
+import { classNames } from "S/lib/classNames/classNames";
+import { VStack } from "S/ui/Stack";
 import { Avatar } from '@/shared/ui/Avatar';
 import { Skeleton } from '@/shared/ui/Skeleton';
 import { AppLink } from '@/shared/ui/AppLink';
-import { VStack } from 'src/shared/ui/Stack';
 import cls from './CommentCard.module.scss';
 import { Comment } from '../../model/types/comment';
 import { getRouteProfile } from '@/shared/const/router';
@@ -40,7 +40,7 @@ export const CommentCard = memo((props: CommentCardProps) => {
                 {comment.user.avatar ? <Avatar size={30} src={comment.user.avatar} /> : null}
                 <Text className={cls.username} title={comment.user.username} />
             </AppLink>
-            <Text className={cls.text} text={comment.text} />
+            <Text className={cls.text} children={comment.text} />
         </VStack>
     );
 });

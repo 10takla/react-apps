@@ -1,10 +1,10 @@
 import { useTranslation } from 'react-i18next';
 import { HTMLAttributeAnchorTarget, memo } from 'react';
-import { Text } from 'src/shared/ui/Kit/Text';
-import { Button, ButtonTheme } from 'src/shared/ui/Kit/Button';
-import { classNames } from 'src/shared/lib/classNames/classNames';
+import { Text } from "S/ui/Kit/Text";
+import { Button, ButtonTheme } from "S/ui/Kit/Button";
+import { classNames } from "S/lib/classNames/classNames";
 import { Icon } from '@/shared/ui/Icon';
-import EyeIcon from '@/shared/assets/icons/eye-20-20.svg';
+import EyeIcon from "S/assets/icons/eye-20-20.svg";
 import { Card } from '@/shared/ui/Card';
 import { Avatar } from '@/shared/ui/Avatar';
 import { AppLink } from '@/shared/ui/AppLink';
@@ -29,10 +29,10 @@ export const ArticleListItem = memo((props: ArticleListItemProps) => {
     } = props;
     const { t } = useTranslation();
 
-    const types = <Text text={article.type.join(', ')} className={cls.types} />;
+    const types = <Text children={article.type.join(', ')} className={cls.types} />;
     const views = (
         <>
-            <Text text={String(article.views)} className={cls.views} />
+            <Text children={String(article.views)} className={cls.views} />
             <Icon Svg={EyeIcon} />
         </>
     );
@@ -47,8 +47,8 @@ export const ArticleListItem = memo((props: ArticleListItemProps) => {
                 <Card className={cls.card}>
                     <div className={cls.header}>
                         <Avatar size={30} src={article.user.avatar} />
-                        <Text text={article.user.username} className={cls.username} />
-                        <Text text={article.createdAt} className={cls.date} />
+                        <Text children={article.user.username} className={cls.username} />
+                        <Text children={article.createdAt} className={cls.date} />
                     </div>
                     <Text title={article.title} className={cls.title} />
                     {types}
@@ -81,13 +81,13 @@ export const ArticleListItem = memo((props: ArticleListItemProps) => {
             <Card className={cls.card}>
                 <div className={cls.imageWrapper}>
                     <img alt={article.title} src={article.img} className={cls.img} />
-                    <Text text={article.createdAt} className={cls.date} />
+                    <Text children={article.createdAt} className={cls.date} />
                 </div>
                 <div className={cls.infoWrapper}>
                     {types}
                     {views}
                 </div>
-                <Text text={article.title} className={cls.title} />
+                <Text children={article.title} className={cls.title} />
             </Card>
         </AppLink>
     );

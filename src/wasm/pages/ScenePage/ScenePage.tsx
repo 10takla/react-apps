@@ -1,10 +1,9 @@
 import {
     forwardRef, memo, ForwardedRef, ComponentProps, ReactNode,
 } from 'react';
-import { classNames } from 'src/shared/lib/classNames/classNames';
-import { HStack } from 'src/shared/ui/Stack';
+import { classNames } from "S/lib/classNames/classNames";
+import { HStack } from "S/ui/Stack";
 import cls from './ScenePage.module.scss';
-import SceneProvider from './SceneProvider/SceneProvider';
 
 type El = HTMLElement | undefined;
 
@@ -21,7 +20,7 @@ const ScenePage = (props: ScenePageProps, ref: ForwardedRef<El>) => {
     } = props;
 
     return (
-        <HStack className={classNames(cls.ScenePage, [className])}>
+        <HStack className={classNames(cls.ScenePage, [className])} ref={ref}>
             {scene}
             <div className={cls.controlPanel}>
                 {controlPanel}

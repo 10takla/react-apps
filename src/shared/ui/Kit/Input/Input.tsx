@@ -8,13 +8,17 @@ import {
     useState,
 } from 'react';
 
-import { classNames } from 'src/shared/lib/classNames/classNames';
+import { classNames } from "S/lib/classNames/classNames";
 import cls from './Input.module.scss';
 import AdaptiveInput from './ui/AdaptiveInput/AdaptiveInput';
 import TypeRoutes from './wrappers/TypeRoutes';
 
-interface InputProps extends HTMLProps<HTMLInputElement> {
+export enum InputThemes {
+    BASE = 'base',
+}
 
+interface InputProps extends HTMLProps<HTMLInputElement> {
+    theme?: InputThemes
 }
 
 type HTMLInput = HTMLInputElement | null
@@ -24,10 +28,11 @@ const Input = (props: InputProps, ref: ForwardedRef<HTMLInput>) => {
         className,
         value,
         style,
+        theme,
         onChange,
         ...otherProps
     } = props;
-
+    
     const inputRef = useRef<HTMLInputElement>(null);
     useImperativeHandle<HTMLInput, HTMLInput>(
         ref,
@@ -52,7 +57,7 @@ const Input = (props: InputProps, ref: ForwardedRef<HTMLInput>) => {
             {...otherProps}
         >
             <AdaptiveInput
-                className={classNames(cls.Input, {}, [className])}
+                className={classNames(cls.Input, { [cls[theme!]]: theme }, [className,])}
                 ref={inputRef}
                 {...{ style, ...otherProps }}
             />

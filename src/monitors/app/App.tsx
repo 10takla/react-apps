@@ -7,8 +7,8 @@ import SiteList from 'M/widgets/SiteList/SiteList';
 import { ControlPanel } from 'M/widgets/SiteList/ui/ControlPanel/ControlPanel';
 import { MonitorsListProps } from 'M/entities/MonitorList/MonitorsList';
 import monitors from 'M/shared/const/monitors.json';
-import { classNames } from 'src/shared/lib/classNames/classNames';
-import { VStack } from 'src/shared/ui/Stack';
+import { classNames } from "S/lib/classNames/classNames";
+import { VStack } from "S/ui/Stack";
 import cls from './App.module.scss';
 
 interface AppProps {

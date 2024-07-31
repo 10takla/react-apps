@@ -8,7 +8,7 @@ import cls from './Currency.module.scss';
 interface CurrencyProps {
     value: number
     currency: 'USD' | 'EUR' | 'RUB'
-    startCurrency: CurrencyProps['currency']
+    startCurrency: CurrencyProps['currency'],
 }
 
 // const sites = useMemo<Partial<Record<Site, { currency: Currency }>>>(() => ({
@@ -30,6 +30,8 @@ const Currency = (props: CurrencyProps, ref: ForwardedRef<ElementRef<typeof HSta
         startCurrency,
     } = props;
 
+    const isInteger = value % 1 === 0;
+
     const signs: Record<CurrencyProps['currency'], string> = {
         USD: '$',
         RUB: '₽',
@@ -38,6 +40,9 @@ const Currency = (props: CurrencyProps, ref: ForwardedRef<ElementRef<typeof HSta
 
     const [postValue, setPostValue] = useState(value);
     useEffect(() => {
+        setPostValue(value);
+    }, [value])
+    useEffect(() => {
         fetch('https://www.cbr-xml-daily.ru/daily_json.js')
             .then((resp) => resp.json())
             .then((d) => {
@@ -45,7 +50,7 @@ const Currency = (props: CurrencyProps, ref: ForwardedRef<ElementRef<typeof HSta
                     if (currency !== 'RUB') {
                         setPostValue(value * d.Valute[startCurrency].Value / d.Valute[currency].Value);
                     } else {
-                        setPostValue(value * d.Valute[startCurrency].Value);
+                        // setPostValue(value * d.Valute[startCurrency].Value);
                     }
                 } else if (currency !== 'RUB') {
                     setPostValue(value / d.Valute[currency].Value);
@@ -53,15 +58,16 @@ const Currency = (props: CurrencyProps, ref: ForwardedRef<ElementRef<typeof HSta
             });
     }, [currency, startCurrency, value]);
 
-    const postPostValue = useMemo(() => (
-        [
-            [
-                String(postValue.toFixed(0)).replace(/\B(?=(\d{3})+(?!\d))/g, ' '),
+    const postPostValue = useMemo(() => {
+        const main = String(postValue.toFixed(0)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+        return [
+            isInteger ? main : [
+                main,
                 String(postValue.toFixed(2)).split('.')[1],
             ].join('.'),
             signs[currency],
         ].join(' ')
-    ), [currency, postValue, signs]);
+    }, [currency, postValue, signs]);
 
     return (
         <span className={cls.Currency}>

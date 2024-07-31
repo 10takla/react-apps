@@ -1,0 +1,30 @@
+.SearchPlanet {
+    height: 100%;
+    
+    &.dark {
+        > .search {
+            fill: white;
+        }
+        
+        >.planets {
+            overflow-y: scroll;
+            min-width: 4em;
+    
+            > .planet {
+                padding: 0.3em;
+                background-color: red;
+                visibility: hidden;
+                
+                &.hover {
+                    visibility: visible;
+                }
+
+                >.texture {
+                    width: 4em;
+                }
+            }
+        }
+    }
+
+    
+}
