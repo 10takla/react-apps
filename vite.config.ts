@@ -25,6 +25,7 @@ export default defineConfig(({ mode }) => {
                     { find: 'W', replacement: '/src/wasm' },
                     { find: 'market', replacement: '/src/market' },
                     { find: 'S', replacement: '/src/shared' },
+                    { find: 'resume', replacement: '/src/resume' },
                 ],
             },
             esbuild: {

@@ -1,20 +1,82 @@
+@counter-style dash {
+    system: cyclic;
+    symbols: "—";
+    suffix: " ";
+}
+
 .Experience {
+    height: 100%;
+
+    ul,
+    ol {
+        margin: 0;
+    }
+
+    // *:not(li) {
+    //     text-align: justify;
+
+    //     & li {
+    //         text-align: start;
+    //     }
+    // }
+
     .algoLinks {
         text-align: end;
-        font-size: 0.5;
+        font-size: 0.8em;
+        height: 100%;
 
-        img {
-            width: 3.8em;
+        $size: 3.4em;
 
-            &[alt="codewars"] {
-                width: 2.4em;
+        svg {
+            width: $size;
+            height: $size;
+
+            &[id="codewars"] {
+                width: $size - 1.2em;
+                height: $size - 1.2em;
             }
         }
     }
 
+    >.item {
+        &:first-child {
+            border-top: 0;
+        }
+
+        border-top: 0.1em solid black;
+        padding-right: var(--padding);
+        padding-block: 0em;
+
+        >p {
+            margin-block: 0.3em;
+        }
+
+        h4 {
+            text-align: center;
+        }
+
+        .timeLine {
+            justify-self: right;
+            font-size: 0.55em;
+            padding: 0.5em;
+            box-sizing: border-box;
+            gap: 0.7em;
+
+            >span {
+                font-size: 1.7em;
+                white-space: nowrap;
+            }
+        }
+
+        .descrips {
+            list-style: dash;
+        }
+    }
+
     .lang {
-        padding: 0.2em;
-        background-color: #afb8c133;
-        border-radius: 0.4em;
+        padding: 0.1em;
+        background-color: #e6e6e6;
+        border-radius: 0.3em;
+        white-space: nowrap;
     }
 }

@@ -1,75 +1,237 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=JetBrains Mono');
+
 .App {
-    width: 210mm;
-    height: 297mm;
-    border: 0.2em solid red;
+    $backgrouand-items-z-index: 2;
+    $image-z-index: 1;
 
-    >.left,
-    >.right {
-        // padding: 0.6em;
+    $border-width: 0.13em;
+    --padding: 0.65em;
+    $pad: 0.4em;
 
-        >.format {
-            >.formatText {
+    .page {
+
+        // paddings
+        &:first-child {
+            $inter-block-padding: 0.4em;
+
+            >main {
+                >.left>.chapter>*:not(.head) {
+                    padding-inline: var(--padding) $inter-block-padding;
+                }
+
+                >.right>.chapter>*:not(.head) {
+                    padding-left: $inter-block-padding;
+                }
+            }
+
+            >foot {
+                padding: var(--padding);
+                padding-top: $inter-block-padding;
+            }
+        }
+
+        &:not(.page:first-child)>.chapter>*:not(.head) {
+            padding-inline: var(--padding);
+        }
+
+        // chapter heads
+        &:first-child>main {
+            >.left {
+                >.topLeft.chapter>.head>h2 {
+                    padding-bottom: $pad/2;
+                    border-end-end-radius: $pad*2;
+                }
+
+                >.left.chapter>.head>h2 {
+                    padding-top: $pad/2;
+                    padding-bottom: $pad/2;
+                    padding-left: 20%;
+                    border-end-end-radius: $pad*2;
+                }
+            }
+
+            >.right>.experience.chapter>.head {
+                text-align: end;
+
+                >h2 {
+                    padding-bottom: $pad/2;
+                    border-end-start-radius: $pad*2;
+                }
+            }
+        }
+
+        &:not(.page:first-child)>.experience.chapter>.head {
+            >h2 {
+                padding-bottom: $pad/2;
+                border-end-end-radius: $pad*2;
+            }
+        }
+
+        // font-size-adjust
+        &:first-child>main>.left {
+            >.topLeft.chapter>*:not(.head) {
+                font-size: 1.3em;
+            }
+
+            >.left.chapter>*:not(.head) {
+                // font-size: 1.3em;
+            }
+        }
+
+        .experience.chapter>*:not(.head) {
+            font-size: 12px;
+        }
+
+        $width: calc(210mm + 5.6mm + 0.4mm);
+        $height: calc(297mm - 17.8mm);
+        min-width: $width;
+        max-width: $width;
+        width: $width;
+        min-height: $height;
+        max-height: $height;
+        height: $height;
+
+        line-height: 1.5;
+        border: 0.2em solid black;
+        box-sizing: border-box;
+        font-family: "Lato",
+        sans-serif;
+        font-size: 11px;
+        position: relative;
+        overflow: hidden;
+        text-align: justify;
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: "Archivo Black", sans-serif;
+        }
+
+        h3 {
+            margin-block: 0.4em 0.2em;
+        }
+
+        .chapter {
+            >.head {
+                font-family: "Merriweather", serif;
                 display: inline-block;
                 margin: 0;
 
                 >h2 {
                     display: inline-block;
                     margin: 0;
-                    background: rgba(166, 166, 230, 0.349);
-                }
-            }
-
-            >*:not(div) {
-                padding: 1em;
-            }
-
-            $pad: 0.6em;
-            $pad-min: 0.1em;
-
-            &.topLeft {
-                >.formatText {
-                    >h2 {
-                        padding: $pad-min $pad $pad $pad-min;
-                        border-radius: $pad-min $pad-min $pad $pad-min;
-                    }
-                }
-            }
-
-            &.topRight {
-                >.formatText {
-                    text-align: end;
-
-                    >h2 {
-                        padding: $pad-min $pad-min $pad $pad;
-                        border-radius: 0 0 0 $pad;
-                    }
-                }
-            }
-
-            &.left {
-                >.formatText {
-                    >h2 {
-                        padding: $pad $pad *8 $pad $pad-min;
-                        border-radius: 0 $pad $pad 0;
-                    }
+                    background: #323b4c;
+                    padding: $pad;
+                    color: white
                 }
             }
         }
-
     }
 
-    >.left {
-        min-width: 40%;
-        background: rgb(237, 237, 237);
-        height: 100%;
-        padding-right: 0.3em;
-    }
+    .page:first-child {
+        .rustBackground {
+            position: absolute;
+            z-index: $image-z-index;
+            height: 130em;
+            top: 28em;
+            left: -3em;
+            opacity: 0.07;
+        }
 
-    >.right {
-        padding-left: 0.3em;
+        :global(.background) {
+            position: relative;
 
-        h2 {
-            text-align: right;
+            >* {
+                position: relative;
+                z-index: $backgrouand-items-z-index;
+            }
+        }
+
+        >main {
+            height: 100%;
+            max-height: 100%;
+            overflow: hidden;
+
+            >.left,
+            >.right {
+                >.chapter {
+                    $pad-min: 0.25em;
+
+                    >.head {
+                        font-family: "Merriweather", serif;
+                        display: inline-block;
+                        margin: 0;
+
+                        >h2 {
+                            display: inline-block;
+                            margin: 0;
+                            background: #323b4c;
+                            color: white
+                        }
+                    }
+
+                    &.topLeft {
+                        background: #ddf6f1;
+                        border-bottom: $border-width solid black;
+                        border-right: $border-width solid black;
+                    }
+
+                    &.left {
+                        background: #b5d8d2;
+                        border-right: $border-width solid;
+                        border-bottom: $border-width solid;
+                        height: 100%;
+                    }
+
+                    &.experience {
+                        height: 100%;
+                    }
+                }
+            }
+
+            >.lang {
+                position: absolute;
+                top: 0;
+                left: calc(40% - 1em);
+                opacity: 0;
+                z-index: 4;
+            }
+
+            &:hover {
+                >.lang {
+                    transition: opacity 400ms;
+                    opacity: 1;
+                }
+            }
+
+            >.left {
+                width: 40%;
+                min-width: 40%;
+                max-width: 40%;
+            }
+        }
+
+        >foot {
+            position: relative;
+            box-sizing: border-box;
+            font-size: 1.1em;
+
+            >h4 {
+                text-align: center;
+                float: left;
+            }
+
+            >.skillLine {
+                position: absolute;
+                bottom: var(--padding);
+                right: var(--padding);
+                font-size: 0.7em;
+            }
         }
     }
 }

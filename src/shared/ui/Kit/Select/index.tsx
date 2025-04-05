@@ -17,8 +17,8 @@ const Select = <V,>(props: SelectProps<V>, ref: ForwardedRef<HTMLSelectElement>)
     return (
         <select
             ref={ref}
-            {...otherProps}
             onChange={(e) => onChange(e.target.value as V)}
+            {...otherProps}
         >
             {values.map((value, i) => (
                 !Array.isArray(value) ? (

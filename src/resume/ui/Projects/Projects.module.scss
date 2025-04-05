@@ -1,0 +1,12 @@
+.Projects {
+    padding-left: 1em;
+    flex: 1 1 30%;
+
+    >li {
+        >a {}
+
+        >i {
+            margin-left: 1em;
+        }
+    }
+}

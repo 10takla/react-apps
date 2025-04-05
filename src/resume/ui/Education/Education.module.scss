@@ -1,20 +1,24 @@
 .Education {
-    gap: 16px;
-    font-size: 0.8em;
+    gap: 0.3em;
 
-    > .place {
-        background: rgba(196, 196, 196, 0.233);
-        padding: 0.4em;
-        border-radius: 1em;  
+    >.place {
+        background: rgba(249, 249, 249, 0.757);
+        padding-inline: 0.7em;
+        border-radius: 0.4em;
+        border: 0.2em solid #226f61;
+        ;
 
-        > h4 {
+        >h4 {
             // text-align: end;
             margin: 0em;
-            margin-top: 1.3em;
+            margin-top: 0.3em;
             text-decoration: none;
         }
-        > .descript {
+
+        >.descript {
             text-align: end;
         }
+
+        >.timeLine {}
     }
 }

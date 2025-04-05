@@ -15,6 +15,7 @@
       "A/*": ["./src/answersToQuestions/*"],
       "W/*": ["./src/wasm/*"],
       "S/*": ["./src/shared/*"],
+      "resume/*": ["./src/resume/*"],
       "market/*": ["./src/market/*"],
     },
     "allowJs": true,

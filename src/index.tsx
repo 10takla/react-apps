@@ -9,9 +9,10 @@ import Monitors from './monitors';
 import { VStack } from './shared/ui/Stack';
 import WordLearner from './wordLearner';
 import Wasm from './wasm';
-import Market from './market';  
+import Market from './market';
 import Mons from './mons';
 import Resume from "./resume"
+import { Suspense } from "react";
 
 const container = document.getElementById('root');
 
@@ -32,23 +33,25 @@ const sites = {
 };
 
 root.render(
-    <HashRouter>
-        <Routes>
-            <Route
-                path="/"
-                element={(
-                    <VStack>
-                        {Object.keys(sites).map((siteName) => (
-                            <Link key={siteName} to={siteName}>
-                                {siteName}
-                            </Link>
-                        ))}
-                    </VStack>
-                )}
-            />
-            {Object.entries(sites).map(([siteName, siteElement]) => (
-                <Route key={siteName} path={`${siteName}/*`} element={siteElement} />
-            ))}
-        </Routes>
-    </HashRouter>,
+    <Suspense>
+        <HashRouter>
+            <Routes>
+                <Route
+                    path="/"
+                    element={(
+                        <VStack>
+                            {Object.keys(sites).map((siteName) => (
+                                <Link key={siteName} to={siteName}>
+                                    {siteName}
+                                </Link>
+                            ))}
+                        </VStack>
+                    )}
+                />
+                {Object.entries(sites).map(([siteName, siteElement]) => (
+                    <Route key={siteName} path={`${siteName}/*`} element={siteElement} />
+                ))}
+            </Routes>
+        </HashRouter>
+    </Suspense>,
 );

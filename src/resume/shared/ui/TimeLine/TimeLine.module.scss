@@ -1,60 +1,76 @@
 .TimeLine {
-    $r: 0.4em;
-    $w: $r / 4;
-    height: $r * 2 + $w;
-    width: 100%;
-    $color: blue;
-    fill: $color;
-    stroke: $color;
-    font-size: 0.9em;
-
     .time {
         &.start {
             text-align: end;
         }
+
         &.end {
             white-space: nowrap;
         }
     }
 
-    .line {
-        width: calc(100% - $r*2 + $w);
-        height: $r / 2;
-        y: calc(50% - $r / 4);
-        x: $r - $w / 2;
-        rx: $r / 4;
-    }
+    >.timeLine {
+        $r: 0.3em; // radius
+        $w: $r / 3; // stroke width
+        height: $r * 2 + $w * 2;
+        width: 100%;
 
-    .mask {
-        width: calc((100% - $r*2 + $w) + $w * 2);
-        height: ($r / 2) + $w * 2;
-        y: calc((50% - $r / 4) - $w);
-        x: ($r - $w / 2) - $w;
-        rx: $r / 4 + $w;
-        fill: black;
-    }
-
-    .leftPoint,
-    .rightPoint,
-    .rightPointCont {
-        r: $r;
-        fill: none;
-        stroke-width: $w;
-        mask: url(#lineMask);
-    }
-
-    .leftPoint {
-        cx: $r + $r / 4;
-    }
-
-    .rightPoint, .rightPointCont {
-        cx: calc(100% - $r - $r / 4);
-    }
-
-    .rightPointCont {
-        r: $r - $w;
-        stroke-width: none;
+        $color: blue;
         fill: $color;
-        mask: none;
+        stroke: $color;
+
+        >.line {
+            width: calc(100% - $r*2 + $w);
+            height: $r / 2;
+            y: calc(50% - $r / 4);
+            x: $r - $w / 2;
+            rx: $r / 4;
+        }
+
+        .mask {
+            width: calc((100% - $r*2 + $w) + $w * 2);
+            height: ($r / 2) + $w * 2;
+            y: calc((50% - $r / 4) - $w);
+            x: ($r - $w / 2) - $w;
+            rx: $r / 4 + $w;
+            fill: black;
+        }
+
+        >.leftPoint,
+        >.rightPoint,
+        >.rightPointCont {
+            r: $r;
+            fill: none;
+            stroke-width: $w;
+            mask: url(#lineMask);
+        }
+
+        >.leftPoint {
+            cx: $r + $r / 4;
+        }
+
+        >.rightPoint,
+        >.rightPointCont {
+            cx: calc(100% - $r - $r / 4);
+        }
+
+        >.rightPointCont {
+            r: $r - $w;
+            stroke-width: none;
+            fill: $color;
+            mask: none;
+        }
+    }
+}
+
+.TimeLineWithLength {
+    background: rgba(197, 215, 255, 0.534);
+    padding: 0.1em 0.3em;
+    border: 0.1em solid rgba(0, 0, 0, 0.5);
+    border-radius: 0.2em;
+    box-sizing: border-box;
+
+    >.TimeLine {
+        display: inline-flex;
     }
 }
