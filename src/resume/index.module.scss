@@ -4,19 +4,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
 @import url('https://fonts.googleapis.com/css?family=JetBrains Mono');
 
+body {
+    background: #525659;
+}
+
 .App {
     $backgrouand-items-z-index: 2;
     $image-z-index: 1;
 
-    $border-width: 0.13em;
+    $border-width: 0.1em;
     --padding: 0.65em;
-    $pad: 0.4em;
+    $pad: 0.2em;
+    // gap: 2.5em;
 
     .page {
 
         // paddings
         &:first-child {
-            $inter-block-padding: 0.4em;
+            $inter-block-padding: 0.8em;
 
             >main {
                 >.left>.chapter>*:not(.head) {
@@ -41,9 +46,15 @@
         // chapter heads
         &:first-child>main {
             >.left {
-                >.topLeft.chapter>.head>h2 {
-                    padding-bottom: $pad/2;
-                    border-end-end-radius: $pad*2;
+                >.topLeft.chapter {
+                    >.head>h2 {
+                        padding-bottom: $pad/2;
+                        border-end-end-radius: $pad*2;
+                    }
+
+                    &:not(.head) {
+                        padding-bottom: $pad;
+                    }
                 }
 
                 >.left.chapter>.head>h2 {
@@ -64,26 +75,51 @@
             }
         }
 
-        &:not(.page:first-child)>.experience.chapter>.head {
-            >h2 {
-                padding-bottom: $pad/2;
-                border-end-end-radius: $pad*2;
+        &:not(.page:first-child)>.experience.chapter {
+            >.head {
+                >h2 {
+                    padding-bottom: $pad/2;
+                    border-end-end-radius: $pad*2;
+                }
             }
         }
 
-        // font-size-adjust
+        // $a
+
+        // font-size and sizes
         &:first-child>main>.left {
-            >.topLeft.chapter>*:not(.head) {
-                font-size: 1.3em;
+            $a: 40%;
+            width: $a;
+            min-width: $a;
+            max-width: $a;
+
+            >.topLeft.chapter {
+                >*:not(.head) {
+                    font-size: 1.3em;
+                }
             }
 
-            >.left.chapter>*:not(.head) {
-                // font-size: 1.3em;
+            >.left.chapter {
+                h3 {
+                    margin-block: 0.4em 0.2em;
+                }
+
+                >*:not(.head) {
+                    font-size: 0.925em;
+                }
             }
         }
 
         .experience.chapter>*:not(.head) {
-            font-size: 12px;
+            font-size: 11px;
+            // font-size: 1em;
+        }
+
+        &:not(:first-child) {
+            .experience.chapter>*:not(.head) {
+                font-size: 14px;
+                // font-size: 1.2em;
+            }
         }
 
         $width: calc(210mm + 5.6mm + 0.4mm);
@@ -94,16 +130,26 @@
         min-height: $height;
         max-height: $height;
         height: $height;
+        background: white;
 
-        line-height: 1.5;
-        border: 0.2em solid black;
+        border: $border-width solid black;
         box-sizing: border-box;
-        font-family: "Lato",
+        font-family: "Rubik",
         sans-serif;
         font-size: 11px;
         position: relative;
         overflow: hidden;
         text-align: justify;
+
+        p {
+            line-height: 1.5;
+            margin: 0;
+            // text-indent: 2em;
+
+            * {
+                text-indent: 0em;
+            }
+        }
 
         h1,
         h2,
@@ -112,23 +158,14 @@
             font-family: "Archivo Black", sans-serif;
         }
 
-        h3 {
-            margin-block: 0.4em 0.2em;
-        }
-
         .chapter {
-            >.head {
-                font-family: "Merriweather", serif;
+            >.head>h2 {
+                font-weight: 550;
                 display: inline-block;
                 margin: 0;
-
-                >h2 {
-                    display: inline-block;
-                    margin: 0;
-                    background: #323b4c;
-                    padding: $pad;
-                    color: white
-                }
+                background: #495455;
+                padding: $pad $pad*1.5;
+                color: white;
             }
         }
     }
@@ -137,10 +174,16 @@
         .rustBackground {
             position: absolute;
             z-index: $image-z-index;
-            height: 130em;
-            top: 28em;
-            left: -3em;
-            opacity: 0.07;
+            $c: rgba(207, 207, 207, 0.99);
+            fill: $c;
+            stroke: $c;
+            width: 30em;
+            height: 30em;
+            bottom: 9%;
+            right: -9em;
+            scale: 2.9;
+            transform-origin: 50% 0%;
+            opacity: 0.5;
         }
 
         :global(.background) {
@@ -162,27 +205,15 @@
                 >.chapter {
                     $pad-min: 0.25em;
 
-                    >.head {
-                        font-family: "Merriweather", serif;
-                        display: inline-block;
-                        margin: 0;
-
-                        >h2 {
-                            display: inline-block;
-                            margin: 0;
-                            background: #323b4c;
-                            color: white
-                        }
-                    }
-
                     &.topLeft {
-                        background: #ddf6f1;
+                        background: #f9feff;
                         border-bottom: $border-width solid black;
                         border-right: $border-width solid black;
                     }
 
                     &.left {
                         background: #b5d8d2;
+                        background: #edf7f7;
                         border-right: $border-width solid;
                         border-bottom: $border-width solid;
                         height: 100%;
@@ -208,12 +239,6 @@
                     opacity: 1;
                 }
             }
-
-            >.left {
-                width: 40%;
-                min-width: 40%;
-                max-width: 40%;
-            }
         }
 
         >foot {
@@ -227,10 +252,11 @@
             }
 
             >.skillLine {
-                position: absolute;
+                // position: absolute;
                 bottom: var(--padding);
                 right: var(--padding);
                 font-size: 0.7em;
+                float: right;
             }
         }
     }

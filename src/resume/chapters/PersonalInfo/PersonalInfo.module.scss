@@ -1,6 +1,52 @@
+.resumes {
+    gap: 0.5em;
+    margin-right: 0.5em;
+
+    img {
+        height: 1.5em;
+    }
+}
 
 .PersonalInfo {
     >.person {
-        
+        h1 {
+            margin-bottom: 0;
+            margin-top: 0.2em;
+        }
+
+        h2 {
+            margin-top: 0.2em;
+            margin-bottom: 0;
+        }
+
+        h3 {
+            margin-inline: 0;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        .quote {
+            background: rgba(103, 150, 208, 0.134);
+            padding: 0.6em 0.95em;
+            box-sizing: border-box;
+            border-radius: .6em;
+            border: 0.3em solid rgba(152, 188, 231, 0.908);
+            width: 86%;
+            hyphens: auto;
+            position: relative;
+            margin-top: 1.3em;
+            text-align: center;
+            line-height: 1.2;
+            font-size: 0.66em;            
+            font-style: italic;
+
+            &::before {
+                content: "“";
+                font-family: 'Georgia', serif;
+                position: absolute;
+                top: -0.35em;
+                font-size: 4em;
+            }
+        }
     }
 }

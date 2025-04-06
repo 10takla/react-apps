@@ -1,6 +1,13 @@
 .noneStyle {
-    ul, il, ol, &:is(ul, il, ol) {
+    ul,
+    il,
+    ol,
+    &:is(ul, il, ol) {
         margin: 0;
         padding: 0;
     }
+}
+
+body {
+    margin: 0;
 }

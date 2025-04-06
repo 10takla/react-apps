@@ -1,0 +1,308 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+@import url('https://fonts.googleapis.com/css?family=JetBrains Mono');
+
+body {
+    background: #525659;
+}
+
+.App {
+    $backgrouand-items-z-index: 2;
+    $image-z-index: 1;
+
+    $border-width: 0.1em;
+    --padding: 0.8em;
+    $pad: 0.2em;
+    // gap: 2.5em;
+
+    .page {
+
+        // paddings
+        &:first-child {
+            $inter-block-padding: 0.8em;
+
+            $padding-block: 1.5em 1em;
+
+            >.left {
+                padding-block: $padding-block;
+                padding-inline: var(--padding) 1.0em;
+
+                >.chapter {
+                    >*:not(.head) {
+                        // padding-inline: var(--padding) $inter-block-padding;
+                    }
+                }
+            }
+
+            >.right {
+                padding-block: $padding-block;
+                padding-inline: 1em 1.5em;
+
+                >.chapter>*:not(.head) {
+                    padding-left: $inter-block-padding;
+                }
+            }
+
+            >foot {
+                padding: var(--padding);
+                padding-top: $inter-block-padding;
+            }
+        }
+
+        &:not(.page:first-child)>.chapter>*:not(.head) {
+            padding-inline: var(--padding);
+        }
+
+        // chapter heads
+        &:first-child {
+            >.left {
+                >.topLeft.chapter {
+                    >.head>h2 {
+                        padding-bottom: $pad/2;
+                        border-end-end-radius: $pad*2;
+                    }
+
+                    &:not(.head) {
+                        padding-bottom: $pad;
+                    }
+                }
+
+                >.left.chapter>.head>h2 {
+                    padding-top: $pad/2;
+                    padding-bottom: $pad/2;
+                    padding-left: 20%;
+                    border-end-end-radius: $pad*2;
+                }
+            }
+
+            >.right>.experience.chapter>.head {
+                text-align: end;
+
+                >h2 {
+                    padding-bottom: $pad/2;
+                    border-end-start-radius: $pad*2;
+                }
+            }
+        }
+
+        &:not(.page:first-child)>.experience.chapter {
+            >.head {
+                >h2 {
+                    padding-bottom: $pad/2;
+                    border-end-end-radius: $pad*2;
+                }
+            }
+        }
+
+        // $a
+
+        // font-size and sizes
+        &:first-child {
+            >.left {
+                $a: 30%;
+                width: $a;
+                min-width: $a;
+                max-width: $a;
+                font-size: 1em;
+
+                >.topLeft.chapter {
+                    >*:not(.head) {
+                        // font-size: 1.3em;
+                    }
+                }
+
+                >.left.chapter {
+                    h3 {
+                        margin-block: 0.4em 0.2em;
+                    }
+
+                    >*:not(.head) {
+                        // font-size: 0.925em;
+                    }
+                }
+            }
+
+            .experience.chapter>*:not(.head) {
+                // font-size: 11px;
+                font-size: 42px;
+            }
+
+            &:not(:first-child) {
+                .experience.chapter>*:not(.head) {
+                    font-size: 14px;
+                    // font-size: 1.2em;
+                }
+            }
+
+            >.right {
+                font-size: 11px;
+            }
+        }
+
+        $width: calc(210mm + 5.6mm + 0.4mm);
+        $height: calc(297mm - 17.8mm);
+        min-width: $width;
+        max-width: $width;
+        width: $width;
+        min-height: $height;
+        max-height: $height;
+        height: $height;
+        background: white;
+        font-size: 11px;
+        box-sizing: border-box;
+        font-family: "Montserrat" sans-serif,
+        sans-serif;
+        position: relative;
+        overflow: hidden;
+        // text-align: justify;
+
+        p {
+            margin: 0;
+            // text-indent: 2em;
+
+            * {
+                text-indent: 0em;
+            }
+        }
+
+        .left {
+            background: #070764;
+            color: white;
+
+            :global .timeLine {
+                >svg {
+                    $color: #baff7a;
+                    fill: $color;
+                    stroke: $color;
+                }
+            }
+
+            // text-align: justify;
+
+            a {
+                color: white;
+            }
+
+            :global .skills {
+                a {
+                    color: -webkit-link
+                }
+            }
+
+            .chapter {
+                >.head {
+                    padding-bottom: 0.2em;
+                    margin-bottom: 0.4em;
+                    border-bottom: 0.16em solid;
+
+                    >h2 {
+                        font-weight: 550;
+                        display: inline-block;
+                        margin: 0;
+                        margin-left: 1.3em;
+                        padding: $pad $pad*1.5;
+                    }
+                }
+            }
+        }
+
+        .chapter {
+            >.head {
+                padding-bottom: 0.5em;
+                border-bottom: 0.16em solid;
+
+                >h2 {
+                    font-weight: 550;
+                    display: inline-block;
+                    // margin: 0;
+                    padding: $pad $pad*1.5;
+                }
+            }
+        }
+    }
+
+    .page:first-child {
+        overflow: hidden;
+
+        .rustBackground {
+            position: absolute;
+            z-index: $image-z-index;
+            $c: rgba(207, 207, 207, 0.99);
+            fill: $c;
+            stroke: $c;
+            width: 30em;
+            height: 30em;
+            bottom: 9%;
+            right: -9em;
+            scale: 2.9;
+            transform-origin: 50% 0%;
+            opacity: 0.5;
+        }
+
+        :global(.background) {
+            position: relative;
+
+            >* {
+                position: relative;
+                z-index: $backgrouand-items-z-index;
+            }
+        }
+
+        >.left,
+        >.right {
+            >.chapter {
+                $pad-min: 0.25em;
+
+                &.topLeft {
+                    // border-bottom: $border-width solid black;
+                    // border-right: $border-width solid black;
+                }
+
+                &.left {
+                    // border-right: $border-width solid;
+                    // border-bottom: $border-width solid;
+                }
+
+                &.experience {
+                    height: 100%;
+                }
+            }
+        }
+
+        >.lang {
+            position: absolute;
+            top: 0;
+            left: calc(40% - 1em);
+            opacity: 0;
+            z-index: 4;
+        }
+
+        &:hover {
+            >.lang {
+                transition: opacity 400ms;
+                opacity: 1;
+            }
+        }
+
+        // >foot {
+        //     position: relative;
+        //     box-sizing: border-box;
+        //     font-size: 1.1em;
+
+        //     >h4 {
+        //         text-align: center;
+        //         float: left;
+        //     }
+
+        //     >.skillLine {
+        //         // position: absolute;
+        //         bottom: var(--padding);
+        //         right: var(--padding);
+        //         font-size: 0.7em;
+        //         float: right;
+        //     }
+        // }
+    }
+}

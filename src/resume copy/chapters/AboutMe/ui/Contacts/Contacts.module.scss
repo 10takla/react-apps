@@ -1,0 +1,15 @@
+.Contacts {
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 0.2em 0.8em;
+
+    >.contact {
+        gap: 0.1em;
+
+        >img,
+        svg {
+            width: 1.4em;
+            height: 1.4em;
+        }
+    }
+}

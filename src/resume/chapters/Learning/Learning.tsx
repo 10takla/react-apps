@@ -2,10 +2,11 @@ import { forwardRef, memo, ForwardedRef, ComponentProps, useImperativeHandle, us
 import { HStack, VStack } from 'src/shared/ui/Stack';
 import { classNames } from 'src/shared/lib/classNames/classNames';
 import cls from './Learning.module.scss';
-import Books from 'src/resume/ui/Books/Books';
-import Education from 'src/resume/ui/Education/Education';
-import { langContext, T } from 'src/resume/shared/ui/ToggleLanguage/ToggleLanguage';
-import TimeLine, { TimeLength, TimeLineWithLength } from 'src/resume/shared/ui/TimeLine/TimeLine';
+import Books from './ui/Books/Books';
+import Education from './ui/Education/Education';
+import { langContext, T } from 'resume/shared/ui/ToggleLanguage/ToggleLanguage';
+import TimeLine, { TimeLength, TimeLineWithLength } from 'resume/shared/ui/TimeLine/TimeLine';
+import { experienceList } from '../Experience/Experience';
 
 type Component = typeof HStack;
 type ElRef = ElementRef<Component> | null;
@@ -33,8 +34,8 @@ const Learning = (props: LearningProps, ref: ForwardedRef<ElRef>) => {
             body: <Education />
         },
         {
-            _body: (() => {
-                const end = "June 2023 14:48 UTC";
+            body: (() => {
+                const end = experienceList[experienceList.length - 1].time[0];
                 let start = new Date(end);
                 start.setMonth(start.getMonth() - 14);
                 const time = {
@@ -42,9 +43,9 @@ const Learning = (props: LearningProps, ref: ForwardedRef<ElRef>) => {
                     end: new Date(end)
                 };
 
-                return <>
+                return <p>
                     <T
-                        ru="Больше года активного обучения языка rust и его экосистемы,"
+                        ru="Больше года активного обучения языку rust и его экосистемы"
                         en="Over a year of actively learning the Rust language and its ecosystem" />
                     {" "}
                     <TimeLineWithLength
@@ -54,26 +55,20 @@ const Learning = (props: LearningProps, ref: ForwardedRef<ElRef>) => {
                             timeProps: {
                                 style: { whiteSpace: "nowrap" }
                             },
-                            style: { width: "15em", gap: "0.3em" },
+                            style: { width: "17em", gap: "0.3em" },
                         }}
                         time={time}
                     />
-                    {" "}
+                    {", "}
                     <T
                         ru="фокусируясь на разработке высокопроизводительного и безопасного ПО."
                         en="with a focus on developing high-performance and safe software." />
                     <br />
                     <T
-                        children={`В стремлении к глубокому освоению Rust, я тщательно изучил ключевые руководства и публикации от сообщества и разработчиков rust.`}
+                        children={`В стремлении к глубокому освоению Rust, я тщательно изучил ключевые руководства и публикации от сообщества и разработчиков языка.`}
                         en={`Driven by the goal of mastering Rust in depth, I have thoroughly studied key guides and publications from the Rust community and its core developers.`} />
-                </>;
+                </p>;
             })(),
-            get body() {
-                return this._body;
-            },
-            set body(value) {
-                this._body = value;
-            },
         },
         {
             head: t("Книги"),

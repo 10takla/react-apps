@@ -1,0 +1,127 @@
+.Experience {
+    height: 100%;
+
+    ul,
+    ol {
+        margin: 0;
+    }
+
+    // *:not(li) {
+    //     text-align: justify;
+
+    //     & li {
+    //         text-align: start;
+    //     }
+    // }
+
+    .algoLinks {
+        text-align: end;
+        font-size: 0.8em;
+        height: 100%;
+        column-gap: 0.3em;
+
+        $size: 2.6em;
+
+        svg {
+            width: $size;
+            height: $size;
+
+            &[id="codewars"] {
+                width: $size - 0.3em;
+                height: $size - 0.3em;
+            }
+        }
+    }
+
+    >.item {
+        &:first-child {
+            border-top: 0;
+        }
+
+
+        border-top: 0.1em solid black;
+        padding-right: var(--padding);
+        padding-block: 0em 1em;
+
+        >p {
+            margin-block: 0.3em;
+        }
+
+        h4 {
+            text-align: center;
+            margin: 0.3em;
+        }
+
+        ul {
+            padding-left: 2em;
+        }
+
+        .achievements {
+            list-style-position: outside;
+            list-style-type: none;
+            padding-left: 1.6em;
+
+            >li {
+                $padding: 0.8em;
+                padding-left: $padding;
+                text-indent: -1 * $padding;
+
+                >ul {
+                    padding-left: 0.8em;
+                    list-style-type: none;
+
+                    li {
+                        $padding: 0.8em;
+                        padding-left: $padding;
+                        text-indent: -1 * $padding;
+                    }
+                }
+            }
+        }
+
+        // first stack
+        ul.stack.firstLevel {
+            gap: 0.2em 0.6em;
+
+            >li {
+                border: 0.1em solid rgba(0, 0, 0, 0.425);
+                padding: 0 0.2em;
+                background: rgba(226, 226, 226, 0.503);
+
+                >ul.stack {
+                    column-gap: 0.2em;
+                    flex-wrap: nowrap;
+
+                    >li {
+                        white-space: nowrap;
+                    }
+                }
+            }
+        }
+
+        .stack {
+            list-style: none;
+            flex-wrap: wrap;
+            padding: 0;
+            align-items: center;
+
+            li {
+                flex-wrap: wrap;
+                align-items: center;
+                border-radius: 0.15em;
+                box-sizing: border-box;
+
+                a {
+                    color: black;
+                }
+            }
+        }
+    }
+
+    .lang {
+        padding: 0 0.1em;
+        background-color: #dfdfdf;
+        border-radius: 0.2em;
+        white-space: nowrap;
+    }
+}

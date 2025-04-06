@@ -67,8 +67,9 @@ interface TProps extends HtmlProps, LangProps {
 }
 
 export const T = ({ children, ...otherProps }: TProps) => {
-    const [_, [lang]] = useContext(langContext)
+    const [_, [lang]] = useContext(langContext);
     let translatedChild = otherProps[lang] || children;
+    console.log(translatedChild)
     if (typeof translatedChild === "string") {
         translatedChild = <>{translatedChild}</>;
     }
@@ -87,17 +88,11 @@ const educs = {
     "Программная инженерия": "Software engineering"
 }
 
-const skills = {
-    "Языки программирования": "Programming Languages",
-    "Прочее": "Other"
-}
-
 const keys: Record<string, string> = {
     "Абакар Летифов": "Abakar Letifov",
     "Резюме": "СV",
     "Образование": "Education",
     "Книги": "Books",
-    ...skills,
     ...educs,
     ...experience
 }

@@ -69,11 +69,22 @@ export const educs: Ed[] = [
     },
 ];
 
-interface Skill {
+type Skill = StarsSkill | SelfLevelSkill;
+
+interface StarsSkill extends CommonSkill {
+    stars: number,
+}
+
+interface SelfLevelSkill extends CommonSkill {
+    level: string,
+    stars: number,
+}
+
+interface CommonSkill {
     name: string,
-    stars?: number,
-    level?: string,
-    link?: string
+    link?: string,
+    en?: string
+    isId?: boolean
 }
 
 export const glossary = {
@@ -114,65 +125,82 @@ export const glossary = {
 const allSkills = {
     Axum: { stars: 5, link: glossary.axum.link },
     Actix: { stars: 5, link: "https://docs.rs/actix/latest/actix/" },
-    Tokio: { stars: 4, link: glossary.tokio.link },
-    Serde: { stars: 5, link: "https://docs.rs/serde/latest/serde/" },
-    "Rust ffi": { stars: 4, link: "https://doc.rust-lang.org/nomicon/ffi.html" },
+    Tokio: { stars: 4, link: glossary.tokio.link, isId: true },
+    Serde: { stars: 5, link: "https://docs.rs/serde/latest/serde/", isId: true },
+    "Rust ffi": { stars: 4, link: "https://doc.rust-lang.org/nomicon/ffi.html", isId: true },
     Diesel: { stars: 5, link: "https://docs.rs/diesel/latest/diesel/" },
     Wasm: { stars: 5 },
-    rustc: { stars: 5, link: "https://github.com/rust-lang/rust" },
-    CLI: { stars: 4 },
-    Asynchrony: { stars: 5 },
-    "Concurrency&Parallelism": { stars: 5 }
+    rustc: { stars: 5, link: "https://github.com/rust-lang/rust", isId: true },
+    CLI: { stars: 4, isId: true },
+    Asynchrony: { stars: 5, isId: true },
+    "Concurrency|Parallelism": { stars: 5, isId: true }
 }
 const langSkills = {
-    Rust: { stars: 5 },
-    Python: { stars: 3 },
-    TypeScript: { stars: 5 },
-    HTML: { stars: 4 },
-    CSS: { stars: 4 }
+    Rust: { stars: 5, isId: true },
+    Python: { stars: 3, isId: true },
+    TypeScript: { stars: 5, isId: true },
+    HTML: { stars: 4, isId: true },
+    CSS: { stars: 4, isId: true }
 }
 const backend = {
-    MySQL: { stars: 4 },
-    Django: { stars: 3 },
-    Axum: allSkills.Axum,
-    Actix: allSkills.Actix,
-    "REST API": { stars: 4 },
+    MySQL: { stars: 4, isId: true },
+    Django: { stars: 3, isId: true },
+    Axum: { ...allSkills.Axum, isId: true },
+    Actix: { ...allSkills.Actix, isId: true },
+    "REST API": { stars: 4, isId: true },
+    Diesel: { ...allSkills.Diesel, isId: true }
 };
 const frontend = {
-    React: { stars: 5 },
-    "Redux Toolkit": { stars: 5 },
-    Wasm: allSkills.Wasm,
-    "RTK Query": { stars: 4 },
-    "Vite": { stars: 4 },
-    "Webpack": { stars: 3 },
-    "Storybook": { stars: 3 }
+    React: { stars: 5, isId: true },
+    "Redux Toolkit": { stars: 5, isId: true },
+    Wasm: { ...allSkills.Wasm, isId: true },
+    "RTK Query": { stars: 4, isId: true },
+    "Vite": { stars: 4, isId: true },
+    "Webpack": { stars: 3, isId: true },
+    "Storybook": { stars: 3, isId: true }
 }
 const other = {
-    Linux: { stars: 4 },
-    Docker: { stars: 5 },
-    Bash: { stars: 4 },
-    Git: { stars: 5 },
-    GitHub: { stars: 5, link: "https://github.com/10takla" },
-    "Github CI/CD": { stars: 3 },
-    GitLab: { stars: 3 },
-    Английский: { level: "A2" }
+    Linux: { stars: 4, isId: true },
+    Docker: { stars: 5, isId: true },
+    Bash: { stars: 4, isId: true },
+    Git: { stars: 5, isId: true },
+    GitHub: { stars: 5, link: "https://github.com/10takla", isId: true },
+    "GitHub Actions": { stars: 3, isId: true },
+    GitLab: { stars: 4, isId: true },
+    "GitLab CI/CD": { stars: 4, isId: true },
+    Английский: { level: "A2", stars: 2, en: "English", isId: true }
 }
 
-export const skills: Record<string, Skill[]> = Object.entries({
-    Rust: allSkills,
-    "Языки программирования": langSkills,
-    Backend: backend,
-    Frontend: frontend,
-    Прочее: other
-}).reduce((acc, [key, skills]) => (
+export const skills = [
     {
-        ...acc, [key]: Object.entries(skills).map((([name, other]) => ({ name, ...other })))
+        block: "Rust",
+        skills: allSkills
+    },
+    {
+        block: <T ru="Языки программирования" en="Programming Languages" />,
+        skills: langSkills,
+    },
+    {
+        block: "Backend",
+        skills: backend,
+    },
+    {
+        block: "Frontend",
+        skills: frontend,
+    },
+    {
+        block: <T ru="Прочее" en="Other" />,
+        skills: other,
     }
-), {});
+]
+    .map(({ block, skills }) => ({
+        block,
+        skills: Object.entries(skills).map(([name, other]) => ({ name, ...other }))
+    }));
 
 import CleanCode from 'resume/shared/assets/imgs/Чистый код.webp';
 import RustAtomics from 'resume/shared/assets/imgs/Rust Atomics and Locks.jpg';
-import { Lang } from '../ui/ToggleLanguage/ToggleLanguage'
+import { Lang, T } from '../ui/ToggleLanguage/ToggleLanguage'
 
 
 export type Book = [string, string, string] | [string, string] | [Record<Lang, [string, string]>, string]
@@ -195,34 +223,34 @@ export const books: Array<Book> = [
         "https://marabos.nl/atomics/",
         RustAtomics
     ],
-    [
-        {
-            en: [
-                "Clean Code: A Handbook of Agile Software Craftsmanship",
-                "https://m.media-amazon.com/images/I/51E2055ZGUL._SL1000_.jpg",
-            ],
-            ru: [
-                "Чистый код. Создание, анализ и рефакторинг",
-                "https://ir.ozone.ru/s3/multimedia-c/wc1000/6189288048.jpg"
-            ],
+    // [
+    //     {
+    //         en: [
+    //             "Clean Code: A Handbook of Agile Software Craftsmanship",
+    //             "https://m.media-amazon.com/images/I/51E2055ZGUL._SL1000_.jpg",
+    //         ],
+    //         ru: [
+    //             "Чистый код. Создание, анализ и рефакторинг",
+    //             "https://ir.ozone.ru/s3/multimedia-c/wc1000/6189288048.jpg"
+    //         ],
 
-        },
-        "https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882"
-    ],
-    [
-        {
-            en: [
-                "Clean Architecture: A Craftsman's Guide to Software Structure and Design",
-                "https://m.media-amazon.com/images/I/71stxGw9JgL._SL1500_.jpg",
-            ],
-            ru: [
-                "Чистая архитектура: Искусство разработки программного обеспечения",
-                "https://cdn1.ozone.ru/s3/multimedia-1/6892791841.jpg"
-            ],
+    //     },
+    //     "https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882"
+    // ],
+    // [
+    //     {
+    //         en: [
+    //             "Clean Architecture: A Craftsman's Guide to Software Structure and Design",
+    //             "https://m.media-amazon.com/images/I/71stxGw9JgL._SL1500_.jpg",
+    //         ],
+    //         ru: [
+    //             "Чистая архитектура: Искусство разработки программного обеспечения",
+    //             "https://cdn1.ozone.ru/s3/multimedia-1/6892791841.jpg"
+    //         ],
 
-        },
-        "https://www.amazon.com/Clean-Architecture-Craftsmans-Software-Structure/dp/0134494164",
-    ],
+    //     },
+    //     "https://www.amazon.com/Clean-Architecture-Craftsmans-Software-Structure/dp/0134494164",
+    // ],
     [
         "The rust Programming Language",
         "https://doc.rust-lang.org/book/"

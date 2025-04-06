@@ -27,7 +27,9 @@ const Block = (props: BlockProps, ref: ForwardedRef<ElRef>) => {
 
     return (
         <VStack
+            tag="p"
             className={classNames(cls.Block, [className])}
+            // align="start"
             ref={blockRef}
             {...otherProps}
         >

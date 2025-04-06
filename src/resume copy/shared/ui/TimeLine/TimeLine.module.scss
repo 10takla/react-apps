@@ -1,0 +1,79 @@
+.TimeLine {
+    gap: 0.2em;
+
+    .time {
+        &.start {
+            text-align: end;
+        }
+
+        &.end {
+            // white-space: nowrap;
+        }
+    }
+
+    >.timeLine {
+        $r: 0.3em; // radius
+        $w: $r / 3; // stroke width
+        height: $r * 2 + $w * 2;
+        // width: 100%;
+
+        $color: blue;
+        fill: $color;
+        stroke: $color;
+
+        >.line {
+            width: calc(100% - $r*2 + $w);
+            height: $r / 2;
+            y: calc(50% - $r / 4);
+            x: $r - $w / 2;
+            rx: $r / 4;
+        }
+
+        .mask {
+            width: calc((100% - $r*2 + $w) + $w * 2);
+            height: ($r / 2) + $w * 2;
+            y: calc((50% - $r / 4) - $w);
+            x: ($r - $w / 2) - $w;
+            rx: $r / 4 + $w;
+            fill: black;
+        }
+
+        >.leftPoint,
+        >.rightPoint,
+        >.rightPointCont {
+            r: $r;
+            fill: none;
+            stroke-width: $w;
+            mask: url(#lineMask);
+        }
+
+        >.leftPoint {
+            cx: $r + $r / 4;
+        }
+
+        >.rightPoint,
+        >.rightPointCont {
+            cx: calc(100% - $r - $r / 4);
+        }
+
+        >.rightPointCont {
+            r: $r - $w;
+            stroke-width: none;
+            // fill: $color;
+            mask: none;
+        }
+    }
+}
+
+.TimeLineWithLength {
+    // background: rgba(0, 0, 0, 0.05);
+    padding: 0em 0.2em;
+    // border: 0.1em solid rgba(0, 0, 0,);
+    border-radius: 0.1em;
+    box-sizing: border-box;
+    // color: #484848
+
+    >.TimeLine {
+        display: inline-flex;
+    }
+}

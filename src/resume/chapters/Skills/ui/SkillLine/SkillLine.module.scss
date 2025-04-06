@@ -1,0 +1,47 @@
+.SkillLine {
+    gap: 0.4em;
+    margin: 0;
+    padding: 0;
+
+    >.lineBlock {
+        >.line {
+            background: var(--color);
+            width: calc(8.8em + 0.8em * (6 - var(--i)));
+            height: 0.24em;
+            border-radius: 0.1em 0 0 0.1em;
+            right: calc(-1 * var(--padding));
+            position: absolute;
+            z-index: -1;
+        }
+
+        >span {
+            background: white;
+            border: 0.2em solid var(--color);
+            border-radius: 0.8em;
+            padding: 0.3em;
+            column-gap: 0.5em;
+
+            >span {
+                position: relative;
+                align-items: center;
+                justify-content: center;
+
+                >b {
+                    position: absolute;
+                    margin-top: 0.15em;
+                }
+
+                >svg {
+                    path {
+                        stroke-width: 0.07em;
+                        // fill: gold;
+                    }
+
+                    height: 1.4em;
+                    width: 1.4em;
+                    scale: 1.4;
+                }
+            }
+        }
+    }
+}

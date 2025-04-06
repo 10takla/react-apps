@@ -1,9 +1,3 @@
-@counter-style dash {
-    system: cyclic;
-    symbols: "—";
-    suffix: " ";
-}
-
 .Experience {
     height: 100%;
 
@@ -43,9 +37,11 @@
             border-top: 0;
         }
 
+
         border-top: 0.1em solid black;
         padding-right: var(--padding);
         padding-block: 0em;
+        padding-bottom: 0.3em;
 
         >p {
             margin-block: 0.3em;
@@ -68,8 +64,54 @@
             }
         }
 
-        .descrips {
-            list-style: dash;
+        ul {
+            padding-left: 2em;
+        }
+        .achievements {
+            
+            list-style-position: outside;
+
+            ul {
+                padding-left: 2em;
+            }
+        }
+
+        // first stack
+        ul.stack.firstLevel {
+            gap: 0.2em 0.6em;
+
+            >li {
+                border: 0.1em solid rgba(0, 0, 0, 0.425);
+                padding: 0 0.2em;
+                background: rgba(226, 226, 226, 0.503);
+
+                >ul.stack {
+                    column-gap: 0.2em;
+                    flex-wrap: nowrap;
+
+                    >li {
+                        white-space: nowrap;
+                    }
+                }
+            }
+        }
+
+        .stack {
+            list-style: none;
+            flex-wrap: wrap;
+            padding: 0;
+            align-items: center;
+
+            li {
+                flex-wrap: wrap;
+                align-items: center;
+                border-radius: 0.15em;
+                box-sizing: border-box;
+
+                a {
+                    color: black;
+                }
+            }
         }
     }
 

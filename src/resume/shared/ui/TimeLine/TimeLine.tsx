@@ -20,10 +20,10 @@ const Time = (props: TimeProps) => {
     } = props;
     const [_, [lang]] = useContext(langContext);
     return (
-        <HStack
-            className={classNames(cls.time, [className])} tag="span" gap={16} {...otherProps}>
+        <HStack className={classNames(cls.time, [className])}
+            tag="span" {...otherProps}
+        >
             {time.toLocaleString(lang === "ru" ? 'ru-RU' : "en-En", { month: 'long' })}
-            {/* <br /> */}
             {" "}
             {time.getFullYear()}
         </HStack>
@@ -55,8 +55,8 @@ const TimeLine = (props: TimeLineProps, ref: ForwardedRef<ElRef>) => {
         <HStack
             className={classNames(cls.TimeLine, [className])}
             ref={timeLineRef}
+            justify="between" align="center"
             {...otherProps}
-            justify="between" gap={8} align="center"
         >
             <Time {...timeProps} className={classNames(cls.start, [timeProps?.className])} time={time.start} />
             <svg {...lineProps} className={classNames(cls.timeLine, [lineProps?.className])}>
@@ -71,10 +71,10 @@ const TimeLine = (props: TimeLineProps, ref: ForwardedRef<ElRef>) => {
             {time.end ? (
                 <Time {...timeProps} className={classNames(cls.end, [timeProps?.className])} time={time.end} />
             ) : (
-                <span className={classNames(cls.time, [cls.end])}>
+                <span className={classNames(cls.time, [cls.end, timeProps?.className])}>
                     <T
                         en={<>to date</>}
-                        children={<>по настоящее<br />время</>}
+                        children={<>по настоящее время</>}
                     />
                 </span>
             )
@@ -103,19 +103,19 @@ export const TimeLength = ({ time: { start, end } }: Record<"time", Record<"star
             "months"
     };
 
-    return <>
+    return <span style={{ color: "#6e6e6e" }}>
         ({months} {
             <T
                 {...args}
             />
         })
-    </>
+    </span>
 }
 
 
 interface TimeLineWithLengthProps extends ComponentPropsWithRef<'span'> {
     timeLineProps?: Omit<ComponentProps<typeof TimeLine>, 'time'>,
-    time: ComponentProps<typeof TimeLength>["time"]
+    time: ComponentProps<typeof TimeLine>["time"]
 }
 
 export const TimeLineWithLength = forwardRef((props: TimeLineWithLengthProps, ref: ForwardedRef<HTMLSpanElement>) => {
@@ -128,7 +128,10 @@ export const TimeLineWithLength = forwardRef((props: TimeLineWithLengthProps, re
         <span className={cls.TimeLineWithLength} {...otherProps} ref={ref}>
             <TimeLine time={time} {...timeLineProps} />
             {" "}
-            <TimeLength time={time} />
+            <TimeLength time={{
+                ...time,
+                end: time.end || new Date()
+            }} />
         </span>
     )
 });

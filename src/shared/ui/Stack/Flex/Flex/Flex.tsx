@@ -71,7 +71,7 @@ const Flex = <T extends ElementType = 'div'>(
     const mods: Mods = {
         [cls.max]: max,
     };
-    
+
     return (
         <Tag
             {...otherProps}

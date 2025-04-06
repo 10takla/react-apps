@@ -1,0 +1,29 @@
+.Education {
+    gap: 0.3em;
+
+    >.place {
+        background: rgba(249, 249, 249, 0.757);
+        padding-inline: 0.7em;
+        border-radius: 0.4em;
+        border: 0.2em solid rgb(199, 199, 199);
+
+        >h4 {
+            // text-align: end;
+            margin: 0em;
+            margin-top: 0.3em;
+            text-decoration: none;
+        }
+
+        >.descript {
+            align-self: end;
+            text-align: end;
+            width: 90%;
+        }
+
+        >.timeLine {
+            .time {
+                flex-basis: 45%;
+            }
+        }
+    }
+}

@@ -12,7 +12,9 @@ import Wasm from './wasm';
 import Market from './market';
 import Mons from './mons';
 import Resume from "./resume"
+import Resume2 from "./resume copy"
 import { Suspense } from "react";
+import resume from "./resume";
 
 const container = document.getElementById('root');
 
@@ -26,9 +28,11 @@ const sites = {
     wordLearner: <WordLearner />,
     monitors: <Monitors />,
     answers: <AnswersToQuestions />,
-    wasm: <Wasm />,
+    // wasm: <Wasm />,.
     mons: <Mons />,
-    resume: <Resume />
+    // resume: <Resume />,
+    cv2: <Resume demo />,
+    cv: <Resume2 demo />,
     // market: <Market />,
 };
 
