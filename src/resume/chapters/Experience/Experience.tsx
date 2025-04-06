@@ -14,6 +14,7 @@ import { backgroundImage } from 'html2canvas/dist/types/css/property-descriptors
 import { borderRightStyle } from 'html2canvas/dist/types/css/property-descriptors/border-style';
 import { listStyleType } from 'html2canvas/dist/types/css/property-descriptors/list-style-type';
 import { backgroundOrigin } from 'html2canvas/dist/types/css/property-descriptors/background-origin';
+import Description from 'src/shared/ui/Kit/Description/Description';
 
 type Component = typeof HStack;
 type ElRef = ElementRef<Component> | null;
@@ -48,25 +49,30 @@ const Experience = (props: ExperienceProps, ref: ForwardedRef<ElRef>) => {
     );
 
     const list = [
-        <div><T
+        <p><T
             en={<>I've been developing in <L>rust</L> for over a year</>}
             children={<>Веду разработку на языке <L>rust</L> больше года.</>}
-        /></div>,
+        /></p>,
         <Block
             head={<T en="Projects" children="Опыт работы" />}>
             <VStack tag="ol" style={{
                 "padding-left": "1em",
             }}>
                 {[
-                    [
-                        "Mertech",
-                        <T
+                    {
+                        name: "Mertech",
+                        description: <T
                             en={<>software development for commodity equipment</>}
                             children={<>разработка программного обеспечения для товарного оборудования</>}
                         />,
-                        ["April 2024", "Febrary 2025"],
-                        [<T ru="Реализовал решение по оптимизации процессов, что позволило сократить время обработки данных на 30%." en="Implemented a process optimization solution that reduced data processing time by 30%." />, <T ru="Внедрил модуль для быстрого обновления системы, обеспечив стабильность и удобство поддержки." en="Deployed a rapid update module that ensured system stability and ease of maintenance." />, <T ru="Совместными усилиями с командой улучшил ключевые бизнес-процессы, повысив надежность работы продукта." en="Collaborated with the team to enhance core business processes, increasing product reliability." />],
-                        [
+                        time: ["April 2024"],
+                        achievements: [
+                            <T ru="Внедрил механизм миграции данных, ускорив обновление прошивок на 30% и минимизировав операционные риски." en="Implemented a data migration mechanism, boosting firmware update speed by 30% and minimizing operational risks." />,
+                            <T ru="Разработал универсальную библиотеку для печати этикеток, обеспечив гибкую адаптацию под различные аппаратные платформы." en="Developed a universal label-printing library, ensuring flexible adaptation to various hardware platforms." />,
+                            <T ru="Оптимизировал процессы сборки и тестирования, сократив время релизов и повысив стабильность конечного продукта." en="Optimized build and testing processes, reducing release time and improving the final product’s stability." />,
+                            <T ru="Разработка драйверов, связывающиx устройства товарного оборудования с корпоративной системой 1С, что позволило повысить точность учёта, исключить ручной ввод и минимизировать риск ошибок при учёте." en="Development of drivers integrating retail equipment with the corporate 1C system, which helped improve accounting accuracy, eliminate manual data entry, and minimize the risk of errors." />
+                        ],
+                        stack: [
                             "Rust",
                             "Serde",
                             "Axum|REST",
@@ -75,44 +81,52 @@ const Experience = (props: ExperienceProps, ref: ForwardedRef<ElRef>) => {
                             "Docker|Bash",
                             "Gitlab|Github Actions|Gitlab CI/CD",
                         ]
-                    ],
-
-                    [
-                        <>
+                    },
+                    {
+                        name: <>
                             QBDevelopment
                             {" "}
+                            (
                             <T
-                                en="(StartApp)"
-                                children="(Стартап)"
+                                en="StartApp"
+                                children="Стартап"
                             />
+                            )
                         </>,
-                        <T
+                        description: <T
                             en={<>blockchain service development</>}
                             children={<>разработка блокчейн сервисов</>}
                         />,
-                        ["December 2024", "January 2025"],
-                        [
-                            <T ru="В условиях сжатых сроков участвовал в создании цифрового решения для проведения интерактивных мероприятий." en="Contributed under tight deadlines to develop a digital solution for interactive events." />, <T ru="Содействовал интеграции фронтенд и бэкенд компонентов, ускорив вывод продукта на рынок." en="Facilitated the integration of front-end and back-end components, expediting the product's market launch." />, <T ru="Проявил инициативу в улучшении внутренних процессов, что повысило общую эффективность команды." en="Took the initiative to improve internal processes, enhancing overall team efficiency." />],
-                        [
+                        time: ["December 2024", "January 2025"],
+                        achievements: [
+                            <T ru="Разработал сервис для автоматизации розыгрышей и платежей, улучшив пользовательский опыт и снизив ручные операции." en="Built a service for automating giveaways and payments, enhancing user experience and reducing manual tasks." />,
+                            <T ru="Настроил масштабируемую серверную архитектуру, обеспечив легкое добавление новых функций в высоконагруженной среде." en="Set up a scalable server architecture that simplifies adding new features in a high-load environment." />,
+                            <T ru="Инициировал контроль качества кода и мониторинг производительности, что ускорило цикл обнаружения и устранения ошибок." en="Introduced code quality checks and performance monitoring, speeding up the detection and resolution of issues." />
+                        ],
+                        stack: [
                             "FullStack - Rust|React",
                             "Actix|REST",
                             "Sqlx",
                             "Github|GitHub Projects",
                             "Docker|Bash"
                         ]
-                    ],
-                    [
-                        <T
+                    },
+                    {
+                        name: <T
                             en="E-commerce company (online store)"
                             children="E-commerce компания (интернет-магазин)"
                         />,
-                        <T
+                        description: <T
                             en="development of services in Rust to improve server efficiency in online commerce"
                             children="разработка сервисов на Rust для повышения эффективности серверов в онлайн-торговле"
                         />,
-                        ["Jule 2023", "January 2024"],
-                        [<T ru="Принял участие в оптимизации критичных участков системы, что заметно снизило время отклика сервиса." en="Participated in optimizing critical parts of the system, significantly reducing service response time." />, <T ru="Поддержал переход от устаревших решений к современным подходам, улучшив производительность продукта." en="Supported the transition from outdated solutions to modern approaches, boosting product performance." />, <T ru="В рамках проекта внес вклад в повышение стабильности системы, что способствовало росту эффективности онлайн-торговли." en="Contributed to enhancing system stability, fostering increased efficiency in online retail." />],
-                        [
+                        time: ["Jule 2023", "January 2024"],
+                        achievements: [
+                            <T ru="Реализовал перенос высоконагруженных функций на Rust, добившись заметного ускорения обработки данных в пиковые периоды." en="Migrated high-load functions to Rust, achieving a significant boost in data processing during peak periods." />,
+                            <T ru="Организовал новый сервис для оптимизации поиска и рекомендаций, обеспечив быстрый доступ к актуальным предложениям." en="Established a new service to optimize search and recommendations, providing quick access to relevant offers." />,
+                            <T ru="Ввел комплексное тестирование и мониторинг, что снизило риски неожиданных сбоев и упростило масштабирование проекта." en="Implemented comprehensive testing and monitoring, reducing the risk of unexpected failures and simplifying project scaling." />
+                        ],
+                        stack: [
                             "Rust",
                             "Serde",
                             "Axum",
@@ -122,15 +136,17 @@ const Experience = (props: ExperienceProps, ref: ForwardedRef<ElRef>) => {
                             "Docker",
                             "Github",
                         ]
-                    ],
+                    }
                 ]
-                    .map(([a, b, c, ...d]) => [a, b, c.map((v) => new Date(v)), ...d])
-                    .map(([name, a, [start, end], e, b]) => (
+                    .map(({ time, ...other }) => ({ ...other, time: time.map((v) => new Date(v)) }))
+                    .map(({
+                        name, description, time, achievements, stack
+                    }) => (
                         <li>
                             <VStack gap={2} justify="between" align="start" style={{ width: "100%" }}>
                                 <span>
                                     <b>{name}</b>{" — "}
-                                    {a}.
+                                    {description}.
                                 </span>
                                 <TimeLineWithLength
                                     timeLineProps={{
@@ -149,19 +165,20 @@ const Experience = (props: ExperienceProps, ref: ForwardedRef<ElRef>) => {
                                         whiteSpace: "nowrap",
                                         // width: "30em",
                                     }}
-                                    time={{ start, end }}
+                                    time={{start: time[0], end: time[1]}}
                                 />
                                 <VStack className={cls.descrips} tag="ul">
-                                    {e.map((v, i) => <li key={i}>{v}</li>)}
+                                    {achievements.map((v, i) => <li key={i}>{v}</li>)}
                                 </VStack>
                                 <HStack tag="ul"
                                     style={{
+                                        "list-style-type": "square",
                                         "flex-wrap": "wrap",
                                         "padding-left": "2em",
-                                        "gap": "0.5em 1.9em",
+                                        "gap": "0em 1.9em",
                                     }}
                                 >
-                                    {b.map((v, i) => <li key={i}>{v}</li>)}
+                                    {stack.map((v, i) => <li key={i}>{v}</li>)}
                                 </HStack>
                             </VStack>
                         </li>
@@ -202,7 +219,7 @@ const Experience = (props: ExperienceProps, ref: ForwardedRef<ElRef>) => {
                 }
             />
         </Block>,
-        <div>
+        <p>
             <span><T
                 en="Used in practice:"
                 children="Использовал на практике:"
@@ -261,15 +278,15 @@ const Experience = (props: ExperienceProps, ref: ForwardedRef<ElRef>) => {
                     Весь логически важный код всегда сопровождаю <u>unit</u> и интеграционными тестами.
                 </>}
             />
-        </div>,
-        <div>
+        </p>,
+        <p>
             <T
                 en={<>I have experience working with <L><G>rustc</G></L> compiler. At the moment I am  <a href="https://github.com/10takla/rust">working</a> on modification of the <a href="https://rustc-dev-guide.rust-lang.org/traits/resolution.html">overlap rule</a>.</>}
                 children={<>Имею опыт работы с компилятором <L><G>rustc</G></L>. На данный момент <a href="https://github.com/10takla/rust">работаю</a> над модификацией <a href="https://rustc-dev-guide.rust-lang.org/traits/resolution.html">правила перекрытий</a>.</>}
             />
             <br />
-        </div>,
-        <HStack tag="span" align="ыефке" gap={8}>
+        </p>,
+        <HStack tag="p" align="start" gap={8}>
             <span>
                 <T
                     en={<>
@@ -289,7 +306,7 @@ const Experience = (props: ExperienceProps, ref: ForwardedRef<ElRef>) => {
                 </a>
             </VStack>
         </HStack>,
-        <div>
+        <p>
             <T
                 en="Skilled in:"
                 children="Умею:"
@@ -309,8 +326,8 @@ const Experience = (props: ExperienceProps, ref: ForwardedRef<ElRef>) => {
                     <L><a href="https://crates.io/">crates.io</a></L>/<L><a href="https://github.com/10takla">github</a></L>.
                 </li>
             </VStack>
-        </div>,
-        <div>
+        </p>,
+        <p>
             <T
                 en="I plan my workflow carefully. I use trackers such as "
                 children="Грамотно планирую свой рабочий процесс. Использую трекеры, такие как "
@@ -320,7 +337,7 @@ const Experience = (props: ExperienceProps, ref: ForwardedRef<ElRef>) => {
                 en=" to keep track of tasks completed."
                 children=", для отслеживания выполненных задач."
             />
-        </div>,
+        </p>,
         <Block head={<T en="Pet projects" children="Pet-проекты" />} >
             <PetProjects />
         </Block>

@@ -1,12 +1,5 @@
-@counter-style dash {
-    system: cyclic;
-    symbols: "—";
-    suffix: " ";
-}
-
 .Experience {
     height: 100%;
-
     ul,
     ol {
         margin: 0;
@@ -69,7 +62,7 @@
         }
 
         .descrips {
-            list-style: dash;
+            
         }
     }
 

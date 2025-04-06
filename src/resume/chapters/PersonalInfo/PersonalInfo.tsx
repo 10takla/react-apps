@@ -36,7 +36,7 @@ const PersonalInfo = (props: PersonalInfoProps, ref: ForwardedRef<ElRef>) => {
             <VStack className={classNames(cls.person, ["background"])}>
                 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
                 <div style={{ textAlign: "center" }}>
-                    <h1 style={{ marginBottom: 0 }}>{t("Абакар Летифов")}</h1>
+                    <h1 style={{ marginBottom: 0 }}>{t("Имя Фамилия")}</h1>
                     <h2 style={{ marginTop: "0.2em" }}><u>
                         <HStack align="center" justify="center"
                         style={{

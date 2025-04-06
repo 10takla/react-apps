@@ -26,7 +26,7 @@ const sites = {
     wordLearner: <WordLearner />,
     monitors: <Monitors />,
     answers: <AnswersToQuestions />,
-    wasm: <Wasm />,
+    // wasm: <Wasm />,.
     mons: <Mons />,
     resume: <Resume />
     // market: <Market />,

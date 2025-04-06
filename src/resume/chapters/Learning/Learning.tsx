@@ -33,7 +33,7 @@ const Learning = (props: LearningProps, ref: ForwardedRef<ElRef>) => {
             body: <Education />
         },
         {
-            _body: (() => {
+            body: (() => {
                 const end = "June 2023 14:48 UTC";
                 let start = new Date(end);
                 start.setMonth(start.getMonth() - 14);
@@ -42,9 +42,9 @@ const Learning = (props: LearningProps, ref: ForwardedRef<ElRef>) => {
                     end: new Date(end)
                 };
 
-                return <>
+                return <p>
                     <T
-                        ru="Больше года активного обучения языка rust и его экосистемы,"
+                        ru="Больше года активного обучения языку rust и его экосистемы"
                         en="Over a year of actively learning the Rust language and its ecosystem" />
                     {" "}
                     <TimeLineWithLength
@@ -58,22 +58,16 @@ const Learning = (props: LearningProps, ref: ForwardedRef<ElRef>) => {
                         }}
                         time={time}
                     />
-                    {" "}
+                    {", "}
                     <T
                         ru="фокусируясь на разработке высокопроизводительного и безопасного ПО."
                         en="with a focus on developing high-performance and safe software." />
                     <br />
                     <T
-                        children={`В стремлении к глубокому освоению Rust, я тщательно изучил ключевые руководства и публикации от сообщества и разработчиков rust.`}
+                        children={`В стремлении к глубокому освоению Rust, я тщательно изучил ключевые руководства и публикации от сообщества и разработчиков языка.`}
                         en={`Driven by the goal of mastering Rust in depth, I have thoroughly studied key guides and publications from the Rust community and its core developers.`} />
-                </>;
+                </p>;
             })(),
-            get body() {
-                return this._body;
-            },
-            set body(value) {
-                this._body = value;
-            },
         },
         {
             head: t("Книги"),

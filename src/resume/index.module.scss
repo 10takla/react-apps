@@ -64,10 +64,12 @@
             }
         }
 
-        &:not(.page:first-child)>.experience.chapter>.head {
-            >h2 {
-                padding-bottom: $pad/2;
-                border-end-end-radius: $pad*2;
+        &:not(.page:first-child)>.experience.chapter {
+            >.head {
+                >h2 {
+                    padding-bottom: $pad/2;
+                    border-end-end-radius: $pad*2;
+                }
             }
         }
 
@@ -81,10 +83,15 @@
                 // font-size: 1.3em;
             }
         }
-
         .experience.chapter>*:not(.head) {
             font-size: 12px;
         }
+        &:not(:first-child) {
+            .experience.chapter>*:not(.head) {
+                font-size: 14px;
+            }
+        }
+        
 
         $width: calc(210mm + 5.6mm + 0.4mm);
         $height: calc(297mm - 17.8mm);
@@ -95,7 +102,6 @@
         max-height: $height;
         height: $height;
 
-        line-height: 1.5;
         border: 0.2em solid black;
         box-sizing: border-box;
         font-family: "Lato",
@@ -104,6 +110,11 @@
         position: relative;
         overflow: hidden;
         text-align: justify;
+
+        p {
+            line-height: 1.5;
+            margin: 0;
+        }
 
         h1,
         h2,

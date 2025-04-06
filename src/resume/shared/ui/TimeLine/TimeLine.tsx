@@ -74,7 +74,7 @@ const TimeLine = (props: TimeLineProps, ref: ForwardedRef<ElRef>) => {
                 <span className={classNames(cls.time, [cls.end])}>
                     <T
                         en={<>to date</>}
-                        children={<>по настоящее<br />время</>}
+                        children={<>по настоящее время</>}
                     />
                 </span>
             )
@@ -115,7 +115,7 @@ export const TimeLength = ({ time: { start, end } }: Record<"time", Record<"star
 
 interface TimeLineWithLengthProps extends ComponentPropsWithRef<'span'> {
     timeLineProps?: Omit<ComponentProps<typeof TimeLine>, 'time'>,
-    time: ComponentProps<typeof TimeLength>["time"]
+    time: ComponentProps<typeof TimeLine>["time"]
 }
 
 export const TimeLineWithLength = forwardRef((props: TimeLineWithLengthProps, ref: ForwardedRef<HTMLSpanElement>) => {
@@ -128,7 +128,10 @@ export const TimeLineWithLength = forwardRef((props: TimeLineWithLengthProps, re
         <span className={cls.TimeLineWithLength} {...otherProps} ref={ref}>
             <TimeLine time={time} {...timeLineProps} />
             {" "}
-            <TimeLength time={time} />
+            <TimeLength time={{
+                ...time,
+                end: time.end || new Date()
+            }} />
         </span>
     )
 });

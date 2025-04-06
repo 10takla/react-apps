@@ -17,14 +17,14 @@ interface ContactsProps extends ComponentProps<Component> {
 
 const contacts = [
     {
-        link: "tel:+7 (932) 409-91-67",
+        link: "tel:+7 (777) 777-77-77",
         svg: <CallStar />,
-        text: "+7 (932) 409-91-67",
+        text: "+7 (777) 777-77-77",
     },
     {
-        link: "https://github.com/10takla",
+        link: "https://github.com/",
         svg: <GitHubStar />,
-        text: "10takla",
+        text: "github",
     },
     {
         link: "https://crates.io/users/10takla",
@@ -32,14 +32,14 @@ const contacts = [
         text: "crates.io",
     },
     {
-        link: "mailto:letifovabakar50@gmail.com",
+        link: "mailto:mail@gmail.com",
         svg: <MailStar />,
-        text: "letifovabakar50@gmail.com",
+        text: "mail@gmail.com",
     },
     {
-        link: "https://t.me/Corvo116",
+        link: "https://t.me/tg",
         svg: <TelegramStar />,
-        text: "Corvo116",
+        text: "telegram",
     },
 ];
 
